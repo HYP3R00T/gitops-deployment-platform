@@ -1,0 +1,11 @@
+[project]
+name = "gitops-deployment-platform"
+version = "0.1.0"
+description = "A GitOps-driven deployment system designed to deliver containerized services safely, observably, and with deterministic rollback."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.14"
+dependencies = ["zensical>=0.0.21"]
+
+[dependency-groups]
+dev = ["pre-commit>=4.5.1", "ruff>=0.15.0", "ty>=0.0.15"]
