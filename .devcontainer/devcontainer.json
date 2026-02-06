@@ -1,0 +1,31 @@
+{
+  "name": "gitops-deployment-platform",
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  },
+  "postCreateCommand": "scripts/setup.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "astro-build.astro-vscode",
+        "amazonwebservices.aws-toolkit-vscode",
+        "ms-azuretools.vscode-containers",
+        "EditorConfig.EditorConfig",
+        "tamasfe.even-better-toml",
+        "github.vscode-github-actions",
+        "codezombiech.gitignore",
+        "hashicorp.terraform",
+        "hverlin.mise-vscode",
+        "christian-kohler.path-intellisense",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "hyperoot.settings-organizer",
+        "bradlc.vscode-tailwindcss",
+        "astral-sh.ty",
+        "redhat.vscode-yaml"
+      ]
+    }
+  }
+}
