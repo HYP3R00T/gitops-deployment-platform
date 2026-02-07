@@ -18,6 +18,7 @@ nav = [
   { "Thinking & Journey" = [
     { "DevContainer" = "thinking/devcontainer.md" },
     { "Documentation Principles" = "thinking/documentation-principles.md" },
+    { "Branch Protection" = "thinking/branch-protection.md" },
   ] },
 ]
 
