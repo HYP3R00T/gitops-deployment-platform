@@ -10,12 +10,18 @@ nav = [
   { Home = "index.md" },
   { "Developer Experience" = [
     { "Developer Setup" = "dev/developer-setup.md" },
+    { "Resources" = "dev/resources.md" },
   ] },
-  # { "Platform & Infrastructure" = [
-  # ] },
+  { "Platform & Infrastructure" = [
+    { "Architecture" = "platform/architecture.md" },
+    { "Local Kubernetes" = "platform/local-kubernetes.md" },
+  ] },
   # { "Service Specifications" = [
   # ] },
   { "Thinking & Journey" = [
+    { "Core Objectives" = "thinking/core-objectives.md" },
+    { "Safe-to-Fail Narrative" = "thinking/safe-to-fail-narrative.md" },
+    { "Intentional Constraints" = "thinking/constraints.md" },
     { "DevContainer" = "thinking/devcontainer.md" },
     { "Documentation Principles" = "thinking/documentation-principles.md" },
     { "Branch Protection" = "thinking/branch-protection.md" },
