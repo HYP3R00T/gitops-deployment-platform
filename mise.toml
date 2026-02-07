@@ -2,6 +2,7 @@
 python = "3.14"
 uv = "latest"
 pre-commit = "latest"
+kubectl = "latest"
 
 [settings]
 experimental = true
@@ -17,3 +18,11 @@ UV_LINK_MODE = "copy"
 [tasks.docs]
 run = "uv run zensical serve"
 description = "Serve the documentation locally"
+
+[tasks.kind-up]
+run = "bash ./scripts/create-kind-cluster.sh"
+description = "Create and configure a local kind Kubernetes cluster"
+
+[tasks.kind-down]
+run = "bash ./scripts/delete-kind-cluster.sh"
+description = "Delete the local kind Kubernetes cluster"
