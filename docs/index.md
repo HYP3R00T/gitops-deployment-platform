@@ -68,7 +68,7 @@ The documentation is organized by domain, separating *interface* from *implement
 The platform implements the following architectural patterns, designed to be swappable and portable:
 
 | Category | Tools & Standards | Objective |
-|----------|------------------|------------|
+| -------- | ----------------- | --------- |
 | **Cloud Platform** | AWS (EKS, VPC, IAM, CloudWatch) | Demonstrate enterprise-grade cloud resource management. |
 | **Infrastructure** | Terraform, modular IaC patterns | Remove manual provisioning in favor of code-driven state. |
 | **Automation** | GitHub Actions, Argo CD | Enable zero-touch deployment with automated reconciliation. |
