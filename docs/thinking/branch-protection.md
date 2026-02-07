@@ -3,19 +3,19 @@
 This document describes the **branch protection rules currently enforced on `main`**, why they exist, and why certain controls are intentionally *not* enabled yet.
 
 The configuration described here is **not aspirational**.
-It reflects the **exact active ruleset** applied to the repository, exported directly from GitHub and treated as the **source of truth**. :contentReference[oaicite:0]{index=0}
+It reflects the **exact active ruleset** applied to the repository, exported directly from GitHub and treated as the **source of truth**.
 
 ## Purpose of Branch Protection
 
 Branch protection exists to shift `main` from a writable workspace into a **stable integration boundary**.
 
 Once enabled, `main` is no longer a place where work happens directly.
-It becomes a place where **reviewed, intentional change arrives**.
+It becomes a place where **intentional, review-aware change arrives**.
 
 The goal is not restriction for its own sake, but predictability:
 
 - every change has context
-- every change has review
+- every change has an explicit merge path
 - every change leaves an audit trail
 
 ## Scope of the Ruleset
@@ -47,7 +47,7 @@ Rationale:
 
 This is a safety rail, not a workflow constraint.
 
-## 2. Force Pushes Are Blocked
+### 2. Force Pushes Are Blocked
 
 **Rule:** `non_fast_forward`
 
@@ -63,7 +63,7 @@ All history on `main` is append-only.
 
 If history must ever be rewritten, the ruleset itself must be consciously disabled — a deliberate, auditable act.
 
-## 3. Pull Requests Are Required for All Changes
+### 3. Pull Requests Are Required for All Changes
 
 **Rule:** `pull_request`
 
@@ -73,28 +73,34 @@ All changes must arrive via a pull request from a non-target branch.
 This establishes:
 
 - explicit intent
-- review as a default, not an exception
+- a consistent change boundary
 - a stable point for discussion and automation
 
 ## Pull Request Requirements (Detailed)
 
 The following constraints apply to every pull request targeting `main`.
 
-## Required Approvals: **1**
+### Required Approvals: **0 (Bootstrap Phase)**
 
-At least one approving review is required before merge.
+At present, **zero approving reviews are required**.
 
-Why one:
+This is a **temporary and intentional configuration**, reflecting the current state of the project:
 
-- review is about catching blind spots, not building consensus
-- the project is currently small and focused
-- GitHub does not allow self-approval
+- there is a single active maintainer
+- GitHub does not allow authors to approve their own pull requests
+- requiring approvals without additional reviewers would deadlock merges
 
-This requirement can be increased later as contributor count grows.
+Important clarifications:
 
-## Stale Approvals Are Dismissed on New Commits
+- pull requests are still mandatory
+- review rules remain structurally enforced
+- this setting will be raised to **1 or more** once additional contributors with write access exist
 
-If new commits are pushed after approval, the approval is invalidated.
+This is not a relaxation of standards, but a practical accommodation during the single-maintainer phase.
+
+### Stale Approvals Are Dismissed on New Commits
+
+If approvals are enabled, any new commits pushed after approval will dismiss prior approvals.
 
 This ensures:
 
@@ -102,7 +108,9 @@ This ensures:
 - late changes are always reviewed
 - timing loopholes are closed
 
-## Code Owner Review Is Required
+The rule is already active and will take effect automatically once approvals are required.
+
+### Code Owner Review Is Required
 
 If a pull request modifies files with designated owners, an owner must approve.
 
@@ -110,16 +118,16 @@ This activates the existing `CODEOWNERS` file as an enforcement mechanism, not j
 
 It encodes responsibility structurally and scales naturally as the project grows.
 
-## Approval of the Most Recent Push Is Required
+### Approval of the Most Recent Push Is Required
 
-The final reviewable state of the pull request must be explicitly approved.
+When approvals are enabled, the final reviewable state of the pull request must be explicitly approved.
 
 This prevents edge cases where:
 
 - approval applies to an earlier state
 - the final change lands without explicit sign-off
 
-## All Review Conversations Must Be Resolved
+### All Review Conversations Must Be Resolved
 
 Pull requests cannot be merged with unresolved review threads.
 
@@ -152,7 +160,7 @@ This is especially important in documentation and architecture-heavy work.
 
 - useful for small or noisy PRs
 - produce clean, atomic history when intermediate steps do not matter
-- treat the PR itself as the unit of meaning
+- treat the pull request itself as the unit of meaning
 
 #### Why rebase merges are disabled
 
@@ -201,6 +209,9 @@ Before this point, the cost of unreviewed change was low.
 After this point, the cost of accidental change exceeds the cost of review.
 
 Branch protection follows system maturity — it does not precede it.
+
+## Source of Truth: Active Branch Protection Ruleset
+
 The following JSON is a **direct export** of the branch protection ruleset currently applied to the repository’s default branch.
 
 This configuration is treated as **authoritative**.
@@ -239,7 +250,7 @@ If the JSON and the explanation ever diverge, the JSON wins.
     {
       "type": "pull_request",
       "parameters": {
-        "required_approving_review_count": 1,
+        "required_approving_review_count": 0,
         "dismiss_stale_reviews_on_push": true,
         "required_reviewers": [],
         "require_code_owner_review": true,
@@ -262,7 +273,7 @@ With this ruleset in place, `main` is now:
 
 - protected from direct mutation
 - resistant to history corruption
-- review-driven by default
+- pull-request–driven by default
 - documented through its own change history
 
 The configuration is intentionally minimal, enforceable, and future-proof.
