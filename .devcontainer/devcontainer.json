@@ -5,6 +5,10 @@
     "dockerfile": "Dockerfile"
   },
   "postCreateCommand": "scripts/setup.sh",
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/devcontainers-extra/features/kind:1": {}
+  },
   "customizations": {
     "vscode": {
       "extensions": [
