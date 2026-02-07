@@ -6,6 +6,31 @@ This project demonstrates the architectural patterns of modern platform engineer
 
 > **Core Philosophy:** "The system must deploy, fail, and recover deterministically without manual intervention."
 
+## What is This Project?
+
+The **GitOps Deployment Platform** is a high-signal engineering project that treats **deployment infrastructure as the primary product**. Rather than focusing on application features, this project demonstrates advanced **DevOps and Automation** competencies through a production-grade, "safe-to-fail" environment.
+
+The goal is to showcase **engineering judgment** over simple tool usage, moving code from a developer's machine to the cloud through a series of automated, governed guardrails.
+
+### Core Objectives
+
+This project is built on three foundational pillars:
+
+- **Operational Governance:** Establishing a "sacred" main branch where no code enters without passing pre-commit hooks, conventional commit validation, and automated CI gating.
+- **Declarative Infrastructure:** Ensuring that 100% of the cloud environment is defined as code in modular, version-controlled configurations.
+- **GitOps Delivery:** Using reconciliation controllers to sync cluster state with Git, enabling automated rollouts and—more importantly—**automated rollbacks** when the system detects an unhealthy state.
+
+## The "Safe-to-Fail" Narrative
+
+Unlike standard portfolio projects that only show a "happy path," this system is designed to handle failure gracefully. A key demonstration objective is a **controlled failure scenario**:
+
+1. A developer pushes a commit that intentionally breaks a service health check.
+2. The CI/CD pipeline builds the image and updates the GitOps manifest.
+3. The reconciliation controller detects the unhealthy deployment and automatically halts or reverts the change.
+4. The system restores itself to the last known-good state without manual intervention.
+
+This demonstrates that the platform doesn't just deploy—it **validates, reacts, and recovers**.
+
 ## 🗺️ Documentation Map
 
 The documentation is organized by domain, separating *interface* from *implementation*.
@@ -42,20 +67,29 @@ The documentation is organized by domain, separating *interface* from *implement
 
 The platform implements the following architectural patterns, designed to be swappable and portable:
 
-- **Runtime:** Managed Kubernetes (Targeting stability and standard APIs).
-- **Infrastructure:** Declarative Infrastructure as Code (No console-click provisioning).
-- **Delivery:** Pull-based GitOps reconciliation (Ensuring the cluster matches Git).
-- **Artifacts:** Immutable container images built via automated CI pipelines.
-- **Observability:** Health is exposed via semantic metadata endpoints, allowing the platform to validate its own deployments.
+| Category | Tools & Standards | Objective |
+|----------|------------------|------------|
+| **Cloud Platform** | AWS (EKS, VPC, IAM, CloudWatch) | Demonstrate enterprise-grade cloud resource management. |
+| **Infrastructure** | Terraform, modular IaC patterns | Remove manual provisioning in favor of code-driven state. |
+| **Automation** | GitHub Actions, Argo CD | Enable zero-touch deployment with automated reconciliation. |
+| **Runtime** | Managed Kubernetes (EKS) | Leverage standard APIs for portability and stability. |
+| **Artifacts** | Docker, Container Registry | Build immutable, versioned deployment units. |
+| **Tooling** | `uv`, `mise`, Python 3.14+ | Ensure high-performance, modern toolchains for consistency. |
+| **Governance** | Pre-commit, Commitizen, Dependabot | Shift-left quality checks and maintain supply chain security. |
+| **Observability** | Health checks, semantic metadata | Allow the platform to validate its own deployment state. |
 
 ## 🛡️ Intentional Constraints
 
-This project defines success by what it **refuses** to do:
+This project defines success by what it **refuses** to do. To maintain sharp focus on DevOps maturity, the following are intentionally excluded:
 
-- **No Imperative Deployments:** Direct cluster manipulation (e.g., `kubectl apply`) is forbidden in CI/CD.
-- **No Persistent State:** The focus is entirely on stateless delivery mechanics.
-- **No Hidden Dependencies:** All tools and versions are pinned and explicit.
-- **No Vendor Lock-in (Logic):** While specific providers are used for implementation, the *logic* remains portable.
+### What the Platform Does NOT Include
+
+- **No Imperative Deployments:** Direct cluster manipulation (e.g., `kubectl apply`) is forbidden in CI/CD. All changes flow through GitOps reconciliation.
+- **No Persistent Databases:** The services are stateless to focus on deployment mechanics, not application complexity.
+- **No User Authentication:** No "product" features are built to avoid distracting from the infrastructure narrative.
+- **No Complex Frontends:** The UI exists solely as an **operational status surface** to visualize version metadata and health.
+- **No Hidden Dependencies:** All tools and versions are pinned and explicit in version-controlled manifests.
+- **No Vendor Lock-in (Logic):** While specific providers are used (AWS, Terraform, Argo CD), the architectural *patterns* remain portable.
 
 ## 🚀 Status
 
