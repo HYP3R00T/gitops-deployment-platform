@@ -100,7 +100,7 @@ This is not a relaxation of standards, but a practical accommodation during the 
 
 ### Stale Approvals Are Dismissed on New Commits
 
-If approvals are enabled, any new commits pushed after approval will dismiss prior approvals.
+If approvals are enabled in the future, any new commits pushed after approval will dismiss prior approvals.
 
 This ensures:
 
@@ -118,14 +118,19 @@ This activates the existing `CODEOWNERS` file as an enforcement mechanism, not j
 
 It encodes responsibility structurally and scales naturally as the project grows.
 
-### Approval of the Most Recent Push Is Required
+### Approval of the Most Recent Push (Intentionally Disabled)
 
-When approvals are enabled, the final reviewable state of the pull request must be explicitly approved.
+The rule requiring approval of the most recent reviewable push is **currently disabled**.
 
-This prevents edge cases where:
+Reason:
 
-- approval applies to an earlier state
-- the final change lands without explicit sign-off
+- this rule assumes the existence of at least one reviewer other than the author
+- in a single-maintainer repository, the author is always the last pusher
+- GitHub does not permit self-approval
+
+Leaving this rule enabled would create an **unsatisfiable condition**, permanently blocking merges without adding safety.
+
+This rule is expected to be **re-enabled** once at least one additional reviewer with write access exists.
 
 ### All Review Conversations Must Be Resolved
 
@@ -254,7 +259,7 @@ If the JSON and the explanation ever diverge, the JSON wins.
         "dismiss_stale_reviews_on_push": true,
         "required_reviewers": [],
         "require_code_owner_review": true,
-        "require_last_push_approval": true,
+        "require_last_push_approval": false,
         "required_review_thread_resolution": true,
         "allowed_merge_methods": [
           "merge",
@@ -274,9 +279,9 @@ With this ruleset in place, `main` is now:
 - protected from direct mutation
 - resistant to history corruption
 - pull-request–driven by default
-- documented through its own change history
+- compatible with a single-maintainer workflow
 
-The configuration is intentionally minimal, enforceable, and future-proof.
+The configuration is intentionally minimal, enforceable, and lifecycle-aware.
 
 As the system evolves, additional controls may be layered on — but only when the system earns them.
 
