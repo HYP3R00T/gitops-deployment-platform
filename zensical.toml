@@ -16,6 +16,7 @@ nav = [
   # { "Service Specifications" = [
   # ] },
   { "Thinking & Journey" = [
+    { "DevContainer" = "thinking/devcontainer.md" },
     { "Documentation Principles" = "thinking/documentation-principles.md" },
   ] },
 ]
