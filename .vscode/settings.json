@@ -9,8 +9,18 @@
       "file": "./.github/instructions/pullRequestDescriptionGeneration.instructions.md"
     }
   ],
-  "python.languageServer": "None",
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit",
+      "source.organizeImports.ruff": "explicit"
+    },
+    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.rulers": [
+      120
+    ]
+  },
   "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python",
+  "python.languageServer": "None",
   "ruff.interpreter": [
     "${workspaceFolder}/.venv/bin/python"
   ],
