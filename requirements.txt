@@ -208,6 +208,7 @@ pydantic==2.12.5 \
     #   fastapi-cloud-cli
     #   pydantic-extra-types
     #   pydantic-settings
+    #   utilityhub-config
 pydantic-core==2.41.5 \
     --hash=sha256:0177272f88ab8312479336e1d777f6b124537d47f2123f89cb37e0accea97f90 \
     --hash=sha256:08daa51ea16ad373ffd5e7606252cc32f07bc72b28284b6bc9c6df804816476e \
@@ -262,6 +263,7 @@ python-dotenv==1.2.1 \
     --hash=sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61
     # via
     #   pydantic-settings
+    #   utilityhub-config
     #   uvicorn
 python-multipart==0.0.22 \
     --hash=sha256:2b2cd894c83d21bf49d702499531c7bafd057d730c201782048f7945d82de155 \
@@ -290,6 +292,7 @@ pyyaml==6.0.3 \
     # via
     #   pre-commit
     #   pymdown-extensions
+    #   utilityhub-config
     #   uvicorn
     #   zensical
 rich==14.3.2 \
@@ -414,6 +417,10 @@ urllib3==2.6.3 \
     --hash=sha256:1b62b6884944a57dbe321509ab94fd4d3b307075e0c2eae991ac71ee15ad38ed \
     --hash=sha256:bf272323e553dfb2e87d9bfd225ca7b0f467b919d7bbd355436d3fd37cb0acd4
     # via sentry-sdk
+utilityhub-config==0.2.1 \
+    --hash=sha256:5df3670980991e5e90f96327861b11781855376170b6be58d47da11fe0520224 \
+    --hash=sha256:adb2d64a9ba0d17bca61305e36855a88d5945234788b79ed33132bb0478748ef
+    # via api
 uvicorn==0.40.0 \
     --hash=sha256:839676675e87e73694518b5574fd0f24c9d97b46bea16df7b8c05ea1a51071ea \
     --hash=sha256:c6c8f55bc8bf13eb6fa9ff87ad62308bbbc33d0b67f84293151efe87e0d5f2ee

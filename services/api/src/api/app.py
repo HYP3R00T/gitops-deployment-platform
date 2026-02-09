@@ -1,8 +1,3 @@
-"""FastAPI application factory.
-
-Creates a minimal, stateless API service per v1 specification.
-"""
-
 import logging
 from contextlib import asynccontextmanager
 
@@ -17,7 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 def _setup_logging() -> None:
-    """Configure basic logging for the service."""
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
@@ -26,7 +20,6 @@ def _setup_logging() -> None:
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Application lifespan context manager."""
     # Startup
     logger.info(f"{app.state.config.app_name} starting")
     yield
@@ -35,14 +28,6 @@ async def lifespan(app: FastAPI):
 
 
 def create_app(config: AppConfig) -> FastAPI:
-    """Create and configure the FastAPI application.
-
-    Per v1 specification:
-    - Stateless service
-    - No database
-    - No persistence
-    - Configuration minimal
-    """
     try:
         app = FastAPI(
             title="GitOps Deployment Platform API",
