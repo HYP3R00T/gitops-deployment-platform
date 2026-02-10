@@ -16,8 +16,10 @@ nav = [
     { "Architecture" = "platform/architecture.md" },
     { "Local Kubernetes" = "platform/local-kubernetes.md" },
   ] },
-  # { "Service Specifications" = [
-  # ] },
+  { "Service Specifications" = [
+    { "API Service" = "services/api.md" },
+    { "Web Service" = "services/web.md" },
+  ] },
   { "Thinking & Journey" = [
     { "Core Objectives" = "thinking/core-objectives.md" },
     { "Safe-to-Fail Narrative" = "thinking/safe-to-fail-narrative.md" },
