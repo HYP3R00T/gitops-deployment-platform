@@ -503,3 +503,5 @@ vite.config.ts.timestamp-*
 .pnpm-store
 
 services/web/.astro/
+
+!services/web/src/lib/
