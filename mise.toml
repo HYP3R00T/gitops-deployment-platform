@@ -3,6 +3,8 @@ python = "3.14"
 uv = "latest"
 pre-commit = "latest"
 kubectl = "latest"
+node = "22.22.0"
+pnpm = "latest"
 
 [settings]
 experimental = true
