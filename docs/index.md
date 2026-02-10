@@ -4,7 +4,8 @@
 
 This project demonstrates the architectural patterns of modern platform engineering: **GitOps reconciliation, immutable infrastructure, and automated recovery**. It serves as a reference implementation for how systems should be deployed and managed, regardless of the underlying cloud provider or tooling.
 
-> **Core Philosophy:** "The system must deploy, fail, and recover deterministically without manual intervention."
+!!! info "Core Philosophy"
+    The system must deploy, fail, and recover deterministically without manual intervention.
 
 ## 🗺️ Documentation Map
 
