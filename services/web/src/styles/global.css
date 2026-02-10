@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@layer components {
+  pre {
+    @apply bg-gray-100 p-3 overflow-x-auto border border-gray-300 rounded text-sm;
+  }
+}
