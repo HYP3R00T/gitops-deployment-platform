@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const apiUrl = import.meta.env.PUBLIC_API_URL;
+let result: { ok: boolean; error?: string } = { ok: false };
+
+try {
+  const response = await fetch(new URL("/health", apiUrl));
+
+  if (!response.ok) {
+    result = {
+      ok: false,
+      error: `Backend returned status ${response.status}`,
+    };
+  } else {
+    result = { ok: true };
+  }
+} catch (error) {
+  const message =
+    error instanceof Error ? error.message : "Unknown error occurred";
+  result = {
+    ok: false,
+    error: message,
+  };
+}
+---
+
+<Layout title="API Status - GitOps Deployment Platform">
+  <section class="">
+    <h1 class="text-2xl font-semibold text-gray-900 mb-6">API Status</h1>
+
+    {
+      result.ok ? (
+        <div class="bg-green-50 border-2 border-green-500 rounded p-4 my-4">
+          <p class="m-0 text-green-700 font-medium">✓ Backend is healthy</p>
+        </div>
+      ) : (
+        <div class="bg-red-50 border-2 border-red-500 rounded p-4 my-4">
+          <p class="m-0 text-red-700 font-medium">✗ Backend is unavailable</p>
+          <p class="text-sm font-normal mt-2 text-red-900">{result.error}</p>
+        </div>
+      )
+    }
+  </section>
+</Layout>

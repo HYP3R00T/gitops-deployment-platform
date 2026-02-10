@@ -1,0 +1,61 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+const apiUrl = import.meta.env.PUBLIC_API_URL;
+let result: { ok: boolean; data?: Record<string, unknown>; error?: string } = {
+  ok: false,
+};
+
+try {
+  const response = await fetch(new URL("/info", apiUrl));
+
+  if (!response.ok) {
+    result = {
+      ok: false,
+      error: `Backend returned status ${response.status}`,
+    };
+  } else {
+    const data = (await response.json()) as Record<string, unknown>;
+    result = {
+      ok: true,
+      data,
+    };
+  }
+} catch (error) {
+  const message =
+    error instanceof Error ? error.message : "Unknown error occurred";
+  result = {
+    ok: false,
+    error: message,
+  };
+}
+---
+
+<Layout title="Info - GitOps Deployment Platform">
+  <section class="">
+    <h1 class="text-2xl font-semibold text-gray-900 mb-6">Info</h1>
+    {
+      result.ok && result.data ? (
+        <div class="my-4">
+          <dl>
+            {Object.entries(result.data).map(([key, value]) => (
+              <>
+                <dt class="font-semibold text-gray-900 mt-3 text-sm uppercase tracking-wider">
+                  {key}
+                </dt>
+                <dd class="m-0 mt-1 p-3 bg-gray-50 border-l-4 border-gray-300 font-mono text-sm text-gray-700 wrap-break-word">
+                  {String(value)}
+                </dd>
+              </>
+            ))}
+          </dl>
+        </div>
+      ) : (
+        <div class="bg-red-50 border-2 border-red-500 rounded p-4 my-4">
+          <p class="m-0 text-red-700 font-medium">✗ Backend is unavailable</p>
+          <p class="text-sm font-normal mt-2 text-red-900">{result.error}</p>
+        </div>
+      )
+    }
+  </section>
+</Layout>
