@@ -1,6 +1,9 @@
 # Markdownlint configuration
 default: true
 
+# MD010/no-hard-tabs : Hard tabs
+MD010: false
+
 # MD007/ul-indent - Unordered list indentation
 MD007:
   indent: 4
@@ -20,4 +23,5 @@ MD029:
 MD033:
   allowed_elements: [a, pre, br]
 
+# MD060/table-column-style : Table column style
 MD060: false
