@@ -1,9 +1,20 @@
 {
-  "servers": {
-    "astro-mcp": {
-      "url": "https://mcp.docs.astro.build/mcp",
-      "type": "http"
+    "servers": {
+        "astro-mcp": {
+            "url": "https://mcp.docs.astro.build/mcp",
+            "type": "http"
+        },
+        "aws-tf": {
+            "command": "uvx",
+            "args": [
+                "awslabs.terraform-mcp-server@latest"
+            ]
+        },
+        "aws-docs": {
+            "command": "uvx",
+            "args": [
+                "awslabs.aws-documentation-mcp-server@latest"
+            ]
+        }
     }
-  },
-  "inputs": []
 }
