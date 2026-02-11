@@ -52,7 +52,7 @@ flowchart TB
 - **Networking:** Binds ports to the host machine (e.g., your laptop).
 - **Constraint:** This is where `kind` publishes the Kubernetes API port (6443).
 
-# Zone 3: The kind Cluster (Workload)
+### Zone 3: The kind Cluster (Workload)
 
 - **Role:** The Kubernetes control plane.
 - **What runs here:** The API Server, Controller Manager, Scheduler.
