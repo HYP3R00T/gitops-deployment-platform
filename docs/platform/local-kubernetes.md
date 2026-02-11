@@ -40,24 +40,27 @@ flowchart TB
 
 ### Zone 1: The Devcontainer (Tooling)
 
-* **Role:** The client environment.
-* **What runs here:** `kubectl`, `flux`, `terraform`, and your shell.
-* **Networking:** Isolated network namespace. `localhost` (127.0.0.1) refers to *this container only*.
-* **Constraint:** It cannot "see" the host's localhost directly.
+- **Role:** The client environment.
+- **What runs here:** `kubectl`, `flux`, `terraform`, and your shell.
+- **Networking:** Isolated network namespace. `localhost` (127.0.0.1) refers to _this container only_.
+- **Constraint:** It cannot "see" the host's localhost directly.
 
 ### Zone 2: The Docker Host (Runtime)
 
-* **Role:** The engine running your infrastructure.
-* **What runs here:** The Docker Daemon and the `kind` containers.
-* **Networking:** Binds ports to the host machine (e.g., your laptop).
-* **Constraint:** This is where `kind` publishes the Kubernetes API port (6443).
+- **Role:** The engine running your infrastructure.
+- **What runs here:** The Docker Daemon and the `kind` containers.
+- **Networking:** Binds ports to the host machine (e.g., your laptop).
+- **Constraint:** This is where `kind` publishes the Kubernetes API port (6443).
 
-### Zone 3: The kind Cluster (Workload)
+# Zone 3: The kind Cluster (Workload)
 
-* **Role:** The Kubernetes control plane.
-* **What runs here:** The API Server, Controller Manager, Scheduler.
-* **Networking:** Runs inside a Docker container (`kind-control-plane`) on a custom bridge network.
-* **Constraint:** The API server listens on port 6443 *inside* this container.
+- **Role:** The Kubernetes control plane.
+- **What runs here:** The API Server, Controller Manager, Scheduler.
+- **Networking:** Runs inside a Docker container (`kind-control-plane`) on a custom bridge network.
+- **Constraint:** The API server listens on port 6443 _inside_ this container.
+
+???+ warning "Devcontainer vs Host"
+    Never assume `localhost` inside the devcontainer can reach the Kubernetes API. Always use `host.docker.internal` and the patched kubeconfig to avoid silent connection failures.
 
 ## 3. The "Localhost Trap" & The Solution
 
@@ -83,44 +86,36 @@ We must force traffic to leave Zone 1, traverse Zone 2, and land in Zone 3.
 
 We use a configuration file to force `kind` to expose the API server on a predictable port (`6443`) on the Docker Host.
 
-**`kind.yaml`**
+See the configuration in `local/kubernetes/kind.yaml`:
 
-```yaml
-kind: Cluster
-apiVersion: kind.x-k8s.io/v1alpha4
-networking:
-  apiServerPort: 6443
-
-```
+- Sets `apiServerPort: 6443` for deterministic port binding
+- Ensures consistent setup across all environments
 
 #### Step 2: Fix the Route (host.docker.internal)
 
 We cannot use `127.0.0.1`. Instead, we use `host.docker.internal`.
 
-* **What it is:** A special DNS name injected by Docker.
-* **What it does:** It resolves to the **Gateway IP** of the Docker Host (Zone 2) visible from the container.
-* **The Path:** Devcontainer -> Docker Gateway -> Host Port 6443 -> kind Container.
+- **What it is:** A special DNS name injected by Docker.
+- **What it does:** It resolves to the **Gateway IP** of the Docker Host (Zone 2) visible from the container.
+- **The Path:** Devcontainer -> Docker Gateway -> Host Port 6443 -> kind Container.
 
 #### Step 3: Fix the TLS Identity (SNI)
 
-The Kubernetes API certificate is generated for `localhost`, `kubernetes`, etc. It is *not* generated for `host.docker.internal`.
+The Kubernetes API certificate is generated for `localhost`, `kubernetes`, etc. It is _not_ generated for `host.docker.internal`.
 Connecting via the gateway IP would normally cause a TLS error ("Certificate name mismatch").
 
-* **Fix:** We pass `--tls-server-name=localhost`. This tells `kubectl` to request the "localhost" identity during the TLS handshake, satisfying the certificate validation.
+- **Fix:** We pass `--tls-server-name=localhost`. This tells `kubectl` to request the "localhost" identity during the TLS handshake, satisfying the certificate validation.
 
 ## 4. Implementation Guide
 
 ### Prerequisites
 
-Ensure your `.devcontainer/devcontainer.json` includes the **Docker-outside-of-Docker** feature. This allows the Devcontainer (Zone 1) to control the Daemon (Zone 2).
+The devcontainer configuration includes the required Docker features. See `.devcontainer/devcontainer.json` for the complete setup:
 
-```json
-"features": {
-  "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
-  "ghcr.io/devcontainers-extra/features/kind:1": {}
-}
+- `docker-outside-of-docker` - Allows devcontainer to control the host Docker daemon
+- `kind` - Provides kind CLI for cluster management
 
-```
+This configuration is already in place and enables the devcontainer (Zone 1) to control the Docker daemon (Zone 2).
 
 ### Setup Script
 
