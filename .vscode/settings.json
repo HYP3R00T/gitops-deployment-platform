@@ -9,6 +9,9 @@
       "file": "./.github/instructions/pullRequestDescriptionGeneration.instructions.md"
     }
   ],
+  "[markdown]": {
+    "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+  },
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.ruff": "explicit",
