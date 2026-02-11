@@ -20,8 +20,13 @@ Ensuring that 100% of the cloud environment is defined as code in modular, versi
 
 Nothing is created manually. Everything flows through version control.
 
-### 3. GitOps Delivery
+### 3. GitOps Delivery (In Development)
 
-Using reconciliation controllers to sync cluster state with Git, enabling automated rollouts and—more importantly—**automated rollbacks** when the system detects an unhealthy state.
+The target architecture uses reconciliation controllers to sync cluster state with Git, enabling automated rollouts and—more importantly—**automated rollbacks** when the system detects an unhealthy state.
 
-The system converges to desired state automatically.
+**Current State:** Local development environment with kind cluster established. GitOps controller integration and cloud deployment in progress.
+
+**Target State:** System converges to desired state automatically with zero-touch recovery.
+
+???+ tip "Track progress"
+	GitOps delivery is still under construction. When you work on reconciliation controllers or rollout automation, document the completed steps here to keep the narrative accurate.
