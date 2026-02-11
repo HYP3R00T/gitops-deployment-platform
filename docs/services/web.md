@@ -18,17 +18,20 @@ Astro-based frontend that surfaces backend status and metadata for the GitOps pl
 
 The frontend reads the API base URL from environment:
 
-| Setting | Required | Description |
-| --- | --- | --- |
-| `PUBLIC_API_URL` | Yes | Base URL for API requests (e.g. `http://localhost:8000`) |
+| Setting          | Required | Description                                              |
+| ---------------- | -------- | -------------------------------------------------------- |
+| `PUBLIC_API_URL` | Yes      | Base URL for API requests (e.g. `http://localhost:8000`) |
+
+???+ warning "Keep API URL accurate"
+	If `PUBLIC_API_URL` points to the wrong service, the entire UI will render stale or fail silently. Update this value whenever the API host/port changes and redeploy the web service.
 
 ## Pages
 
-| Route | Description | API Dependency |
-| --- | --- | --- |
-| `/` | Overview and navigation | None |
-| `/status` | Backend health status | `GET /health` |
-| `/info` | Backend metadata display | `GET /info` |
+| Route     | Description              | API Dependency |
+| --------- | ------------------------ | -------------- |
+| `/`       | Overview and navigation  | None           |
+| `/status` | Backend health status    | `GET /health`  |
+| `/info`   | Backend metadata display | `GET /info`    |
 
 ## API Integration
 
