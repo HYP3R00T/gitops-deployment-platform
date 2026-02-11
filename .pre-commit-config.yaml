@@ -9,12 +9,12 @@ repos:
       - id: trailing-whitespace
       - id: check-shebang-scripts-are-executable
   - repo: https://github.com/commitizen-tools/commitizen
-    rev: v4.13.5
+    rev: v4.13.7
     hooks:
       - id: commitizen
         stages: [commit-msg]
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.10.0
+    rev: 0.10.2
     hooks:
       - id: uv-lock
       - id: uv-export
@@ -24,3 +24,19 @@ repos:
       - id: ruff-check
         args: [--fix]
       - id: ruff-format
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.105.0
+    hooks:
+      # - id: terraform_checkov
+      - id: terraform_fmt
+      - id: terraform_validate
+        args:
+          - --hook-config=--retry-once-with-cleanup=true
+      # - id: terraform_docs
+      #   args:
+      #     - --hook-config=--path-to-file=README.md
+      #     - --hook-config=--add-to-existing-file=true
+      #     - --hook-config=--create-file-if-not-exist=true
+      - id: terraform_tflint
+        args:
+          - --args=--call-module-type=all
