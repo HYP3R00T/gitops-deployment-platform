@@ -1,10 +1,16 @@
 [tools]
 python = "3.14"
-uv = "latest"
-pre-commit = "latest"
-kubectl = "latest"
 node = "22.22.0"
+uv = "latest"
 pnpm = "latest"
+pre-commit = "latest"
+markdownlint-cli2 = "latest"
+aws-cli = "latest"
+kubectl = "latest"
+terraform = "latest"
+terraform-docs = "latest"
+tflint = "latest"
+# checkov = "latest"
 
 [settings]
 experimental = true
@@ -28,3 +34,7 @@ description = "Create and configure a local kind Kubernetes cluster"
 [tasks.kind-down]
 run = "bash ./scripts/delete-kind-cluster.sh"
 description = "Delete the local kind Kubernetes cluster"
+
+[tasks.bootstrap-aws-tf-backend]
+run = "bash ./scripts/bootstrap-terraform-backend.sh"
+description = "Bootstrap Terraform backend (S3 + DynamoDB) for state management"

@@ -86,7 +86,7 @@ Where this actually runs. Everything here assumes code already exists.
 ### Reliability & Health
 
 - [Kubernetes API](https://kubernetes.io/docs/reference/kubernetes-api/) - Workload declarations
-- [Health Check Patterns](https://en.wikipedia.org/wiki/Health_check_(computing)) - Service liveness validation
+- [Health Check Patterns](<https://en.wikipedia.org/wiki/Health_check_(computing)>) - Service liveness validation
 
 ## AI Assistance & Automation Context
 

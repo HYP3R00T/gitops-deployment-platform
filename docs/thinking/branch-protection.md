@@ -1,6 +1,6 @@
 # Branch Protection for `main`: Design, Rationale, and Current State
 
-This document describes the **branch protection rules currently enforced on `main`**, why they exist, and why certain controls are intentionally *not* enabled yet.
+This document describes the **branch protection rules currently enforced on `main`**, why they exist, and why certain controls are intentionally _not_ enabled yet.
 
 The configuration described here is **not aspirational**.
 It reflects the **exact active ruleset** applied to the repository, exported directly from GitHub and treated as the **source of truth**.
@@ -89,6 +89,9 @@ This is a **temporary and intentional configuration**, reflecting the current st
 - there is a single active maintainer
 - GitHub does not allow authors to approve their own pull requests
 - requiring approvals without additional reviewers would deadlock merges
+
+???+ info "Single maintainer phase"
+    The `0`-approval rule is purely pragmatic. Once additional reviewers with write access exist, the rule will follow the documented automation and require explicit approvals.
 
 Important clarifications:
 
@@ -223,52 +226,47 @@ This configuration is treated as **authoritative**.
 
 - The prose in this document is derived from this file
 - Any future change to branch protection must update both:
-  - the ruleset itself
-  - this embedded source of truth
+    - the ruleset itself
+    - this embedded source of truth
 
 No interpretation is applied inside the block.
 If the JSON and the explanation ever diverge, the JSON wins.
 
 ```json
 {
-  "id": 12555375,
-  "name": "protect-main",
-  "target": "branch",
-  "source_type": "Repository",
-  "source": "HYP3R00T/gitops-deployment-platform",
-  "enforcement": "active",
-  "conditions": {
-    "ref_name": {
-      "exclude": [],
-      "include": [
-        "~DEFAULT_BRANCH"
-      ]
-    }
-  },
-  "rules": [
-    {
-      "type": "deletion"
+    "id": 12555375,
+    "name": "protect-main",
+    "target": "branch",
+    "source_type": "Repository",
+    "source": "HYP3R00T/gitops-deployment-platform",
+    "enforcement": "active",
+    "conditions": {
+        "ref_name": {
+            "exclude": [],
+            "include": ["~DEFAULT_BRANCH"]
+        }
     },
-    {
-      "type": "non_fast_forward"
-    },
-    {
-      "type": "pull_request",
-      "parameters": {
-        "required_approving_review_count": 0,
-        "dismiss_stale_reviews_on_push": true,
-        "required_reviewers": [],
-        "require_code_owner_review": true,
-        "require_last_push_approval": false,
-        "required_review_thread_resolution": true,
-        "allowed_merge_methods": [
-          "merge",
-          "squash"
-        ]
-      }
-    }
-  ],
-  "bypass_actors": []
+    "rules": [
+        {
+            "type": "deletion"
+        },
+        {
+            "type": "non_fast_forward"
+        },
+        {
+            "type": "pull_request",
+            "parameters": {
+                "required_approving_review_count": 0,
+                "dismiss_stale_reviews_on_push": true,
+                "required_reviewers": [],
+                "require_code_owner_review": true,
+                "require_last_push_approval": false,
+                "required_review_thread_resolution": true,
+                "allowed_merge_methods": ["merge", "squash"]
+            }
+        }
+    ],
+    "bypass_actors": []
 }
 ```
 

@@ -10,10 +10,34 @@ nav = [
   { Home = "index.md" },
   { "Developer Experience" = [
     { "Developer Setup" = "dev/developer-setup.md" },
+    { "Mise Configuration" = [
+      { "Overview" = "dev/mise/index.md" },
+      { "Configuration" = "dev/mise/configuration.md" },
+      { "Usage" = "dev/mise/usage.md" },
+      { "Best Practices" = "dev/mise/best-practices.md" },
+      { "Troubleshooting" = "dev/mise/troubleshooting.md" },
+    ] },
+    { "Environment Variables" = "dev/environment-variables.md" },
+    { "Pre-commit Hooks" = [
+      { "Overview" = "dev/pre-commit-hooks/index.md" },
+      { "Standard Checks" = "dev/pre-commit-hooks/standard-checks.md" },
+      { "Commit Messages" = "dev/pre-commit-hooks/commit-messages.md" },
+      { "Python Hooks" = "dev/pre-commit-hooks/python-hooks.md" },
+      { "Terraform Hooks" = "dev/pre-commit-hooks/terraform-hooks.md" },
+      { "Usage" = "dev/pre-commit-hooks/usage.md" },
+    ] },
+    { "Authoring Documentation" = "dev/authoring-documentation.md" },
     { "Resources" = "dev/resources.md" },
   ] },
   { "Platform & Infrastructure" = [
     { "Architecture" = "platform/architecture.md" },
+    { "Terraform Backend Bootstrap" = [
+      { "Overview" = "platform/terraform/backend-bootstrap/index.md" },
+      { "Applying" = "platform/terraform/backend-bootstrap/applying.md" },
+      { "Usage" = "platform/terraform/backend-bootstrap/usage.md" },
+      { "State Management" = "platform/terraform/backend-bootstrap/state-management.md" },
+      { "Destroying" = "platform/terraform/backend-bootstrap/destroying.md" },
+    ] },
     { "Local Kubernetes" = "platform/local-kubernetes.md" },
   ] },
   { "Service Specifications" = [

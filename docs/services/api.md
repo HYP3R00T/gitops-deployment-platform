@@ -8,6 +8,9 @@ Minimal stateless backend for GitOps demonstrations. It exposes a fixed v1 contr
 - Serve as a probe target for deployment, failure, and recovery flows
 - Keep behavior static and predictable across restarts
 
+???+ note "Stateless safety"
+	The API keeps all state in memory on purpose. Any behavior relying on persistence should be considered intentionally out of scope for this reference service.
+
 ## Runtime
 
 - Framework: FastAPI
@@ -18,17 +21,17 @@ Minimal stateless backend for GitOps demonstrations. It exposes a fixed v1 contr
 
 Configuration is intentionally minimal and loaded from environment using `utilityhub_config`. The only defined setting is:
 
-| Setting | Type | Default | Description |
-| --- | --- | --- | --- |
-| `app_name` | string | `api` | Service name used in logs |
+| Setting    | Type   | Default | Description               |
+| ---------- | ------ | ------- | ------------------------- |
+| `app_name` | string | `api`   | Service name used in logs |
 
 ## API Contract
 
-| Endpoint | Response | Notes |
-| --- | --- | --- |
-| `GET /` | `{"service": "gitops-deployment-platform", "status": "ok"}` | Static metadata |
-| `GET /health` | `{"healthy": true}` | Returns 200 when healthy, 503 when unhealthy |
-| `GET /info` | `{"name": "gitops-deployment-platform", "description": "Minimal backend for GitOps demonstrations", "environment": "static"}` | Static metadata |
+| Endpoint      | Response                                                                                                                      | Notes                                        |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| `GET /`       | `{"service": "gitops-deployment-platform", "status": "ok"}`                                                                   | Static metadata                              |
+| `GET /health` | `{"healthy": true}`                                                                                                           | Returns 200 when healthy, 503 when unhealthy |
+| `GET /info`   | `{"name": "gitops-deployment-platform", "description": "Minimal backend for GitOps demonstrations", "environment": "static"}` | Static metadata                              |
 
 ## Behavior
 
