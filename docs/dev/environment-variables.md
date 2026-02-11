@@ -13,9 +13,15 @@ cp .env.example .env
 # Edit .env with your actual values
 ```
 
+???+ info "Store secrets safely"
+    Keep the `.env` file gitignored, and never paste its contents into issue trackers, chats, or PRs. Treat it as the single source of sensitive configuration for your workspace.
+
 ## GitHub Tokens
 
 The project requires GitHub tokens for API access and private repository operations. Two separate tokens are configured to provide granular access control.
+
+???+ info "Token hygiene"
+    Store `MISE_GITHUB_TOKEN` and `GITHUB_TOKEN` only in `.env`, rotate them if a leak is suspected, and never share token values publicly.
 
 ### MISE_GITHUB_TOKEN
 
@@ -69,9 +75,9 @@ You can use the same token value for both if simplicity is preferred, but separa
 
 ## AWS Credentials
 
-AWS credentials can be provided in two ways, depending on your setup.
+AWS credentials can be provided in two ways, depending on your setup. The devcontainer exposes whichever credentials are available.
 
-### Option 1: Host Machine Configuration (Recommended)
+=== "Host machine (recommended)"
 
 If you have AWS CLI configured on your host machine:
 
@@ -81,7 +87,7 @@ aws configure
 
 Credentials from `~/.aws/credentials` are automatically mounted into the devcontainer and available to all AWS tools.
 
-### Option 2: Environment Variables
+=== "Environment variables"
 
 If AWS CLI is not configured on your host, uncomment and configure these variables in `.env`:
 
@@ -98,7 +104,8 @@ AWS_DEFAULT_REGION=ap-south-1
 - You're using temporary credentials (STS tokens)
 - You're in a CI/CD environment
 
-**Security Note**: Environment variable credentials take precedence over `~/.aws/credentials`. Be cautious with credential precedence if both methods are configured.
+???+ warning "Credential precedence"
+    Environment variables override `~/.aws/credentials`. Double-check which credentials are active before running destructive commands.
 
 ## Service Configuration
 
@@ -178,4 +185,4 @@ PUBLIC_API_URL=http://localhost:8000
 ## Related Documentation
 
 - [Developer Setup](developer-setup.md) - Initial environment setup
-- [Terraform Backend Bootstrap](../platform/terraform-backend-bootstrap.md) - AWS credentials for infrastructure provisioning
+- [Terraform Backend Bootstrap](../platform/terraform/backend-bootstrap/index.md) - AWS credentials for infrastructure provisioning
