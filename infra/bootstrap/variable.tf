@@ -10,12 +10,6 @@ variable "bucket_name_prefix" {
   default     = "gitops-tfstate"
 }
 
-variable "dynamodb_table_name" {
-  description = "Name of the DynamoDB table for state locking"
-  type        = string
-  default     = "terraform-state-lock"
-}
-
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)

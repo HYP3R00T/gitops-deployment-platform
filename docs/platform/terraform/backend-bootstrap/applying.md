@@ -22,7 +22,7 @@ The script `scripts/bootstrap-terraform-backend.sh` performs these steps:
 The script includes safety checks and warns if resources already exist.
 
 ???+ warning "Idempotency warning"
-  The bootstrap assumes no pre-existing S3 bucket/DynamoDB table with the same prefix. If you already ran it, double-check the AWS resources before reapplying to avoid accidental collisions.
+  The bootstrap assumes no pre-existing S3 bucket with the same prefix. If you already ran it, double-check the AWS resources before reapplying to avoid accidental collisions.
 
 ## Manual Method
 
@@ -99,7 +99,7 @@ The bootstrap process is available as a mise task:
 ```toml
 [tasks.bootstrap-aws-tf-backend]
 run = "bash ./scripts/bootstrap-terraform-backend.sh"
-description = "Bootstrap Terraform backend (S3 + DynamoDB) for state management"
+description = "Bootstrap Terraform backend (S3 with native locking) for state management"
 ```
 
 Run with: `mise run bootstrap-aws-tf-backend`

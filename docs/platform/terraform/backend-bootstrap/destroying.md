@@ -1,7 +1,7 @@
 # Destroying the Bootstrap
 
 ???+ warning
-Destroying the bootstrap deletes the S3 bucket and DynamoDB table used for Terraform state storage. Ensure no other Terraform modules are using this backend before proceeding.
+Destructing the bootstrap deletes the S3 bucket used for Terraform state storage. Ensure no other Terraform modules are using this backend before proceeding.
 
 ## Prerequisites for Destruction
 
@@ -94,7 +94,6 @@ terraform -chdir=infra/bootstrap destroy
 Terraform shows a plan of resources to be deleted:
 
 - S3 bucket
-- DynamoDB table
 - Random string resource
 
 Review and confirm the destruction.
@@ -109,7 +108,6 @@ terraform -chdir=infra/bootstrap show
 
 # Verify AWS resources are gone
 aws s3 ls | grep gitops-tfstate
-aws dynamodb list-tables | grep terraform-state-lock
 ```
 
 ## Post-Destruction
@@ -117,7 +115,7 @@ aws dynamodb list-tables | grep terraform-state-lock
 After destroying the bootstrap:
 
 1. The local state file `infra/bootstrap/terraform.tfstate` shows zero resources
-2. All AWS resources (S3 bucket and DynamoDB table) are deleted
+2. All AWS resources (S3 bucket) are deleted
 3. You can re-run the bootstrap process if needed - the random suffix generates a new unique bucket name
 
 ## Troubleshooting
@@ -128,7 +126,7 @@ Terraform cannot delete non-empty S3 buckets. Follow Step 3 to empty the bucket 
 
 ### "Resource in use" error
 
-The DynamoDB table may have active locks. Wait for any running Terraform operations to complete, or force-unlock if necessary.
+If any Terraform operations are currently running, wait for them to complete before destroying the bootstrap.
 
 ### Partial Deletion
 
@@ -140,7 +138,6 @@ terraform -chdir=infra/bootstrap state list
 
 # Manually remove specific resources from AWS if needed
 aws s3 rb s3://${BUCKET_NAME} --force
-aws dynamodb delete-table --table-name terraform-state-lock
 
 # Remove from state
 terraform -chdir=infra/bootstrap state rm <resource>

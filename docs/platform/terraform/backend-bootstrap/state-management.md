@@ -19,7 +19,7 @@ Understanding how Terraform state is managed across the bootstrap and other modu
 
 **Why bootstrap uses local state**:
 
-The bootstrap creates the S3 bucket and DynamoDB table used for remote state. This creates a chicken-and-egg problem: you cannot store state in S3 before the bucket exists.
+The bootstrap creates the S3 bucket used for remote state. This creates a chicken-and-egg problem: you cannot store state in S3 before the bucket exists.
 
 By using local state for the bootstrap, we avoid this circular dependency. The bootstrap is a one-time operation that creates the infrastructure needed for all other modules to use remote state.
 
@@ -33,7 +33,7 @@ By using local state for the bootstrap, we avoid this circular dependency. The b
 
 - Stored in S3 with versioning enabled
 - Shared across team members
-- State locking via DynamoDB
+- State locking via S3 native locking
 - Encrypted at rest
 - Version controlled (via S3 versioning)
 
@@ -69,22 +69,41 @@ Each module has its own state file, identified by the `key` parameter in the bac
 
 ## State Locking
 
+### Enabling S3 Native Locking
+
+S3 supports native state locking, but it must be explicitly enabled in your backend configuration:
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket       = "gitops-tfstate-a1b2c3d4"
+    key          = "module/terraform.tfstate"
+    region       = "ap-south-1"
+    encrypt      = true
+    use_lockfile = true  # Required - defaults to false
+  }
+}
+```
+
+???+ warning "Not Enabled by Default"
+    The `use_lockfile` parameter defaults to `false`. If you omit it, **no state locking will occur**, even though S3 supports the feature.
+
 ### How It Works
 
-1. When `terraform plan` or `terraform apply` runs, Terraform:
-    - Attempts to acquire a lock in DynamoDB
-    - Writes a lock entry with operation details
+1. When `terraform plan` or `terraform apply` runs with `use_lockfile = true`, Terraform:
+    - Attempts to acquire a lock using S3's native locking mechanism
+    - Creates a `.tflock` file in S3 alongside the state file
     - Proceeds with the operation
     - Releases the lock when complete
 
 2. If another operation is in progress:
-    - Terraform detects the existing lock
+    - Terraform detects the existing lock in the `.tflock` file
     - Displays who holds the lock and when it was acquired
     - Waits or fails depending on configuration
 
 ### Lock Entry Structure
 
-DynamoDB lock entries include:
+S3 native lock entries (stored in `.tflock` files) include:
 
 - Lock ID (matches state file path)
 - Who holds the lock (user, hostname)

@@ -51,6 +51,7 @@ nav = [
     { "DevContainer" = "thinking/devcontainer.md" },
     { "Documentation Principles" = "thinking/documentation-principles.md" },
     { "Branch Protection" = "thinking/branch-protection.md" },
+    { "S3 Native Locking" = "thinking/s3-native-locking.md" },
   ] },
 ]
 

@@ -1,4 +1,5 @@
 [tools]
+github-cli = "latest"
 python = "3.14"
 node = "22.22.0"
 uv = "latest"
@@ -7,9 +8,10 @@ pre-commit = "latest"
 markdownlint-cli2 = "latest"
 aws-cli = "latest"
 kubectl = "latest"
-terraform = "latest"
+terraform = "1.14.5"
 terraform-docs = "latest"
 tflint = "latest"
+tfenv = "latest"
 # checkov = "latest"
 
 [settings]
@@ -37,4 +39,4 @@ description = "Delete the local kind Kubernetes cluster"
 
 [tasks.bootstrap-aws-tf-backend]
 run = "bash ./scripts/bootstrap-terraform-backend.sh"
-description = "Bootstrap Terraform backend (S3 + DynamoDB) for state management"
+description = "Bootstrap Terraform backend (S3 with native locking) for state management"

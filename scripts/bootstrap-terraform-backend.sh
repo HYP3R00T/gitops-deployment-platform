@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Bootstrapping Terraform backend (S3 + DynamoDB)..."
+echo "Bootstrapping Terraform backend (S3 with native locking)..."
 
 # Path to bootstrap directory
 BOOTSTRAP_DIR="./infra/bootstrap"
@@ -51,8 +51,7 @@ terraform -chdir="$BOOTSTRAP_DIR" plan
 echo ""
 echo "Review the plan above."
 echo "This will create AWS resources in ap-south-1:"
-echo "  - S3 bucket (gitops-tfstate-<random>)"
-echo "  - DynamoDB table (terraform-state-lock)"
+echo "  - S3 bucket (gitops-tfstate-<random>) with native state locking"
 echo ""
 read -p "Do you want to apply these changes? (y/N): " -n 1 -r
 echo

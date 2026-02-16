@@ -27,7 +27,7 @@ The tools listed above are **implementation choices**, not the core design. The 
 ### Completed Components
 
 - **Local Development**: Devcontainer with mise-managed toolchain
-- **Infrastructure Bootstrap**: S3 + DynamoDB backend for Terraform state (`infra/bootstrap/`)
+- **Infrastructure Bootstrap**: S3 backend with native locking for Terraform state (`infra/bootstrap/`)
 - **Code Quality**: Pre-commit hooks with validation for Python, Terraform, and file formats
 - **Services**: Basic API (`services/api/`) and web frontend (`services/web/`)
 - **Local Kubernetes**: kind cluster for development (`local/kubernetes/`)
@@ -42,10 +42,13 @@ The tools listed above are **implementation choices**, not the core design. The 
 
 ## Infrastructure State Management
 
-Terraform state is managed centrally using an S3 backend with DynamoDB locking, provisioned via a bootstrap module. This ensures:
+Terraform state is managed centrally using an S3 backend with native state locking, provisioned via a bootstrap module. This ensures:
 
 - **Consistency**: All infrastructure changes are tracked in versioned state files
-- **Collaboration**: State locking prevents concurrent modification conflicts
+- **Collaboration**: State locking prevents concurrent modification conflicts (when `use_lockfile = true` is configured)
 - **Durability**: S3 versioning enables state recovery from accidents or corruption
+
+???+ note "S3 Native Locking"
+    State locking is provided by S3's native capabilities. Modules must explicitly enable it by setting `use_lockfile = true` in their backend configuration.
 
 See [Terraform Backend Bootstrap](terraform/backend-bootstrap/index.md) for implementation details.
