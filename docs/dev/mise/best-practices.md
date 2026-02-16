@@ -36,7 +36,7 @@
 ```toml
 [tasks.bootstrap-aws-tf-backend]
 run = "bash ./scripts/bootstrap-terraform-backend.sh"
-description = "Bootstrap Terraform backend (S3 + DynamoDB) for state management"
+description = "Bootstrap Terraform backend (S3 with native locking) for state management"
 ```
 
 **Avoid:**

@@ -135,11 +135,11 @@ Deletes the local kind Kubernetes cluster.
 mise run bootstrap-aws-tf-backend
 ```
 
-Bootstraps Terraform backend infrastructure (S3 + DynamoDB).
+Bootstraps Terraform backend infrastructure (S3 with native locking support).
 
 **What it does:**
 
 - Executes `scripts/bootstrap-terraform-backend.sh`
-- Creates S3 bucket for Terraform state
-- Creates DynamoDB table for state locking
+- Creates S3 bucket for Terraform state (versioning enabled for native locking support)
+- Note: Modules using this backend must set `use_lockfile = true` to enable locking
 - See [Terraform Backend Bootstrap](../../platform/terraform/backend-bootstrap/index.md) for details
