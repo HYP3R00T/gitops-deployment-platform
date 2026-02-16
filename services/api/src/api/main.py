@@ -45,3 +45,7 @@ def main() -> None:
     except Exception as e:
         logger.error(f"Unexpected error: {e}", exc_info=True)
         raise SystemExit(1) from e
+
+
+if __name__ == "__main__":
+    main()
