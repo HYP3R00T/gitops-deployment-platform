@@ -3,7 +3,9 @@ FROM python:3.14-slim
 COPY --from=ghcr.io/astral-sh/uv:0.10.3 /uv /uvx /bin/
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
-  PYTHONUNBUFFERED=1
+  PYTHONUNBUFFERED=1 \
+  HOST=0.0.0.0 \
+  PORT=8000
 
 WORKDIR /app
 
