@@ -1,4 +1,5 @@
 import logging
+import os
 
 import uvicorn
 from utilityhub_config.errors import ConfigValidationError
@@ -22,12 +23,14 @@ def main() -> None:
         app = create_app(config)
         logger.info("FastAPI app created")
 
-        # Start uvicorn server
-        logger.info("Starting uvicorn server on 0.0.0.0:8000")
+        # Start uvicorn server with configurable host and port
+        host = os.getenv("HOST", "0.0.0.0")
+        port = int(os.getenv("PORT", "8000"))
+        logger.info(f"Starting uvicorn server on {host}:{port}")
         uvicorn.run(
             app,
-            host="0.0.0.0",
-            port=8000,
+            host=host,
+            port=port,
             log_config=None,  # Use our logging config
         )
     except ConfigValidationError as e:
