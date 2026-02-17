@@ -104,6 +104,28 @@ See [Mise Configuration](mise/index.md) for comprehensive documentation on:
 - Adding new tools or tasks
 - Troubleshooting mise issues
 
+## Local Testing with Docker Compose
+
+Before deploying to Kubernetes, you can test both services together using Docker Compose. This validates container builds and inter-service communication in an isolated network environment.
+
+**Quick start:**
+
+```bash
+docker compose up -d
+```
+
+This builds and starts both the API and Web services. Access the web interface at `http://localhost:4321` (requires devcontainer port forwarding to be configured).
+
+???+ tip "When to use Compose vs Kubernetes"
+    Use Docker Compose for rapid iteration on service communication and Dockerfile changes. Use the kind cluster (via `mise run kind-up`) when testing GitOps workflows, resource limits, or cross-namespace networking.
+
+See [Docker Compose Documentation](../platform/docker-compose.md) for:
+
+- Architecture and service discovery
+- Health check configuration
+- Common operations and troubleshooting
+- Comparison with Kubernetes deployment
+
 ## Getting Started with local setup
 
 While using the devcontainer is recommended, you can also set up your local environment manually. However, you must ensure that your local setup matches the configurations defined in the repository (e.g., Node.js version, package versions).
