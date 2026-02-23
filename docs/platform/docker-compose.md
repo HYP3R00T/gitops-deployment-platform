@@ -13,60 +13,61 @@ This is not a replacement for the Kubernetes-based deployment flow. It serves as
 
 ## Architecture
 
-Docker Compose creates an isolated bridge network where containers discover each other by service name. This mirrors Kubernetes service discovery but with simpler networking (single flat namespace instead of cross-namespace DNS).
+Docker Compose creates an isolated bridge network where containers discover each other by service name.
 
 ```mermaid
 flowchart LR
-    Host[Host Browser<br/>localhost:4321] --> Web[Web Container<br/>platform-web:4321]
-    Web --> API[API Container<br/>platform-api:8000]
-    Host -.->|localhost:8000| API
-
-    subgraph Docker Network: platform-network
-        Web
-        API
+    subgraph compose[\"Docker Compose Network\"]
+        Web[\"Web Container<br/>(service name: 'web')<br/>listens on :4321\"]
+        API[\"API Container<br/>(service name: 'api')<br/>listens on :8000\"]
+        Web -->|http://api:8000| API
     end
+
+    Host[\"Host Browser<br/>(devcontainer)<br/>accessing services\"] -->|mapped to<br/>localhost:4321| Web
+    Host -->|mapped to<br/>localhost:8001| API
 ```
 
-**Key differences from Kubernetes:**
+**Key insight**: Containers communicate using service names and container ports. Host access uses port mappings.
 
-| Aspect | Docker Compose | Kubernetes |
-|--------|----------------|------------|
-| Service Discovery | `http://api:8000` | `http://api.platform-api:8000` |
-| Namespace Isolation | Single flat network | Cross-namespace DNS required |
-| Health Checks | Built into compose spec | Defined in Pod spec |
-| Restart Policy | Per-service (`unless-stopped`) | Controller-managed (Deployment) |
+| Context | Connection | URL |
+|---------|-----------|-----|
+| Web → API (container-to-container) | Service discovery | `http://api:8000` |
+| Browser → Web | Port mapping | `http://localhost:4321` |
+| Browser → API | Port mapping | `http://localhost:8001` |
 
 ## Configuration
 
-The compose specification lives at `docker-compose.yml` in the repository root. It defines two services and a custom bridge network.
+The compose specification lives at `docker-compose.yml` in the repository root.
 
-### Service Definitions
+### Services
 
-**api:**
+**api** service:
 
-- Build context: repository root (allows `COPY services/api/...`)
-- Exposed port: `8000:8000` (host:container)
-- Health check: Python script calling `/health` endpoint
-- Network: `platform-network`
+- Listens on container port `8000` (inside the container)
+- Mapped to host port `8001` (for browser access: `localhost:8001`)
+- Reachable by other containers as `http://api:8000`
 
-**web:**
+**web** service:
 
-- Build context: repository root
-- Build argument: `PUBLIC_API_URL=http://api:8000` (service name for Docker network)
-- Exposed port: `4321:4321`
-- Dependency: waits for API to be healthy before starting
-- Network: `platform-network`
+- Listens on container port `4321`
+- Mapped to host port `4321`
+- Reaches the API via `http://api:8000` (uses service name discovery)
 
-???+ info "Build argument necessity"
-    The web service requires `PUBLIC_API_URL` as a **build argument** (not just runtime environment variable) because Astro/Vite compiles environment variables into the JavaScript bundle at build time. See [Web Service Container Build](../services/web.md#container-build) for details.
+### Build Arguments
 
-### Network Configuration
+The web service requires `PUBLIC_API_URL` as a **build argument**:
 
-The `platform-network` bridge network enables service-to-service communication:
+```yaml
+web:
+  build:
+    args:
+      PUBLIC_API_URL: http://api:8000  # Using container-to-container address
+```
 
-- **DNS resolution**: Service names (`api`, `web`) resolve to container IPs automatically
-- **Isolation**: Containers cannot reach host localhost or other Docker networks by default
-- **Port mapping**: Only explicitly mapped ports are accessible from the host
+Why? Astro/Vite compiles `PUBLIC_*` environment variables into the JavaScript bundle at **build time**. The web service needs the container-to-container address (`http://api:8000`), not the host port mapping.
+
+???+ info "Container-to-container always uses container ports"
+	When one container connects to another, it uses the service name and the **port inside the container**, never the host port mapping. This is true for all container orchestration systems (Docker Compose, Kubernetes, etc.).
 
 ### Health Checks and Dependencies
 
@@ -135,40 +136,41 @@ docker compose down -v
 
 ### From Your Browser (Host Machine)
 
-If running in a devcontainer, port forwarding must be configured. See `.devcontainer/devcontainer.json`:
+Port forwarding through the devcontainer enables access:
+
+- **Web interface**: `http://localhost:4321`
+- **API health endpoint**: `http://localhost:8001/health`
+- **Web status page**: `http://localhost:4321/status` (shows API connectivity)
+
+If ports are not forwarding, ensure `.devcontainer/devcontainer.json` includes:
 
 ```json
-"forwardPorts": [8000, 4321]
+"forwardPorts": [8001, 4321]
 ```
 
-Once ports are forwarded:
+### Between Containers (Internal)
 
-- **API**: `http://localhost:8000/health`
-- **Web**: `http://localhost:4321/`
-- **Web Status Page**: `http://localhost:4321/status` (shows API health check result)
+Containers reach each other by service name using container ports:
 
-### Between Containers (Docker Network)
+- **Web → API**: `http://api:8000` (web's DEFAULT in Dockerfile)
+- **API → Web**: `http://web:4321` (if needed)
 
-Containers use service names as hostnames:
-
-- Web calls API: `http://api:8000/health`
-- API is reachable at: `http://api:8000`
-
-This matches the `PUBLIC_API_URL` build argument passed to the web service.
+These internal addresses are set at **build time** (via build args) and **runtime** (via environment variables). Host port mappings (8001, 4321) are irrelevant to containers.
 
 ## Verification Checklist
 
-After starting the stack, verify:
+After starting the stack:
 
-1. **API health**: `curl http://localhost:8000/health` returns `{"healthy":true}`
-2. **Web accessibility**: `curl http://localhost:4321/` returns HTML
-3. **Inter-service communication**: Visit `http://localhost:4321/status` and confirm "Backend is healthy"
-4. **Container health status**: `docker compose ps` shows both services as `healthy`
+1. **API responds** (host port): `curl http://localhost:8001/health`
+2. **Web loads** (host port): Open `http://localhost:4321` in browser
+3. **Services communicate** (internal): Visit `http://localhost:4321/status` and confirm "Backend is healthy"
+4. **Both are healthy**: `docker compose ps` shows both as `(healthy)`
 
-If the status page shows "Backend is unavailable" but the API responds to direct curl:
+???+ tip "Troubleshooting 'Backend is unavailable'"
+	If the status page shows "Backend is unavailable" but `localhost:8001/health` works:
 
-- The web image was likely built with the wrong `PUBLIC_API_URL`
-- Rebuild with: `docker compose build web && docker compose up -d web`
+	- The web image was built with the wrong `PUBLIC_API_URL`
+	- Rebuild: `docker compose build web && docker compose up -d web`
 
 ## Comparison with Kubernetes
 

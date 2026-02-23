@@ -16,11 +16,11 @@ Astro-based frontend that surfaces backend status and metadata for the GitOps pl
 
 ## Configuration
 
-The frontend reads the API base URL from environment:
+The frontend requires the API base URL for server-side rendering:
 
 | Setting          | Required | Description                                              |
 | ---------------- | -------- | -------------------------------------------------------- |
-| `PUBLIC_API_URL` | Yes      | Base URL for API requests (e.g. `http://localhost:8000`) |
+| `PUBLIC_API_URL` | Yes      | Base URL for API requests (e.g. `http://api:8000` in Compose/K8s) |
 
 ???+ warning "Keep API URL accurate"
 	If `PUBLIC_API_URL` points to the wrong service, the entire UI will render stale or fail silently. Update this value whenever the API host/port changes and redeploy the web service.

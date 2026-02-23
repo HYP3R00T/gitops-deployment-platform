@@ -5,6 +5,7 @@ repo_name = "gitops-deployment-platform"
 repo_url = "https://github.com/gitops-deployment-platform"
 site_author = "Rajesh Das"
 copyright = "Copyright &copy; 2026 Rajesh Das"
+dev_addr = "localhost:3000"
 
 nav = [
     { Home = "index.md" },
@@ -38,7 +39,13 @@ nav = [
             { "State Management" = "platform/terraform/backend-bootstrap/state-management.md" },
             { "Destroying" = "platform/terraform/backend-bootstrap/destroying.md" },
         ] },
-        { "Docker Compose" = "platform/docker-compose.md" },
+        { "Local Development" = [
+            { "Overview" = "platform/local-development/index.md" },
+            { "Layer 0: Local Execution" = "platform/local-development/layer-0-local-execution.md" },
+            { "Layer 1: Docker Images" = "platform/local-development/layer-1-docker-images.md" },
+            { "Layer 2: Docker Compose" = "platform/local-development/layer-2-docker-compose.md" },
+            { "Environment Variables Guide" = "platform/local-development/environment-variables-guide.md" },
+        ] },
         { "Local Kubernetes" = "platform/local-kubernetes.md" },
         { "Kind Troubleshooting" = "platform/kind-troubleshooting.md" },
     ] },

@@ -113,26 +113,13 @@ AWS_DEFAULT_REGION=ap-south-1
 
 Specifies the API endpoint URL for the web service.
 
-**Default**: `http://localhost:8000`
-
 **Usage**:
 
-- The web service uses this URL to connect to the API service
-- Change this when running services on different hosts or ports
-- In production, this would point to your actual API endpoint
+- Web service uses this to connect to the API
+- Set at container build time (compiled into JavaScript by Astro/Vite)
+- Examples: `http://api:8000` (container-to-container), `http://localhost:8001` (browser), `https://api.example.com` (production)
 
-**Examples**:
-
-```bash
-# Local development (default)
-PUBLIC_API_URL=http://localhost:8000
-
-# Custom port
-PUBLIC_API_URL=http://localhost:3001
-
-# Remote API
-PUBLIC_API_URL=https://api.example.com
-```
+**Note**: Astro bakes this into the build, so changing it at runtime has no effect. See [Web Service Container Build](../services/web.md#container-build) for details.
 
 ## Environment File Structure
 
@@ -149,7 +136,7 @@ GITHUB_TOKEN=ghp_xxxxx
 # AWS_DEFAULT_REGION=ap-south-1
 
 # Service Configuration
-PUBLIC_API_URL=http://localhost:8000
+PUBLIC_API_URL=http://api:8000
 ```
 
 ## Security Best Practices
