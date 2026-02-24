@@ -1,31 +1,44 @@
-FROM node:20-alpine AS build
-
-ARG PUBLIC_API_URL=http://localhost:8000
+# https://hub.docker.com/layers/library/node/22.22-bookworm-slim
+FROM node:22.22-bookworm-slim AS builder
 
 WORKDIR /app
 
-COPY services/web/package.json services/web/pnpm-lock.yaml ./
+# Inject API URL at build time (used by Astro build)
+ARG PUBLIC_API_URL=http://api:8000
 
-RUN corepack enable && pnpm install --frozen-lockfile
+# Enable and pin pnpm version for reproducibility
+RUN corepack enable && corepack prepare pnpm@10 --activate
 
-COPY services/web/ ./
+# Install dependencies (cached unless lockfile changes)
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 
+# Copy source and build production output
+COPY . .
 ENV PUBLIC_API_URL=${PUBLIC_API_URL}
+RUN pnpm run build && pnpm prune --prod
 
-RUN pnpm build
 
-FROM node:20-alpine
+# https://hub.docker.com/layers/library/node/22.22-bookworm-slim
+FROM node:22.22-bookworm-slim AS runtime
+
+# Create unprivileged runtime user
+RUN groupadd -r app && useradd -r -g app app
 
 WORKDIR /app
 
+# Runtime configuration
 ENV NODE_ENV=production \
-  HOST=0.0.0.0 \
   PORT=4321 \
-  PUBLIC_API_URL=http://localhost:8000
+  PUBLIC_API_URL=http://api:8000
 
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/package.json ./package.json
+# Copy only runtime artifacts with correct ownership
+COPY --from=builder --chown=app:app /app/dist ./dist
+COPY --from=builder --chown=app:app /app/node_modules ./node_modules
+COPY --from=builder --chown=app:app /app/package.json ./package.json
+
+USER app
 
 EXPOSE 4321
 
-CMD ["node", "./dist/server/entry.mjs"]
+CMD ["node", "dist/server/entry.mjs"]
