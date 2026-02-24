@@ -23,5 +23,8 @@ MD029:
 MD033:
   allowed_elements: [a, pre, br]
 
+# MD046/code-block-style
+MD046: false
+
 # MD060/table-column-style : Table column style
 MD060: false

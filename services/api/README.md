@@ -27,6 +27,16 @@ Three endpoints. No more, no less.
 - **Kubernetes-native** – Health probes, resource limits, declarative config
 - **Stable contract** – Expansion via new endpoints or `/v2`, never repurposing existing ones
 
+## Container image
+
+GHCR image: `ghcr.io/hyp3r00t/gitops-deployment-platform-api`
+
+Example run:
+
+```bash
+docker run --rm -p 8000:8000 ghcr.io/hyp3r00t/gitops-deployment-platform-api:<tag>
+```
+
 ## Kubernetes
 
 Manifests in `kubernetes/` directory:

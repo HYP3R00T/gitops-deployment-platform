@@ -28,9 +28,9 @@ Scope identifies **which component or module** is affected, not where the files 
 
 Examples:
 
-- Changes to API service → `(api)` not `(services)`
-- Tests for API → `test(api):` not `test(tests):` or `feat(tests):`
-- Kubernetes manifests → `(kubernetes)` or `(k8s)`
+- Changes to API service -> `(api)` not `(services)`
+- Tests for API -> `test(api):` not `test(tests):` or `feat(tests):`
+- Kubernetes manifests -> `(kubernetes)` or `(k8s)`
 
 Scope is optional. Omit it when the change spans multiple components or is repository-wide.
 

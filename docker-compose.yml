@@ -1,0 +1,61 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: services/api/Dockerfile
+    image: platform-api:latest
+    container_name: api
+    ports:
+      - "8000:8000"
+    environment:
+      - LOG_LEVEL=info
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - platform-net
+
+  web:
+    build:
+      context: .
+      dockerfile: services/web/Dockerfile
+      args:
+        PUBLIC_API_URL: http://api:8000
+    image: platform-web:latest
+    container_name: web
+    ports:
+      - "4321:4321"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=2",
+          "--spider",
+          "http://localhost:4321",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - platform-net
+
+networks:
+  platform-net:
+    driver: bridge
