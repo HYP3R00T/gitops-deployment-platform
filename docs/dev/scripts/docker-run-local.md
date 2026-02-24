@@ -17,9 +17,9 @@ Sets up a local development environment where both the API and Web services run 
 
 ## Variables
 
-- `NETWORK="platform-net"` — Docker network name for service communication
-- `API_IMAGE="platform-api:latest"` — API service Docker image name
-- `WEB_IMAGE="platform-web:latest"` — Web service Docker image name
+- `NETWORK="platform-net"` - Docker network name for service communication
+- `API_IMAGE="platform-api:latest"` - API service Docker image name
+- `WEB_IMAGE="platform-web:latest"` - Web service Docker image name
 
 ## Usage
 

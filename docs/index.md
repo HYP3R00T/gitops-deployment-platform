@@ -41,7 +41,7 @@ _For Engineering Managers and Interviewers._
 
 ## 📖 Key Concepts
 
-- [Core Objectives](thinking/core-objectives.md) — The three foundational pillars of this project
-- [Safe-to-Fail Narrative](thinking/safe-to-fail-narrative.md) — How the system handles failure gracefully
-- [Architecture](platform/architecture.md) — The architectural patterns being implemented
-- [Intentional Constraints](thinking/constraints.md) — What this project deliberately does NOT include
+- [Core Objectives](thinking/core-objectives.md) - The three foundational pillars of this project
+- [Safe-to-Fail Narrative](thinking/safe-to-fail-narrative.md) - How the system handles failure gracefully
+- [Architecture](platform/architecture.md) - The architectural patterns being implemented
+- [Intentional Constraints](thinking/constraints.md) - What this project deliberately does NOT include

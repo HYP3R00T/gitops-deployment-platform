@@ -73,7 +73,7 @@ The first stage compiles Astro source code into production-ready static and serv
 ???+ warning "Build-time vs Runtime: PUBLIC_API_URL"
 	Astro (via Vite) bakes `PUBLIC_*` environment variables into the JavaScript bundle at **build time**. Changing `PUBLIC_API_URL` at runtime has no effect. The value must be provided as a build argument when building the image.
 
-	This is why Docker Compose passes `PUBLIC_API_URL: http://api:8000` as a build arg—it ensures the compiled JavaScript makes API calls to the correct service name within the Docker network.
+	This is why Docker Compose passes `PUBLIC_API_URL: http://api:8000` as a build arg-it ensures the compiled JavaScript makes API calls to the correct service name within the Docker network.
 
 ### Runtime Stage (node:20-alpine)
 

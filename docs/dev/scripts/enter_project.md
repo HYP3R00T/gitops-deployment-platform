@@ -8,17 +8,17 @@ Ensures developers follow consistent commit message standards and run automated 
 
 ## Tools Installed
 
-1. **Commitizen** — Enforces standardized commit messages (via `commitizen` CLI)
+1. **Commitizen** - Enforces standardized commit messages (via `commitizen` CLI)
    - Guides developers through interactive commit message creation
    - Ensures messages follow conventional commit format
    - Installed via `pipx` for isolated Python environment
 
-2. **Pre-commit** — Automatically runs checks before commits
+2. **Pre-commit** - Automatically runs checks before commits
    - Git hooks configured for automated validation
    - Prevents committing code that fails linting, formatting, or tests
    - Hooks configured:
-     - `pre-commit` — Runs before commit creation
-     - `commit-msg` — Validates commit message format
+     - `pre-commit` - Runs before commit creation
+     - `commit-msg` - Validates commit message format
 
 ## Usage
 
@@ -33,14 +33,14 @@ This script idempotently checks if tools are installed and only installs if need
 
 ## When to Run
 
-- **First time** in the project — Run this to set up the development environment
-- **Safe to run** multiple times — Script checks if tools exist before installing
+- **First time** in the project - Run this to set up the development environment
+- **Safe to run** multiple times - Script checks if tools exist before installing
 
 ## What Gets Modified
 
-- `~/.local/bin/` — Adds `commitizen` command (via pipx)
-- `.git/hooks/pre-commit` — Installs pre-commit hook
-- `.git/hooks/commit-msg` — Installs commit message validation hook
+- `~/.local/bin/` - Adds `commitizen` command (via pipx)
+- `.git/hooks/pre-commit` - Installs pre-commit hook
+- `.git/hooks/commit-msg` - Installs commit message validation hook
 
 ## Related Documentation
 

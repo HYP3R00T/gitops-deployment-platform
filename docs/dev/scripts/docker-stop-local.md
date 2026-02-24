@@ -14,7 +14,7 @@ Provides a clean way to shut down the local development environment by stopping 
 
 ## Variables
 
-- `NETWORK="platform-net"` — Docker network name to remove (must match `docker-run-local.sh`)
+- `NETWORK="platform-net"` - Docker network name to remove (must match `docker-run-local.sh`)
 
 ## Usage
 

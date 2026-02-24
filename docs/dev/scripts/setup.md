@@ -8,15 +8,15 @@ Performs the initial setup of the development container by installing required t
 
 ## What It Does
 
-1. **Trusts mise configuration** — Makes `mise` tool available for managing dev dependencies
+1. **Trusts mise configuration** - Makes `mise` tool available for managing dev dependencies
    - Installs all project dependencies specified in `mise.toml`
    - `mise` is a polyglot version manager that handles Python, Node.js, Terraform, and other tools
 
-2. **Updates system packages** — Ensures apt package index is current
+2. **Updates system packages** - Ensures apt package index is current
 
 3. **Installs system tools**:
-   - `python3` — Required for Python-based services and tooling
-   - `tmux` — Terminal multiplexer for session management during development
+   - `python3` - Required for Python-based services and tooling
+   - `tmux` - Terminal multiplexer for session management during development
 
 ## Usage
 
@@ -28,8 +28,8 @@ This script requires `sudo` for system package installation. You may be prompted
 
 ## When to Run
 
-- **Container setup** — Run once when initializing a new dev container
-- **Dependency updates** — Safe to run multiple times if you need to update dependencies
+- **Container setup** - Run once when initializing a new dev container
+- **Dependency updates** - Safe to run multiple times if you need to update dependencies
 
 ## What Gets Installed
 
@@ -45,5 +45,5 @@ This script requires `sudo` for system package installation. You may be prompted
 
 ## Related Files
 
-- `mise.toml` — Defines all managed tool versions and configurations
-- `pyproject.toml` — Defines Python project dependencies
+- `mise.toml` - Defines all managed tool versions and configurations
+- `pyproject.toml` - Defines Python project dependencies

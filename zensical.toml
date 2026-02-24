@@ -8,84 +8,92 @@ copyright = "Copyright &copy; 2026 Rajesh Das"
 dev_addr = "localhost:3000"
 
 nav = [
-    { Home = "index.md" },
-    { "Developer Experience" = [
-        { "Developer Setup" = "dev/developer-setup.md" },
-        { "Mise Configuration" = [
-            { "Overview" = "dev/mise/index.md" },
-            { "Configuration" = "dev/mise/configuration.md" },
-            { "Usage" = "dev/mise/usage.md" },
-            { "Best Practices" = "dev/mise/best-practices.md" },
-            { "Troubleshooting" = "dev/mise/troubleshooting.md" },
-        ] },
-        { "Environment Variables" = "dev/environment-variables.md" },
-        { "Pre-commit Hooks" = [
-            { "Overview" = "dev/pre-commit-hooks/index.md" },
-            { "Standard Checks" = "dev/pre-commit-hooks/standard-checks.md" },
-            { "Commit Messages" = "dev/pre-commit-hooks/commit-messages.md" },
-            { "Python Hooks" = "dev/pre-commit-hooks/python-hooks.md" },
-            { "Terraform Hooks" = "dev/pre-commit-hooks/terraform-hooks.md" },
-            { "Usage" = "dev/pre-commit-hooks/usage.md" },
-        ] },
-        { "Authoring Documentation" = "dev/authoring-documentation.md" },
-        { "Resources" = "dev/resources.md" },
+  { Home = "index.md" },
+  { "Developer Experience" = [
+    { "Developer Setup" = "dev/developer-setup.md" },
+    { "Scripts" = [
+      { "Overview" = "dev/scripts/index.md" },
+      { "setup.sh" = "dev/scripts/setup.md" },
+      { "enter_project.sh" = "dev/scripts/enter_project.md" },
+      { "docker-run-local.sh" = "dev/scripts/docker-run-local.md" },
+      { "docker-stop-local.sh" = "dev/scripts/docker-stop-local.md" },
     ] },
-    { "Platform & Infrastructure" = [
-        { "Architecture" = "platform/architecture.md" },
-        { "Docker Compose" = "platform/docker-compose.md" },
-        { "Terraform Backend Bootstrap" = [
-            { "Overview" = "platform/terraform/backend-bootstrap/index.md" },
-            { "Applying" = "platform/terraform/backend-bootstrap/applying.md" },
-            { "Usage" = "platform/terraform/backend-bootstrap/usage.md" },
-            { "State Management" = "platform/terraform/backend-bootstrap/state-management.md" },
-            { "Destroying" = "platform/terraform/backend-bootstrap/destroying.md" },
-        ] },
-        { "Local Development" = [
-            { "Overview" = "platform/local-development/index.md" },
-            { "Layer 0: Local Execution" = "platform/local-development/layer-0-local-execution.md" },
-            { "Layer 1: Docker Images" = "platform/local-development/layer-1-docker-images.md" },
-            { "Layer 2: Docker Compose" = "platform/local-development/layer-2-docker-compose.md" },
-            { "Environment Variables Guide" = "platform/local-development/environment-variables-guide.md" },
-        ] },
-        { "Local Kubernetes" = "platform/local-kubernetes.md" },
-        { "Kind Troubleshooting" = "platform/kind-troubleshooting.md" },
+    { "Mise Configuration" = [
+      { "Overview" = "dev/mise/index.md" },
+      { "Configuration" = "dev/mise/configuration.md" },
+      { "Usage" = "dev/mise/usage.md" },
+      { "Best Practices" = "dev/mise/best-practices.md" },
+      { "Troubleshooting" = "dev/mise/troubleshooting.md" },
     ] },
-    { "Service Specifications" = [
-        { "API Service" = "services/api.md" },
-        { "Web Service" = "services/web.md" },
+    { "Environment Variables" = "dev/environment-variables.md" },
+    { "Pre-commit Hooks" = [
+      { "Overview" = "dev/pre-commit-hooks/index.md" },
+      { "Standard Checks" = "dev/pre-commit-hooks/standard-checks.md" },
+      { "Commit Messages" = "dev/pre-commit-hooks/commit-messages.md" },
+      { "Python Hooks" = "dev/pre-commit-hooks/python-hooks.md" },
+      { "Terraform Hooks" = "dev/pre-commit-hooks/terraform-hooks.md" },
+      { "Usage" = "dev/pre-commit-hooks/usage.md" },
     ] },
-    { "Thinking & Journey" = [
-        { "Core Objectives" = "thinking/core-objectives.md" },
-        { "Safe-to-Fail Narrative" = "thinking/safe-to-fail-narrative.md" },
-        { "Intentional Constraints" = "thinking/constraints.md" },
-        { "DevContainer" = "thinking/devcontainer.md" },
-        { "Documentation Principles" = "thinking/documentation-principles.md" },
-        { "Branch Protection" = "thinking/branch-protection.md" },
-        { "S3 Native Locking" = "thinking/s3-native-locking.md" },
+    { "Authoring Documentation" = "dev/authoring-documentation.md" },
+    { "Resources" = "dev/resources.md" },
+  ] },
+  { "Platform & Infrastructure" = [
+    { "Architecture" = "platform/architecture.md" },
+    { "Docker Compose" = "platform/docker-compose.md" },
+    { "Terraform Backend Bootstrap" = [
+      { "Overview" = "platform/terraform/backend-bootstrap/index.md" },
+      { "Applying" = "platform/terraform/backend-bootstrap/applying.md" },
+      { "Usage" = "platform/terraform/backend-bootstrap/usage.md" },
+      { "State Management" = "platform/terraform/backend-bootstrap/state-management.md" },
+      { "Destroying" = "platform/terraform/backend-bootstrap/destroying.md" },
     ] },
+    { "Local Development" = [
+      { "Overview" = "platform/local-development/index.md" },
+      { "Layer 0: Local Execution" = "platform/local-development/layer-0-local-execution.md" },
+      { "Layer 1: Docker Images" = "platform/local-development/layer-1-docker-images.md" },
+      { "Layer 2: Docker Compose" = "platform/local-development/layer-2-docker-compose.md" },
+      { "Layer 3: Kubernetes with kind" = "platform/local-development/layer-3-kubernetes-kind.md" },
+      { "Environment Variables Guide" = "platform/local-development/environment-variables-guide.md" },
+    ] },
+    { "Local Kubernetes" = "platform/local-kubernetes.md" },
+    { "Kind Troubleshooting" = "platform/kind-troubleshooting.md" },
+  ] },
+  { "Service Specifications" = [
+    { "API Service" = "services/api.md" },
+    { "Web Service" = "services/web.md" },
+  ] },
+  { "Thinking & Journey" = [
+    { "Core Objectives" = "thinking/core-objectives.md" },
+    { "Safe-to-Fail Narrative" = "thinking/safe-to-fail-narrative.md" },
+    { "Intentional Constraints" = "thinking/constraints.md" },
+    { "DevContainer" = "thinking/devcontainer.md" },
+    { "Documentation Principles" = "thinking/documentation-principles.md" },
+    { "Branch Protection" = "thinking/branch-protection.md" },
+    { "S3 Native Locking" = "thinking/s3-native-locking.md" },
+  ] },
 ]
 
 [project.theme]
 language = "en"
 features = [
-    "announce.dismiss",
-    "content.action.edit",
-    "content.action.view",
-    "content.code.annotate",
-    "content.code.copy",
-    "content.code.select",
-    "content.footnote.tooltips",
-    "content.tabs.link",
-    "content.tooltips",
-    "navigation.footer",
-    "navigation.indexes",
-    "navigation.instant",
-    "navigation.instant.prefetch",
-    "navigation.instant.progress",
-    "navigation.path",
-    "navigation.top",
-    "navigation.tracking",
-    "search.highlight",
+  "announce.dismiss",
+  "content.action.edit",
+  "content.action.view",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.code.select",
+  "content.footnote.tooltips",
+  "content.tabs.link",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.instant.progress",
+  "navigation.path",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
 ]
 
 [[project.theme.palette]]
@@ -107,7 +115,7 @@ next = "lucide/arrow-right"
 [project.markdown_extensions.pymdownx.details]
 [project.markdown_extensions.pymdownx.superfences]
 custom_fences = [
-    { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
 ]
 
 [project.markdown_extensions.pymdownx.tabbed]

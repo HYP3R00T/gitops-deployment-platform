@@ -22,7 +22,7 @@ Nothing is created manually. Everything flows through version control.
 
 ### 3. GitOps Delivery (In Development)
 
-The target architecture uses reconciliation controllers to sync cluster state with Git, enabling automated rollouts and—more importantly—**automated rollbacks** when the system detects an unhealthy state.
+The target architecture uses reconciliation controllers to sync cluster state with Git, enabling automated rollouts and-more importantly-**automated rollbacks** when the system detects an unhealthy state.
 
 **Current State:** Local development environment with kind cluster established. GitOps controller integration and cloud deployment in progress.
 
