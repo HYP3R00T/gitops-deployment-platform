@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-config
+  namespace: platform-web
+  labels:
+    app: web
+    managed-by: gitops
+data:
+  # Web service configuration
+  HOST: "0.0.0.0"
+  PORT: "4321"
+  NODE_ENV: "production"
+
+  # Cross-namespace API discovery
+  # Format: http://<service-name>.<namespace>:<port>
+  # The web service is built with this URL baked in at build time via Docker build arg
+  PUBLIC_API_URL: "http://api.platform-api:8000"
