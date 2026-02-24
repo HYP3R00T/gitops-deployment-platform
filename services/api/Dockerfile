@@ -9,8 +9,9 @@ WORKDIR /app
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Copy dependency definition (from builder context: services/api/)
-COPY pyproject.toml ./
+# Copy dependency definition, source code, and metadata (from builder context: services/api/)
+COPY pyproject.toml README.md /app/
+COPY src/ /app/src/
 
 # Create virtual environment and install dependencies
 RUN uv sync --no-cache --no-dev
