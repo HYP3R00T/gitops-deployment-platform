@@ -3,15 +3,11 @@ services:
     build:
       context: .
       dockerfile: services/api/Dockerfile
-    image: api:latest
-    container_name: platform-api
+    image: platform-api:latest
+    container_name: api
     ports:
       - "8000:8000"
     environment:
-      - HOST=0.0.0.0
-      - PORT=8000
-      - PYTHONDONTWRITEBYTECODE=1
-      - PYTHONUNBUFFERED=1
       - LOG_LEVEL=info
     healthcheck:
       test:
@@ -27,7 +23,7 @@ services:
       start_period: 10s
     restart: unless-stopped
     networks:
-      - platform-network
+      - platform-net
 
   web:
     build:
@@ -35,22 +31,17 @@ services:
       dockerfile: services/web/Dockerfile
       args:
         PUBLIC_API_URL: http://api:8000
-    image: web:latest
-    container_name: platform-web
+    image: platform-web:latest
+    container_name: web
     ports:
       - "4321:4321"
-    environment:
-      - HOST=0.0.0.0
-      - PORT=4321
-      - NODE_ENV=production
-      - PUBLIC_API_URL=http://api:8000
     healthcheck:
       test:
         [
           "CMD",
           "wget",
           "--quiet",
-          "--tries=1",
+          "--tries=2",
           "--spider",
           "http://localhost:4321",
         ]
@@ -63,8 +54,8 @@ services:
         condition: service_healthy
     restart: unless-stopped
     networks:
-      - platform-network
+      - platform-net
 
 networks:
-  platform-network:
+  platform-net:
     driver: bridge
