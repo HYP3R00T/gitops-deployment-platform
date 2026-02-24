@@ -19,14 +19,25 @@ Both services run directly on your machine using native commands.
 
 ### **Layer 1: Individual Docker Images** [→](layer-1-docker-images.md)
 
-Each service builds into its own Docker image, then runs in separate containers.
+Each service builds into its own Docker image, then runs in separate containers. Two approaches available:
 
-- **Building**: `docker build` for each service
-- **Running**: `docker run` for each service
-- **Communication**: Problem—containers can't reach each other by default
-- **Demonstration**: Why Docker Compose is needed
-- **Best for**: Testing container builds, understanding Docker
-- **Problems**: Manual network management, no service discovery
+**Automated (Quick Start)**:
+
+- `./scripts/docker-run-local.sh` builds, networks, and starts everything
+- `./scripts/docker-stop-local.sh` cleans up
+- Best for: Getting the system running immediately
+
+**Manual (Learning)**:
+
+- `docker build` and `docker run` for each service
+- Create Docker network for container communication
+- Best for: Understanding how each step works
+
+**Common to both**:
+
+- **Communication**: Docker network for container-to-container discovery
+- **Best for**: Testing container builds, running services locally, understanding Docker
+- **Next step**: Docker Compose (Layer 2) further automates orchestration
 
 ### **Layer 2: Docker Compose** [→](layer-2-docker-compose.md)
 
@@ -66,9 +77,9 @@ How `PUBLIC_API_URL` and other variables change at each layer.
 
 | Problem | Layer 0 | Layer 1 | Layer 2 |
 |---------|---------|---------|---------|
-| Services communication | ✅ Direct localhost | ❌ Container isolation | ✅ Service discovery |
+| Services communication | ✅ Direct localhost | ✅ Service discovery | ✅ Service discovery |
 | Production-like test | ❌ No | ⚠️ Partial | ✅ Yes |
-| Repeatable setup | ❌ No | ⚠️ Yes (manual) | ✅ Yes (automated) |
+| Repeatable setup | ❌ No | ✅ Yes (scripts or manual) | ✅ Yes (orchestrated) |
 | Environment consistency | ❌ Local only | ⚠️ Image-based | ✅ Container-based |
 | Scale to multiple machines | ❌ No | ❌ No | ❌ No (Kubernetes) |
 

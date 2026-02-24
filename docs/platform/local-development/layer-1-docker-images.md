@@ -6,7 +6,42 @@ Running each service in its own Docker container, separately.
 
 This layer demonstrates **what happens when you containerize services individually**. The challenge: how do two isolated containers communicate?
 
-## Building Docker Images
+## Quick Start: Automated Setup
+
+If you just want to **get the system running**, use the provided scripts:
+
+```bash
+# Start everything (builds, creates network, runs containers)
+./scripts/docker-run-local.sh
+```
+
+The script will:
+
+- Build both Docker images
+- Create a shared Docker network (`platform-net`)
+- Stop and remove any old containers
+- Start the API and Web containers
+
+Access the services:
+
+- API: `http://localhost:8000`
+- Web: `http://localhost:4321`
+
+To stop everything:
+
+```bash
+./scripts/docker-stop-local.sh
+```
+
+See [`scripts/docker-run-local.sh`](../../scripts/docker-run-local.sh) and [`scripts/docker-stop-local.sh`](../../scripts/docker-stop-local.sh) for implementation details.
+
+---
+
+## Manual Approach: Understanding the Steps
+
+If you want to **understand how each step works**, follow this manual process:
+
+## Building Docker Images (Manual)
 
 ### Build the API Image
 
@@ -295,7 +330,7 @@ graph TB
   # The image was already built with http://api:8000
   ```
 
-## Cleanup
+## Cleanup (Manual)
 
 ```bash
 # Stop and remove containers
@@ -307,6 +342,12 @@ docker network rm local-platform
 
 # Remove unused images (optional)
 docker rmi api:latest web:latest
+```
+
+Alternatively, use the stop script:
+
+```bash
+./scripts/docker-stop-local.sh
 ```
 
 ## What Works in Layer 1
@@ -323,8 +364,10 @@ docker rmi api:latest web:latest
 - ❌ **Health checks**: No automatic retry logic or dependency ordering
 - ❌ **Scalability**: Gets tedious with many containers
 
-## Next: Layer 2
+## Next Steps
 
-When you're ready to **automate orchestration** with Docker Compose, see [Layer 2: Docker Compose](layer-2-docker-compose.md).
+**If you used the automated scripts:** You've already experienced the full Layer 1 workflow. The manual steps above show you what the scripts do under the hood.
+
+**When you're ready to simplify further:** Docker Compose (Layer 2) removes the need to manage networks and container startup order manually. See [Layer 2: Docker Compose](layer-2-docker-compose.md).
 
 Docker Compose solves all the Layer 1 problems.
