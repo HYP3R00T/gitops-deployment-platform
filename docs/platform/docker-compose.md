@@ -34,9 +34,9 @@ flowchart LR
 
 | Context | Connection | URL |
 |---------|-----------|-----|
-| Web → API (container-to-container) | Service discovery | `http://api:8000` |
-| Browser → Web | Port mapping | `http://localhost:4321` |
-| Browser → API | Port mapping | `http://localhost:8000` |
+| Web -> API (container-to-container) | Service discovery | `http://api:8000` |
+| Browser -> Web | Port mapping | `http://localhost:4321` |
+| Browser -> API | Port mapping | `http://localhost:8000` |
 
 ## Configuration
 
@@ -237,8 +237,8 @@ If ports are not forwarding, ensure `.devcontainer/devcontainer.json` includes:
 
 Containers reach each other by service name using container ports:
 
-- **Web → API**: `http://api:8000` (web's DEFAULT in Dockerfile)
-- **API → Web**: `http://web:4321` (if needed)
+- **Web -> API**: `http://api:8000` (web's DEFAULT in Dockerfile)
+- **API -> Web**: `http://web:4321` (if needed)
 
 These internal addresses are set at **build time** (via build args) and **runtime** (via environment variables). Host port mappings (4321) are irrelevant to containers.
 

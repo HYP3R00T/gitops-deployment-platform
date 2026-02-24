@@ -273,7 +273,7 @@ docker run -e PORT=9000 api:latest
 
 ```bash
 docker run -p 9000:8000 api:latest
-# Host port 9000 → Container port 8000
+# Host port 9000 -> Container port 8000
 ```
 
 ### Layer 2: Docker Compose

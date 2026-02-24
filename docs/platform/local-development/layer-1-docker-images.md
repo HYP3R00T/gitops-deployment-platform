@@ -281,7 +281,7 @@ Backend is healthy
 graph TB
     subgraph Network["Docker Network: local-platform"]
         direction TB
-        DNS["🔍 Docker Embedded DNS<br/>Resolves 'api' → container IP"]
+        DNS["🔍 Docker Embedded DNS<br/>Resolves 'api' -> container IP"]
         API["🔧 API Container<br/>service name: api<br/>:8000"]
         Web["🌐 Web Container<br/>service name: web<br/>:4321<br/>Calls: http://api:8000"]
     end
@@ -301,7 +301,7 @@ graph TB
 - Services don't use `localhost` to reach each other
 - They use **service names** (`api`, `web`) and **container ports** (8000, 4321)
 - Docker's embedded DNS resolves `api` to the API container's IP
-- **Port mappings** (localhost:8000 → container:8000) are only for host access
+- **Port mappings** (localhost:8000 -> container:8000) are only for host access
 
 ## Environment Variables in Layer 1
 

@@ -6,7 +6,7 @@ Each layer builds on the previous one, introducing new concepts and solving prob
 
 ## The Layers
 
-### **Layer 0: Local Execution** [→](layer-0-local-execution.md)
+### **Layer 0: Local Execution**
 
 Both services run directly on your machine using native commands.
 
@@ -17,7 +17,7 @@ Both services run directly on your machine using native commands.
 - **Best for**: Rapid iteration, debugging
 - **Problems**: Not production-like, no containerization test
 
-### **Layer 1: Individual Docker Images** [→](layer-1-docker-images.md)
+### **Layer 1: Individual Docker Images**
 
 Each service builds into its own Docker image, then runs in separate containers. Two approaches available:
 
@@ -39,7 +39,7 @@ Each service builds into its own Docker image, then runs in separate containers.
 - **Best for**: Testing container builds, running services locally, understanding Docker
 - **Next step**: Docker Compose (Layer 2) further automates orchestration
 
-### **Layer 2: Docker Compose** [→](layer-2-docker-compose.md)
+### **Layer 2: Docker Compose**
 
 Docker Compose orchestrates both containers on a shared network.
 
@@ -50,13 +50,13 @@ Docker Compose orchestrates both containers on a shared network.
 - **Best for**: Full local development, testing inter-service communication
 - **Problems**: Single-machine only (Kubernetes solves this)
 
-### **Environment Variables Across Layers** [→](environment-variables-guide.md)
+### **Environment Variables Across Layers**
 
 How `PUBLIC_API_URL` and other variables change at each layer.
 
-- **Layer 0**: Set at runtime → can change immediately
-- **Layer 1**: Problem—containers isolated, needs build args
-- **Layer 2**: Build args → baked into image at build time
+- **Layer 0**: Set at runtime -> can change immediately
+- **Layer 1**: Problem containers isolated, needs build args
+- **Layer 2**: Build args -> baked into image at build time
 - **Decision table**: Which variables are editable, which are locked
 
 ---

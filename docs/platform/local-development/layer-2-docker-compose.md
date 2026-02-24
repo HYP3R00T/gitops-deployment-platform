@@ -239,9 +239,9 @@ api:
     - "8000:8000"    # Host:Container
 ```
 
-- **Host port (8000)**: What your browser uses → `http://localhost:8000`
+- **Host port (8000)**: What your browser uses -> `http://localhost:8000`
 - **Container port (8000)**: What API listens on inside the container
-- **Between containers**: Still use container port → `http://api:8000`
+- **Between containers**: Still use container port -> `http://api:8000`
 
 **Why different host/container ports?**
 
@@ -287,7 +287,7 @@ Press `Ctrl+C` to stop following logs.
 - ❌ **No scaling**: Can't easily run multiple replicas
 - ❌ **No cluster management**: No load balancing, no auto-recovery
 
-## Comparison: Layer 0 → 1 → 2
+## Comparison: Layer 0 -> 1 -> 2
 
 | Aspect | Layer 0 | Layer 1 | Layer 2 |
 |--------|---------|---------|---------|
