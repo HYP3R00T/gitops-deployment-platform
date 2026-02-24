@@ -23,6 +23,9 @@ MD029:
 MD033:
   allowed_elements: [a, pre, br]
 
+# MD036/no-emphasis-as-heading
+MD036: false
+
 # MD046/code-block-style
 MD046: false
 
