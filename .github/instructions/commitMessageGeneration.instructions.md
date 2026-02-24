@@ -14,13 +14,13 @@ Follow Conventional Commits specification (conventionalcommits.org).
 
 The type reflects **what kind of change** this is, not where the change is located:
 
-- `feat` — adds new capability or functionality to the application
-- `fix` — corrects a bug or error in existing functionality
-- `test` — adds, modifies, or fixes tests (no production code changes)
-- `docs` — updates documentation only
-- `refactor` — restructures code without changing behavior
-- `chore` — build process, dependencies, tooling, configuration
-- `style` — formatting, whitespace, linting (no logic changes)
+- `feat` - adds new capability or functionality to the application
+- `fix` - corrects a bug or error in existing functionality
+- `test` - adds, modifies, or fixes tests (no production code changes)
+- `docs` - updates documentation only
+- `refactor` - restructures code without changing behavior
+- `chore` - build process, dependencies, tooling, configuration
+- `style` - formatting, whitespace, linting (no logic changes)
 
 ## Choosing the Scope
 
