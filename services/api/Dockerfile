@@ -44,4 +44,4 @@ COPY --chown=app:app src/ /app/src/
 USER app
 
 # Run application
-CMD ["uv", "run", "-m", "src.main"]
+CMD ["uv", "run", "-m", "api.main"]
