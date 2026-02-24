@@ -1,5 +1,5 @@
 # https://hub.docker.com/layers/library/python/3.14-alpine
-FROM python:3.14-alpine AS build
+FROM python:3.14-alpine AS builder
 
 # Install uv and uvx binaries
 COPY --from=ghcr.io/astral-sh/uv:0.10.5 /uv /uvx /bin/
@@ -9,7 +9,7 @@ WORKDIR /app
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-# Copy dependency definition (from build context: services/api/)
+# Copy dependency definition (from builder context: services/api/)
 COPY pyproject.toml ./
 
 # Create virtual environment and install dependencies
@@ -36,7 +36,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
   PORT=8000
 
 # Copy only the built artifacts and runtime files
-COPY --from=build --chown=app:app /app/.venv /app/.venv
+COPY --from=builder --chown=app:app /app/.venv /app/.venv
 COPY --chown=app:app src/ /app/src/
 
 # NOW drop privilege
