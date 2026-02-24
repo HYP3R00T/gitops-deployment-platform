@@ -37,6 +37,18 @@ description = "Create and configure a local kind Kubernetes cluster"
 run = "bash ./scripts/delete-kind-cluster.sh"
 description = "Delete the local kind Kubernetes cluster"
 
+[tasks.kind-full]
+run = "bash ./scripts/kind-full-workflow.sh"
+description = "Complete kind workflow: create cluster → build images → load → deploy"
+
+[tasks.kind-rebuild-api]
+run = "bash ./scripts/kind-rebuild-service.sh -s api"
+description = "Rebuild and redeploy API service only"
+
+[tasks.kind-rebuild-web]
+run = "bash ./scripts/kind-rebuild-service.sh -s web"
+description = "Rebuild and redeploy Web service only"
+
 [tasks.bootstrap-aws-tf-backend]
 run = "bash ./scripts/bootstrap-terraform-backend.sh"
 description = "Bootstrap Terraform backend (S3 with native locking) for state management"
