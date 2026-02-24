@@ -2,6 +2,9 @@
 
 Docker Compose automates the manual orchestration from Layer 1.
 
+???+ info "Conceptual Overview"
+    For architectural details about Docker Compose, networking, and design decisions, see [Docker Compose Architecture](../docker-compose.md).
+
 ## Why Layer 2?
 
 This layer automates **container building, networking, health checks, and dependencies**. One command: `docker compose up -d`.
@@ -16,9 +19,9 @@ services:
     build:
       context: .
       dockerfile: services/api/Dockerfile
-    image: api:latest
+    image: platform-api:latest
     ports:
-      - "8001:8000"  # Host:Container
+      - "8000:8000"  # Host:Container
     environment:
       - LOG_LEVEL=info
     healthcheck:
@@ -33,7 +36,7 @@ services:
       dockerfile: services/web/Dockerfile
       args:
         PUBLIC_API_URL: http://api:8000  # Baked into image at build
-    image: web:latest
+    image: platform-web:latest
     ports:
       - "4321:4321"
     depends_on:
@@ -41,7 +44,7 @@ services:
         condition: service_healthy
 
 networks:
-  platform-network:
+  platform-net:
     driver: bridge
 ```
 
@@ -69,9 +72,9 @@ Output:
  => [web build] ...
 
 [+] Running 3/3
- ✔ Network gitops-deployment-platform_platform-network  Created
- ✔ Container platform-api  Healthy
- ✔ Container platform-web  Started
+ ✔ Network gitops-deployment-platform_platform-net  Created
+ ✔ Container api  Healthy
+ ✔ Container web  Started
 ```
 
 ## Checking Status
@@ -83,9 +86,9 @@ docker compose ps
 Expected:
 
 ```sh
-NAME           IMAGE      COMMAND                 STATUS
-platform-api   api:latest python -m api.main     Up (healthy)
-platform-web   web:latest node ./dist/server/... Up
+NAME       IMAGE                  COMMAND                 STATUS
+api        platform-api:latest    python -m api.main     Up (healthy)
+web        platform-web:latest    node ./dist/server/... Up
 ```
 
 ## Testing
@@ -96,8 +99,8 @@ platform-web   web:latest node ./dist/server/... Up
 # Web interface
 open http://localhost:4321
 
-# API health (note: port 8001, not 8000)
-curl http://localhost:8001/health
+# API health
+curl http://localhost:8000/health
 ```
 
 Expected:
@@ -183,7 +186,7 @@ docker compose up -d web
 
 ```mermaid
 graph TB
-    subgraph Compose["Docker Compose: platform-network"]
+    subgraph Compose["Docker Compose: platform-net"]
         direction TB
         HealthCheck["❤️ Health Check<br/>every 10s<br/>localhost:8000/health"]
         API["🔧 API Container<br/>service: api<br/>:8000"]
@@ -233,17 +236,16 @@ In docker-compose.yml:
 ```yaml
 api:
   ports:
-    - "8001:8000"    # Host:Container
+    - "8000:8000"    # Host:Container
 ```
 
-- **Host port (8001)**: What your browser uses → `http://localhost:8001`
+- **Host port (8000)**: What your browser uses → `http://localhost:8000`
 - **Container port (8000)**: What API listens on inside the container
 - **Between containers**: Still use container port → `http://api:8000`
 
 **Why different host/container ports?**
 
-- Port 8000 is reserved for Zensical (documentation)
-- So API mapping is `8001:8000`
+- API mapping is `8000:8000` (same on both)
 - Web mapping is `4321:4321` (same on both)
 
 ## Logs

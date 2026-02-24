@@ -11,6 +11,9 @@ Docker Compose provides a lightweight alternative to Kubernetes for local develo
 
 This is not a replacement for the Kubernetes-based deployment flow. It serves as a **pre-flight check** before promoting images to the GitOps pipeline.
 
+???+ tip "Hands-on Guide"
+    For step-by-step instructions on using Docker Compose in your local workflow, see [Layer 2: Docker Compose](local-development/layer-2-docker-compose.md) in the Local Development section.
+
 ## Architecture
 
 Docker Compose creates an isolated bridge network where containers discover each other by service name.
@@ -24,7 +27,7 @@ flowchart LR
     end
 
     Host[\"Host Browser<br/>(devcontainer)<br/>accessing services\"] -->|mapped to<br/>localhost:4321| Web
-    Host -->|mapped to<br/>localhost:8001| API
+    Host -->|mapped to<br/>localhost:8000| API
 ```
 
 **Key insight**: Containers communicate using service names and container ports. Host access uses port mappings.
@@ -33,7 +36,7 @@ flowchart LR
 |---------|-----------|-----|
 | Web → API (container-to-container) | Service discovery | `http://api:8000` |
 | Browser → Web | Port mapping | `http://localhost:4321` |
-| Browser → API | Port mapping | `http://localhost:8001` |
+| Browser → API | Port mapping | `http://localhost:8000` |
 
 ## Configuration
 
@@ -44,7 +47,7 @@ The compose specification lives at `docker-compose.yml` in the repository root.
 **api** service:
 
 - Listens on container port `8000` (inside the container)
-- Mapped to host port `8001` (for browser access: `localhost:8001`)
+- Mapped to host port `8000` (for browser access: `localhost:8000`)
 - Reachable by other containers as `http://api:8000`
 
 **web** service:
@@ -79,6 +82,88 @@ The web service declares `depends_on` with `condition: service_healthy`, ensurin
 4. Web health check validates the web server is responding
 
 This prevents race conditions where the web service attempts API calls before the API is ready.
+
+### Health Check Implementation
+
+**API Service Health Check:**
+
+```yaml
+healthcheck:
+  test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')"]
+  interval: 10s
+  timeout: 5s
+  retries: 3
+  start_period: 10s
+```
+
+Uses Python's `urllib.request` to call the `/health` endpoint. This method:
+
+- Requires no additional CLI tools inside the container
+- Handles HTTP content validation automatically
+- Is idiomatic for Python applications
+
+**Web Service Health Check:**
+
+```yaml
+healthcheck:
+  test: ["CMD", "wget", "--quiet", "--tries=2", "--spider", "http://localhost:4321"]
+  interval: 10s
+  timeout: 5s
+  retries: 3
+  start_period: 5s
+```
+
+Uses `wget --spider` to perform a HEAD-like request. This method:
+
+- Checks only that the server is responding (doesn't validate response content)
+- Starts faster than the API check (5s vs 10s start period)
+- Works for any HTTP server regardless of tech stack
+
+### Container Names
+
+Each service is assigned a predictable container name for easy reference:
+
+```yaml
+api:
+  container_name: api
+web:
+  container_name: web
+```
+
+These names enable easy management:
+
+```bash
+# Stop only the API
+docker stop api
+
+# View logs for a specific container
+docker logs web
+
+# Execute a command in the API container
+docker exec -it api python -c "import sys; print(sys.version)"
+```
+
+### Restart Policy
+
+Both services use `restart: unless-stopped`, which automatically restarts containers if they exit unexpectedly:
+
+```yaml
+restart: unless-stopped
+```
+
+This policy:
+
+- **Restarts** if the container crashes (exit code != 0)
+- **Restarts** if Docker daemon restarts
+- **Does NOT restart** if you explicitly stop the container (`docker compose down`)
+- **Does NOT restart** if the exit was due to `docker stop`
+
+Alternative policies:
+
+- `no` — no automatic restart
+- `always` — restart even if you explicitly stopped it
+- `on-failure` — restart only on non-zero exit codes
+- `unless-stopped` — restart except on explicit stop (recommended for development)
 
 ## Common Operations
 
@@ -139,7 +224,7 @@ docker compose down -v
 Port forwarding through the devcontainer enables access:
 
 - **Web interface**: `http://localhost:4321`
-- **API health endpoint**: `http://localhost:8001/health`
+- **API health endpoint**: `http://localhost:8000/health`
 - **Web status page**: `http://localhost:4321/status` (shows API connectivity)
 
 If ports are not forwarding, ensure `.devcontainer/devcontainer.json` includes:
@@ -155,13 +240,13 @@ Containers reach each other by service name using container ports:
 - **Web → API**: `http://api:8000` (web's DEFAULT in Dockerfile)
 - **API → Web**: `http://web:4321` (if needed)
 
-These internal addresses are set at **build time** (via build args) and **runtime** (via environment variables). Host port mappings (8001, 4321) are irrelevant to containers.
+These internal addresses are set at **build time** (via build args) and **runtime** (via environment variables). Host port mappings (4321) are irrelevant to containers.
 
 ## Verification Checklist
 
 After starting the stack:
 
-1. **API responds** (host port): `curl http://localhost:8001/health`
+1. **API responds** (host port): `curl http://localhost:8000/health`
 2. **Web loads** (host port): Open `http://localhost:4321` in browser
 3. **Services communicate** (internal): Visit `http://localhost:4321/status` and confirm "Backend is healthy"
 4. **Both are healthy**: `docker compose ps` shows both as `(healthy)`

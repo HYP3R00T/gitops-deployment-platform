@@ -32,6 +32,7 @@ nav = [
     ] },
     { "Platform & Infrastructure" = [
         { "Architecture" = "platform/architecture.md" },
+        { "Docker Compose" = "platform/docker-compose.md" },
         { "Terraform Backend Bootstrap" = [
             { "Overview" = "platform/terraform/backend-bootstrap/index.md" },
             { "Applying" = "platform/terraform/backend-bootstrap/applying.md" },
