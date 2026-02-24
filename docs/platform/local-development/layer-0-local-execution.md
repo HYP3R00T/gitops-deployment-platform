@@ -4,7 +4,7 @@ Running both services directly on your machine using their native runtimes.
 
 ## Why Layer 0?
 
-This is the **simplest way to understand what each service does**. No Docker, no networking complexity—just Python and Node.js running locally.
+This is the **simplest way to understand what each service does**. No Docker, no networking complexity-just Python and Node.js running locally.
 
 ## Starting the API Service
 

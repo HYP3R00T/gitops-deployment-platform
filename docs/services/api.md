@@ -61,7 +61,7 @@ The API service uses a single-stage Dockerfile optimized for fast Python package
 
 ### Base Image
 
-**python:3.14-slim** — Minimal Debian-based Python distribution (~50MB vs ~900MB for the full variant). Contains only essential system libraries required to run Python.
+**python:3.14-slim** - Minimal Debian-based Python distribution (~50MB vs ~900MB for the full variant). Contains only essential system libraries required to run Python.
 
 ### Package Installation Strategy
 

@@ -61,7 +61,7 @@ Documentation explains the _Why_ and the _Context_. The Code explains the _How_.
 
 - Rendered documentation sites don't have access to source code at relative paths
 - GitHub markdown renderer can't properly resolve paths outside the docs tree
-- Not version-specific—can't verify what the code looked like when docs were written
+- Not version-specific-can't verify what the code looked like when docs were written
 - Break when documentation is consumed anywhere other than the raw repository view
 
 ### Referring to History

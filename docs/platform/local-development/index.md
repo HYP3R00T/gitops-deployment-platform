@@ -48,7 +48,18 @@ Docker Compose orchestrates both containers on a shared network.
 - **Network**: Bridge network with automatic DNS
 - **Health checks**: Dependency ordering
 - **Best for**: Full local development, testing inter-service communication
-- **Problems**: Single-machine only (Kubernetes solves this)
+- **Problems**: Single-machine only, no namespace isolation
+
+### **Layer 3: Kubernetes with kind**
+
+Kubernetes cluster running locally using kind (Kubernetes in Docker).
+
+- **Orchestration**: `kubectl apply -k gitops/apps/local/`
+- **Communication**: Cross-namespace FQDN (`http://api.platform-api:8000`)
+- **Isolation**: Separate namespaces for each service
+- **Health checks**: Liveness and readiness probes
+- **Best for**: Production-like environment, testing GitOps workflows, namespace isolation
+- **Problems**: More complex setup, requires image loading into cluster
 
 ### **Environment Variables Across Layers**
 
@@ -69,24 +80,33 @@ How `PUBLIC_API_URL` and other variables change at each layer.
 
 **Skip to Layer 2 if:** You already understand Docker and want full orchestration.
 
+**Jump to Layer 3 if:** You want a production-like Kubernetes environment and GitOps workflows.
+
 **Read Environment Variables if:** You're debugging connectivity or build issues.
 
 ---
 
 ## The Problem Each Layer Solves
 
-| Problem | Layer 0 | Layer 1 | Layer 2 |
-|---------|---------|---------|---------|
-| Services communication | ✅ Direct localhost | ✅ Service discovery | ✅ Service discovery |
-| Production-like test | ❌ No | ⚠️ Partial | ✅ Yes |
-| Repeatable setup | ❌ No | ✅ Yes (scripts or manual) | ✅ Yes (orchestrated) |
-| Environment consistency | ❌ Local only | ⚠️ Image-based | ✅ Container-based |
-| Scale to multiple machines | ❌ No | ❌ No | ❌ No (Kubernetes) |
+| Problem | Layer 0 | Layer 1 | Layer 2 | Layer 3 |
+|---------|---------|---------|---------|----------|
+| Services communication | ✅ Direct localhost | ✅ Service discovery | ✅ Service discovery | ✅ Cross-namespace FQDN |
+| Production-like test | ❌ No | ⚠️ Partial | ✅ Yes | ✅ Yes (Kubernetes) |
+| Repeatable setup | ❌ No | ✅ Yes (scripts or manual) | ✅ Yes (orchestrated) | ✅ Yes (GitOps) |
+| Environment consistency | ❌ Local only | ⚠️ Image-based | ✅ Container-based | ✅ Kubernetes-native |
+| Scale to multiple machines | ❌ No | ❌ No | ❌ No | ✅ Yes (in theory) |
+| Namespace isolation | ❌ No | ❌ No | ❌ No | ✅ Yes |
+| Health monitoring | ❌ No | ⚠️ Basic | ✅ Health checks | ✅ Probes + restarts |
 
 ---
 
 ## See Also
 
+- [Layer 0: Local Execution](layer-0-local-execution.md)
+- [Layer 1: Docker Images](layer-1-docker-images.md)
+- [Layer 2: Docker Compose](layer-2-docker-compose.md)
+- [Layer 3: Kubernetes with kind](layer-3-kubernetes-kind.md)
+- [Environment Variables Guide](environment-variables-guide.md)
 - [API Service](../../services/api.md) - Service endpoints and contracts
 - [Web Service](../../services/web.md) - Frontend pages and communication
-- [Local Kubernetes](../local-kubernetes.md) - Next step beyond Compose (Kubernetes)
+- [Local Kubernetes](../local-kubernetes.md) - Kind cluster setup details

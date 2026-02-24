@@ -23,7 +23,7 @@ The platform architecture is designed around a **controlled failure scenario**:
 ???+ warning "Failure readiness"
 	The pending GitOps controllers and rollback automation are the critical next steps. Without them, the failure handling described here is aspirational, not yet enforced.
 
-This architecture demonstrates that the platform won't just deploy—it will **validate, react, and recover**.
+This architecture demonstrates that the platform won't just deploy-it will **validate, react, and recover**.
 
 ## Why This Matters
 

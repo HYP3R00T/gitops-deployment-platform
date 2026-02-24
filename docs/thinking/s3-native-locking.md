@@ -87,4 +87,4 @@ For teams migrating from DynamoDB-based locking:
 ## References
 
 - [Terraform S3 Backend Documentation](https://developer.hashicorp.com/terraform/language/settings/backends/s3)
-- Article: [Goodbye DynamoDB — Terraform S3 Backend Now Supports Native Locking](https://rafaelmedeiros94.medium.com/goodbye-dynamodb-terraform-s3-backend-now-supports-native-locking-06f74037ad39)
+- Article: [Goodbye DynamoDB - Terraform S3 Backend Now Supports Native Locking](https://rafaelmedeiros94.medium.com/goodbye-dynamodb-terraform-s3-backend-now-supports-native-locking-06f74037ad39)

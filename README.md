@@ -2,7 +2,7 @@
 
 A GitOps-driven deployment system designed to deliver containerized services safely, observably, and with deterministic rollback.
 
-This project demonstrates how application delivery can be controlled entirely through Git, using continuous reconciliation, health-based rollouts, and automated recovery — without relying on manual intervention or imperative deployment workflows.
+This project demonstrates how application delivery can be controlled entirely through Git, using continuous reconciliation, health-based rollouts, and automated recovery - without relying on manual intervention or imperative deployment workflows.
 
 ## Why this project exists
 
@@ -63,7 +63,7 @@ The backend exists solely to produce deterministic signals for rollout validatio
 - Displays version, commit, and health status
 - Acts as an operational status surface
 
-The frontend is not a user interface — it is an observability aid.
+The frontend is not a user interface - it is an observability aid.
 
 ### CI and delivery flow
 

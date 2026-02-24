@@ -61,7 +61,7 @@ Rationale:
 
 All history on `main` is append-only.
 
-If history must ever be rewritten, the ruleset itself must be consciously disabled — a deliberate, auditable act.
+If history must ever be rewritten, the ruleset itself must be consciously disabled - a deliberate, auditable act.
 
 ### 3. Pull Requests Are Required for All Changes
 
@@ -216,7 +216,7 @@ Branch protection was introduced **after**:
 Before this point, the cost of unreviewed change was low.
 After this point, the cost of accidental change exceeds the cost of review.
 
-Branch protection follows system maturity — it does not precede it.
+Branch protection follows system maturity - it does not precede it.
 
 ## Source of Truth: Active Branch Protection Ruleset
 
@@ -281,6 +281,6 @@ With this ruleset in place, `main` is now:
 
 The configuration is intentionally minimal, enforceable, and lifecycle-aware.
 
-As the system evolves, additional controls may be layered on — but only when the system earns them.
+As the system evolves, additional controls may be layered on - but only when the system earns them.
 
 This document should be updated **only when the ruleset itself changes**, and always derived from the exported configuration, not memory or assumption.

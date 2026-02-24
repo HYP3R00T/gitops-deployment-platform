@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-config
+  namespace: platform-api
+  labels:
+    app: api
+    managed-by: gitops
+data:
+  # API service configuration
+  # Values aligned with services/api/Dockerfile and docker-compose.yml
+  HOST: "0.0.0.0"
+  PORT: "8000"
+  LOG_LEVEL: "info"
+
+  # Python environment
+  # Prevents .pyc file creation and enables unbuffered output for container logs
+  PYTHONUNBUFFERED: "1"
+  PYTHONDONTWRITEBYTECODE: "1"

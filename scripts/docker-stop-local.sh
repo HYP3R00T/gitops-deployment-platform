@@ -1,18 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
+# Network name from docker-run-local.sh
 NETWORK="platform-net"
 
-echo "Stopping containers..."
-
+# Stop and remove all service containers
 docker stop api web >/dev/null 2>&1 || true
-
-echo "Removing containers..."
-
 docker rm api web >/dev/null 2>&1 || true
 
-echo "Removing network..."
-
+# Remove shared network
 docker network rm "$NETWORK" >/dev/null 2>&1 || true
 
-echo "System stopped."
+echo "Services stopped."

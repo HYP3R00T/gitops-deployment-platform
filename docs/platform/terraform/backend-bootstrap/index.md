@@ -35,7 +35,7 @@ This is documented in `infra/bootstrap/backend.tf`:
 
 > "This bootstrap module uses LOCAL state because it creates the S3 bucket used for remote state."
 
-If the local state is lost, the bootstrap can be safely re-imported or recreated—it's a one-off operation not intended for frequent modification.
+If the local state is lost, the bootstrap can be safely re-imported or recreated-it's a one-off operation not intended for frequent modification.
 
 ## Configuration
 

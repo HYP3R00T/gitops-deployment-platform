@@ -1,6 +1,6 @@
 # System Architecture
 
-The platform is being built around architectural patterns designed to be swappable and portable. These patterns are the focus—not the specific tools.
+The platform is being built around architectural patterns designed to be swappable and portable. These patterns are the focus-not the specific tools.
 
 ???+ note "Pattern-first mindset"
 	Treat the listed tools as simple examples. The real value is the pattern (declarative infrastructure, automation, observability) that could move to other clouds or orchestration engines if needed.
@@ -20,7 +20,7 @@ The platform is being built around architectural patterns designed to be swappab
 
 ## Key Principle
 
-The tools listed above are **implementation choices**, not the core design. The same architectural patterns could be implemented with different providers, orchestrators, or languages. The patterns themselves—not the tooling—are the reference implementation.
+The tools listed above are **implementation choices**, not the core design. The same architectural patterns could be implemented with different providers, orchestrators, or languages. The patterns themselves-not the tooling-are the reference implementation.
 
 ## Current Implementation
 

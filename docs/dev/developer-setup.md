@@ -93,6 +93,13 @@ mise run kind-up
 # Delete local Kubernetes cluster
 mise run kind-down
 
+# Complete kind workflow (create cluster → build → deploy)
+mise run kind-full
+
+# Quick rebuild for iterative development
+mise run kind-rebuild-api      # Rebuild and restart API service
+mise run kind-rebuild-web      # Rebuild and restart Web service
+
 # Bootstrap Terraform backend
 mise run bootstrap-aws-tf-backend
 ```
@@ -117,7 +124,7 @@ docker compose up -d
 This builds and starts both the API and Web services. Access the web interface at `http://localhost:4321` (requires devcontainer port forwarding to be configured).
 
 ???+ tip "When to use Compose vs Kubernetes"
-    Use Docker Compose for rapid iteration on service communication and Dockerfile changes. Use the kind cluster (via `mise run kind-up`) when testing GitOps workflows, resource limits, or cross-namespace networking.
+    Use Docker Compose for rapid iteration on service communication and Dockerfile changes. Use the kind cluster (via `mise run kind-full`) when testing GitOps workflows, resource limits, or cross-namespace networking. For iterative development in kind, use `mise run kind-rebuild-api` or `mise run kind-rebuild-web` for fast code-test cycles.
 
 See [Docker Compose Documentation](../platform/docker-compose.md) for:
 

@@ -33,26 +33,23 @@ fi
 # Check if resources already exist
 if [ -f "$BOOTSTRAP_DIR/terraform.tfstate" ]; then
   echo "Warning: State file already exists. Resources may have already been created."
-  echo ""
 fi
 
 # Run Terraform workflow
 echo "Initializing Terraform..."
 terraform -chdir="$BOOTSTRAP_DIR" init -upgrade
 
-echo ""
 echo "Validating configuration..."
 terraform -chdir="$BOOTSTRAP_DIR" validate
 
-echo ""
 echo "Planning changes..."
 terraform -chdir="$BOOTSTRAP_DIR" plan
 
-echo ""
+echo
 echo "Review the plan above."
 echo "This will create AWS resources in ap-south-1:"
 echo "  - S3 bucket (gitops-tfstate-<random>) with native state locking"
-echo ""
+echo
 read -p "Do you want to apply these changes? (y/N): " -n 1 -r
 echo
 
@@ -61,10 +58,9 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
   exit 0
 fi
 
-echo ""
 echo "Applying changes..."
 terraform -chdir="$BOOTSTRAP_DIR" apply
 
-echo ""
+echo
 echo "Bootstrap complete!"
 echo "To view outputs: terraform -chdir=infra/bootstrap output"
