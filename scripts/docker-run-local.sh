@@ -1,24 +1,29 @@
 #!/usr/bin/env bash
 set -e
 
+# Docker network for inter-service communication
 NETWORK="platform-net"
 API_IMAGE="platform-api:latest"
 WEB_IMAGE="platform-web:latest"
 
+# Build Docker images from service Dockerfiles
 echo "Building images..."
 
 docker build -t "$API_IMAGE" ./services/api
 docker build -t "$WEB_IMAGE" ./services/web
 
-echo "Creating network (if not exists)..."
+# Create shared network for service communication (idempotent)
+echo "Creating network..."
 
 docker network inspect "$NETWORK" >/dev/null 2>&1 || \
   docker network create "$NETWORK"
 
-echo "Stopping old containers..."
+# Clean up any existing containers to avoid port conflicts
+echo "Cleaning up..."
 
 docker rm -f api web >/dev/null 2>&1 || true
 
+# Start API and Web services on shared network
 echo "Starting API..."
 
 docker run -d \
@@ -28,7 +33,6 @@ docker run -d \
   "$API_IMAGE"
 
 echo "Starting Web..."
-
 docker run -d \
   --name web \
   --network "$NETWORK" \
@@ -36,6 +40,6 @@ docker run -d \
   "$WEB_IMAGE"
 
 echo
-echo "System running:"
+echo "Services ready:"
 echo "API: http://localhost:8000"
 echo "Web: http://localhost:4321"

@@ -30,9 +30,7 @@ if [[ -z "$SERVICE" ]]; then
     echo "  api    Rebuild and redeploy API service"
     echo "  web    Rebuild and redeploy Web service"
     echo ""
-    echo "Example:"
-    echo "  $0 -s api"
-    echo "  $0 -s web"
+    echo "Example: $0 -s api"
     exit 1
 fi
 
@@ -60,68 +58,35 @@ if ! kubectl cluster-info &> /dev/null; then
     exit 1
 fi
 
-echo "=================================="
-echo "KIND Rebuild Service: $SERVICE"
-echo "=================================="
+echo "Rebuilding service: $SERVICE"
 echo ""
 
 # Rebuild based on service
 if [[ "$SERVICE" == "api" ]]; then
-    echo "→ Step 1/3: Building platform-api:latest..."
+    echo "→ Building platform-api:latest..."
     docker build -t platform-api:latest -f services/api/Dockerfile services/api/
-    echo "  ✓ Image built"
-    echo ""
 
-    echo "→ Step 2/3: Loading image into kind cluster..."
+    echo "→ Loading image into kind..."
     kind load docker-image platform-api:latest
-    echo "  ✓ Image loaded"
-    echo ""
 
-    echo "→ Step 3/3: Restarting API deployment..."
+    echo "→ Restarting deployment..."
     kubectl rollout restart deployment/api -n platform-api
     kubectl rollout status deployment/api -n platform-api --timeout=60s
-    echo "  ✓ Deployment restarted"
     echo ""
-
-    echo "=================================="
-    echo "✓ API Service Rebuilt!"
-    echo "=================================="
-    echo ""
-    echo "Test the API:"
-    echo "  kubectl port-forward --address 0.0.0.0 -n platform-api svc/api 8000:8000"
-    echo "  curl http://localhost:8000/health"
-    echo ""
-    echo "View logs:"
-    echo "  kubectl logs -n platform-api -l app=api --tail=100 -f"
+    echo "✓ API Service rebuilt and restarted"
 
 elif [[ "$SERVICE" == "web" ]]; then
-    echo "→ Step 1/3: Building platform-web:latest..."
+    echo "→ Building platform-web:latest..."
     docker build -t platform-web:latest \
         --build-arg PUBLIC_API_URL=http://api.platform-api:8000 \
         -f services/web/Dockerfile services/web/
-    echo "  ✓ Image built"
-    echo ""
 
-    echo "→ Step 2/3: Loading image into kind cluster..."
+    echo "→ Loading image into kind..."
     kind load docker-image platform-web:latest
-    echo "  ✓ Image loaded"
-    echo ""
 
-    echo "→ Step 3/3: Restarting Web deployment..."
+    echo "→ Restarting deployment..."
     kubectl rollout restart deployment/web -n platform-web
     kubectl rollout status deployment/web -n platform-web --timeout=60s
-    echo "  ✓ Deployment restarted"
     echo ""
-
-    echo "=================================="
-    echo "✓ Web Service Rebuilt!"
-    echo "=================================="
-    echo ""
-    echo "Test the Web service:"
-    echo "  kubectl port-forward --address 0.0.0.0 -n platform-web svc/web 4321:4321"
-    echo "  curl http://localhost:4321/"
-    echo ""
-    echo "View logs:"
-    echo "  kubectl logs -n platform-web -l app=web --tail=100 -f"
+    echo "✓ Web Service rebuilt and restarted"
 fi
-echo ""
