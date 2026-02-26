@@ -30,12 +30,12 @@ While the devcontainer provides a consistent base environment, mise offers addit
 - **[Configuration](configuration.md)** - Tools, settings, hooks, environment variables, and tasks
 - **[Usage](usage.md)** - Installation, running tasks, adding tools, and checking versions
 - **[Best Practices](best-practices.md)** - Guidelines for tool versions, tasks, and environment variables
-- **[Troubleshooting](troubleshooting.md)** - Common issues and solutions
+- **[Troubleshooting](troubleshooting/index.md)** - Common issues and solutions
 
 ## Related Documentation
 
 - [Developer Setup](../developer-setup.md) - Overall development environment setup
-- [Environment Variables](../environment-variables.md) - Configuration and secrets management
+- [Environment Variables](../environment-variables/index.md) - Configuration and secrets management
 - [Pre-commit Hooks](../pre-commit-hooks/index.md) - Automated code quality checks
 - [Local Kubernetes](../../platform/local-kubernetes.md) - Kind cluster setup and usage
 - [Terraform Backend Bootstrap](../../platform/terraform/backend-bootstrap/index.md) - Infrastructure state management

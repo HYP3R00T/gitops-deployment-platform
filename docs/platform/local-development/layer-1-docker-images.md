@@ -97,22 +97,12 @@ Now Web can find API via service name discovery: `http://api:8000`.
 
     This is why the same code behaves differently depending on where it's built. See [Layer 2: Docker Compose](layer-2-docker-compose.md) for how Docker Compose automates this.
 
-```mermaid
-graph TB
-    subgraph Network["Docker Network"]
-        DNS["🔍 Embedded DNS<br/>Resolves 'api' → IP"]
-        API["API Container<br/>(:8000)"]
-        Web["Web Container<br/>(:4321)<br/>Calls: http://api:8000"]
-    end
-    Browser["🌐 Browser<br/>(Host)"]
+Network behavior summary:
 
-    Web -->|Service discovery| DNS
-    DNS -->|Returns IP| API
-    Browser -->|localhost:8000| API
-    Browser -->|localhost:4321| Web
-```
+- Containers use service names and Docker DNS to reach the API at `http://api:8000`.
+- The browser uses localhost and port mappings to reach API and Web containers.
 
-**Key difference**: Containers use service names → Docker DNS resolution. Host uses port mappings.
+**Key difference**: Containers use service names and Docker DNS resolution. The host uses port mappings.
 
 ## Configuration
 

@@ -40,4 +40,4 @@ Services available at:
 ## See Also
 
 - [Developer Setup](../developer-setup.md) - Complete development environment guide
-- [Environment Variables](../environment-variables.md) - Configuration reference
+- [Environment Variables](../environment-variables/index.md) - Configuration reference

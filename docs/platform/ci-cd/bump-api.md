@@ -51,8 +51,8 @@ Uses concurrency group `release-api` with `cancel-in-progress: false`, ensuring 
 
 ## Permissions Required
 
-- `contents: write` — Commit changes to `pyproject.toml`, `CHANGELOG.md`, `uv.lock`
-- `pull-requests: write` — Create release PR
+- `contents: write` - Commit changes to `pyproject.toml`, `CHANGELOG.md`, `uv.lock`
+- `pull-requests: write` - Create release PR
 
 ## Key Configuration
 

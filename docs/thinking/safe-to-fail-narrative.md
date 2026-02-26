@@ -13,12 +13,12 @@ The platform architecture is designed around a **controlled failure scenario**:
 
 **Current Implementation Status:**
 
-- ✅ Health check endpoints implemented in API service (`services/api/src/api/routes.py`)
-- ✅ Pre-commit hooks and validation gates established
-- ✅ Local Kubernetes environment (kind) operational
-- 🚧 GitOps reconciliation controllers (pending)
-- 🚧 Automated rollback mechanisms (pending)
-- 🚧 Cloud deployment infrastructure (pending)
+- (DONE) Health check endpoints implemented in API service (`services/api/src/api/routes.py`)
+- (DONE) Pre-commit hooks and validation gates established
+- (DONE) Local Kubernetes environment (kind) operational
+- (IN PROGRESS) GitOps reconciliation controllers (pending)
+- (IN PROGRESS) Automated rollback mechanisms (pending)
+- (IN PROGRESS) Cloud deployment infrastructure (pending)
 
 ???+ warning "Failure readiness"
 	The pending GitOps controllers and rollback automation are the critical next steps. Without them, the failure handling described here is aspirational, not yet enforced.

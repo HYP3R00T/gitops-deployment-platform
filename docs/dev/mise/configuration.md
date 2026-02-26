@@ -79,7 +79,7 @@ _.file = '.env'       # for sensitive data
 UV_LINK_MODE = "copy"
 ```
 
-- **`_.file = '.env'`**: Loads environment variables from `.env` file (see [Environment Variables](../environment-variables.md))
+- **`_.file = '.env'`**: Loads environment variables from `.env` file (see [Environment Variables](../environment-variables/index.md))
 - **`UV_LINK_MODE = "copy"`**: Configures uv package manager to copy files instead of symlinking
 
 ## Tasks

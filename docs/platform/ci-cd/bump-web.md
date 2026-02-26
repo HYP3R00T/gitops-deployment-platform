@@ -51,8 +51,8 @@ Uses concurrency group `release-web` with `cancel-in-progress: false`, ensuring 
 
 ## Permissions Required
 
-- `contents: write` — Commit changes to `package.json`, `CHANGELOG.md`, `pnpm-lock.yaml`
-- `pull-requests: write` — Create release PR
+- `contents: write` - Commit changes to `package.json`, `CHANGELOG.md`, `pnpm-lock.yaml`
+- `pull-requests: write` - Create release PR
 
 ## Key Configuration
 

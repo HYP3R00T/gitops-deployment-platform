@@ -9,14 +9,14 @@ The platform is being built around architectural patterns designed to be swappab
 
 | Category           | Tools & Standards                  | Objective                                                     | Status                  |
 | ------------------ | ---------------------------------- | ------------------------------------------------------------- | ----------------------- |
-| **Cloud Platform** | AWS (EKS, VPC, IAM, CloudWatch)    | Demonstrate enterprise-grade cloud resource management.       | 🚧 Planned              |
-| **Infrastructure** | Terraform, modular IaC patterns    | Remove manual provisioning in favor of code-driven state.     | ✅ Bootstrap complete   |
-| **Automation**     | GitHub Actions                     | Enable zero-touch deployment with automated reconciliation.   | ✅ [Workflows documented](ci-cd/index.md) |
-| **Runtime**        | Managed Kubernetes (EKS)           | Leverage standard APIs for portability and stability.         | ✅ Local (kind)         |
-| **Artifacts**      | Docker, Container Registry         | Build immutable, versioned deployment units.                  | 🚧 In progress          |
-| **Tooling**        | `uv`, `mise`, Python 3.14+         | Ensure high-performance, modern toolchains for consistency.   | ✅ Complete             |
-| **Governance**     | Pre-commit, Commitizen, Dependabot | Shift-left quality checks and maintain supply chain security. | ✅ Complete             |
-| **Observability**  | Health checks, semantic metadata   | Allow the platform to validate its own deployment state.      | ✅ Basic implementation |
+| **Cloud Platform** | AWS (EKS, VPC, IAM, CloudWatch)    | Demonstrate enterprise-grade cloud resource management.       | Planned                |
+| **Infrastructure** | Terraform, modular IaC patterns    | Remove manual provisioning in favor of code-driven state.     | Bootstrap complete     |
+| **Automation**     | GitHub Actions                     | Enable zero-touch deployment with automated reconciliation.   | [Workflows documented](ci-cd/index.md) |
+| **Runtime**        | Managed Kubernetes (EKS)           | Leverage standard APIs for portability and stability.         | Local (kind)           |
+| **Artifacts**      | Docker, Container Registry         | Build immutable, versioned deployment units.                  | In progress            |
+| **Tooling**        | `uv`, `mise`, Python 3.14+         | Ensure high-performance, modern toolchains for consistency.   | Complete               |
+| **Governance**     | Pre-commit, Commitizen, Dependabot | Shift-left quality checks and maintain supply chain security. | Complete               |
+| **Observability**  | Health checks, semantic metadata   | Allow the platform to validate its own deployment state.      | Basic implementation   |
 
 ## Key Principle
 

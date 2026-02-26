@@ -50,7 +50,7 @@ description = "Bootstrap"
 ## Environment Variables
 
 - **Never commit secrets** - Use `.env` file (which is gitignored)
-- **Document required variables** - See [Environment Variables](../environment-variables.md)
+- **Document required variables** - See [Environment Variables](../environment-variables/index.md)
 - **Use sensible defaults** - Where possible, make variables optional
 
 ### Environment Variable Naming

@@ -4,7 +4,7 @@ The CI/CD pipeline is a **four-stage automated release workflow** that transform
 
 ## Pipeline Stages
 
-### Stage 1: Trigger → Prepare Release PR
+### Stage 1: Trigger and prepare release PR
 
 **Workflows:** [`Bump API`](bump-api.md) and [`Bump Web`](bump-web.md)
 
@@ -24,19 +24,19 @@ Both workflows can be manually triggered via `workflow_dispatch` with a version 
 
 **Guard:** Both workflows skip if the commit is a release PR merge (detected by `release/api-v` or `release/web-v` in commit message), preventing automatic re-triggering.
 
-### Stage 2: Merge → Create Git Tag
+### Stage 2: Merge and create Git tag
 
 **Workflow:** [`Create Release Tag`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/create-tag.yml)
 
 When a PR with the `release` label and a branch matching `release/*` is merged to `main`:
 
-- Parses the tag name from the branch (e.g., `release/api-v1.2.3` → `api-v1.2.3`)
+- Parses the tag name from the branch (for example, `release/api-v1.2.3` becomes `api-v1.2.3`)
 - Configures git user as `github-actions[bot]`
 - Creates and pushes the tag to origin
 
 This tag serves as the version marker and triggers downstream workflows.
 
-### Stage 3: Tag → Build & Publish
+### Stage 3: Tag and build artifacts
 
 **Workflow:** [`Publish Artifacts`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docker-publish.yml)
 
@@ -50,7 +50,7 @@ Triggered by the same conditions as Stage 2 (merged release PR):
 
 **Output:** Published Docker image at `ghcr.io/<owner>/<service>:v<version>` and GitHub Release.
 
-### Stage 4: Push (docs) → Deploy Docs
+### Stage 4: Push docs and deploy
 
 **Workflow:** [`Documentation`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docs.yml)
 
@@ -65,36 +65,23 @@ Also supports manual trigger via `workflow_dispatch`.
 
 ## Workflow Dependencies
 
-```sh
-Code Commit (services/api/**)
-         ↓
-    [Bump API] → creates release/api-vX.Y.Z PR
-         ↓
-    PR Merge (with "release" label)
-         ↓
-   [Create Release Tag] → pushes api-vX.Y.Z tag
-         ↓
-  [Publish Artifacts] → builds docker & release
+### Service Releases
 
+**API**
 
-Code Commit (services/web/**)
-         ↓
-    [Bump Web] → creates release/web-vX.Y.Z PR
-         ↓
-    PR Merge (with "release" label)
-         ↓
-   [Create Release Tag] → pushes web-vX.Y.Z tag
-         ↓
-  [Publish Artifacts] → builds docker & release
-```
+1. Commit in `services/api/**` triggers Bump API to create a release PR.
+2. Merge the release PR with the `release` label triggers Create Release Tag and Publish Artifacts.
+3. Create Release Tag pushes the tag; Publish Artifacts builds and publishes the image and release.
 
-Docs deployment is independent:
+**Web**
 
-```sh
-Docs Commit (docs/**)
-         ↓
-[Documentation] → builds site, deploys to Pages
-```
+1. Commit in `services/web/**` triggers Bump Web to create a release PR.
+2. Merge the release PR with the `release` label triggers Create Release Tag and Publish Artifacts.
+3. Create Release Tag pushes the tag; Publish Artifacts builds and publishes the image and release.
+
+### Documentation Deployment
+
+1. Commit in `docs/**` or a change to `zensical.toml` triggers the Documentation workflow to build and deploy the site.
 
 ## Permissions Model
 
@@ -110,11 +97,11 @@ Each workflow requests minimal permissions required:
 
 ## Key Integrations
 
-- **[orhun/git-cliff-action](https://github.com/orhun/git-cliff-action/)** — Changelog generation from conventional commits
-- **[astral-sh/setup-uv](https://github.com/astral-sh/setup-uv/)** — Python package manager and version tool
-- **[docker/metadata-action](https://github.com/docker/metadata-action/)** — Docker image tagging (version and latest)
-- **[softprops/action-gh-release](https://github.com/softprops/action-gh-release/)** — GitHub Release creation
-- **[zensical](https://github.com/mkdocs/zensical)** — Documentation site builder
+- **[orhun/git-cliff-action](https://github.com/orhun/git-cliff-action/)** - Changelog generation from conventional commits
+- **[astral-sh/setup-uv](https://github.com/astral-sh/setup-uv/)** - Python package manager and version tool
+- **[docker/metadata-action](https://github.com/docker/metadata-action/)** - Docker image tagging (version and latest)
+- **[softprops/action-gh-release](https://github.com/softprops/action-gh-release/)** - GitHub Release creation
+- **[zensical](https://github.com/mkdocs/zensical)** - Documentation site builder
 
 ## Concurrency Controls
 

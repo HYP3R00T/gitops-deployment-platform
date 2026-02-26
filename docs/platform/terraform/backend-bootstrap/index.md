@@ -54,7 +54,7 @@ Default configuration values in `infra/bootstrap/variable.tf`:
 
 - **[Applying the Bootstrap](applying.md)** - How to run the bootstrap process
 - **[Using the Backend](usage.md)** - Configuring other Terraform modules to use the backend
-- **[State Management](state-management.md)** - Understanding local vs remote state
+- **[State Management](state-management/index.md)** - Understanding local vs remote state
 - **[Destroying the Bootstrap](destroying.md)** - Cleanup and removal procedures
 
 ## Related Documentation

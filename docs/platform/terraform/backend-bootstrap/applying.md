@@ -79,7 +79,7 @@ AWS_DEFAULT_REGION=ap-south-1
 
 The `.env` file is loaded by mise and makes credentials available to all AWS CLI and Terraform commands.
 
-See [Environment Variables](../../../dev/environment-variables.md) for more details.
+See [Environment Variables](../../../dev/environment-variables/index.md) for more details.
 
 ## Tooling
 
