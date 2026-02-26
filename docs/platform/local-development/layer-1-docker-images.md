@@ -18,7 +18,7 @@ Use scripts for automated setup:
 ./scripts/docker-stop-local.sh
 ```
 
-See [script documentation](../../scripts/docker-run-local.sh) for details.
+See [script documentation](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/scripts/docker-run-local.sh) for details.
 
 ---
 

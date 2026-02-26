@@ -1,6 +1,6 @@
 # Publish Artifacts Workflow
 
-**File:** [`.github/workflows/docker-publish.yml`](../../.github/workflows/docker-publish.yml)
+**File:** [`.github/workflows/docker-publish.yml`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docker-publish.yml)
 
 ## Purpose
 

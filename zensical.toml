@@ -61,6 +61,7 @@ nav = [
       { "Overview" = "platform/ci-cd/index.md" },
       { "Pipeline Overview" = "platform/ci-cd/overview.md" },
       { "Bump API Workflow" = "platform/ci-cd/bump-api.md" },
+      { "Bump Web Workflow" = "platform/ci-cd/bump-web.md" },
       { "Create Release Tag" = "platform/ci-cd/create-release.md" },
       { "Publish Artifacts" = "platform/ci-cd/publish-artifacts.md" },
       { "Documentation Deployment" = "platform/ci-cd/docs-deployment.md" },

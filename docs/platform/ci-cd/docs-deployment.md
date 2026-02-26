@@ -1,6 +1,6 @@
 # Documentation Deployment Workflow
 
-**File:** [`.github/workflows/docs.yml`](../../.github/workflows/docs.yml)
+**File:** [`.github/workflows/docs.yml`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docs.yml)
 
 ## Purpose
 

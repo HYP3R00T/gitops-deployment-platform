@@ -1,6 +1,6 @@
 # Create Release Tag Workflow
 
-**File:** [`.github/workflows/create-tag.yml`](../../.github/workflows/create-tag.yml)
+**File:** [`.github/workflows/create-tag.yml`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/create-tag.yml)
 
 ## Purpose
 

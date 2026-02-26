@@ -5,7 +5,8 @@ This section documents the automated workflows that manage service releases, art
 ## Quick Navigation
 
 - [Pipeline Overview](overview.md) — End-to-end release workflow and trigger conditions
-- [Bump API Workflow](bump-api.md) — Automated version bumping and release PR creation
+- [Bump API Workflow](bump-api.md) — Automated version bumping and release PR creation (Python service)
+- [Bump Web Workflow](bump-web.md) — Automated version bumping and release PR creation (Node.js service)
 - [Create Release Tag](create-release.md) — Git tag creation when release PRs merge
 - [Publish Artifacts](publish-artifacts.md) — Docker image building, registry push, and GitHub release creation
 - [Documentation Deployment](docs-deployment.md) — Automated docs build and GitHub Pages deployment

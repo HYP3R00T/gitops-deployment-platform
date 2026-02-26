@@ -6,22 +6,27 @@ The CI/CD pipeline is a **four-stage automated release workflow** that transform
 
 ### Stage 1: Trigger → Prepare Release PR
 
-**Workflow:** [`Bump API`](.github/workflows/bump-api.yml)
+**Workflows:** [`Bump API`](bump-api.md) and [`Bump Web`](bump-web.md)
 
-When code is committed to `services/api/**`, the Bump API workflow automatically:
+When code is committed to `services/api/**` or `services/web/**`, the corresponding bump workflow automatically:
 
-- Bumps the version in `services/api/pyproject.toml` (patch/minor/major)
-- Generates a changelog using `git-cliff` from commits matching `api-v*` tag pattern
-- Creates a release PR with the changelog as the PR body, labeled `release`
-- Awaits manual review and merge
+- **Bump API** (Python service):
+    - Bumps the version in `services/api/pyproject.toml` (patch/minor/major)
+    - Generates a changelog using `git-cliff` from commits matching `api-v*` tag pattern
+    - Creates a release PR with the changelog as the PR body, labeled `release`
 
-The workflow can also be manually triggered via `workflow_dispatch` with a version bump input.
+- **Bump Web** (Node.js service):
+    - Bumps the version in `services/web/package.json` (patch/minor/major)
+    - Generates a changelog using `git-cliff` from commits matching `web-v*` tag pattern
+    - Creates a release PR with the changelog as the PR body, labeled `release`
 
-**Guard:** The workflow skips if the commit is a release PR merge (detected by `release/api-v` in commit message), preventing automatic re-triggering.
+Both workflows can be manually triggered via `workflow_dispatch` with a version bump input.
+
+**Guard:** Both workflows skip if the commit is a release PR merge (detected by `release/api-v` or `release/web-v` in commit message), preventing automatic re-triggering.
 
 ### Stage 2: Merge → Create Git Tag
 
-**Workflow:** [`Create Release Tag`](.github/workflows/create-tag.yml)
+**Workflow:** [`Create Release Tag`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/create-tag.yml)
 
 When a PR with the `release` label and a branch matching `release/*` is merged to `main`:
 
@@ -33,7 +38,7 @@ This tag serves as the version marker and triggers downstream workflows.
 
 ### Stage 3: Tag → Build & Publish
 
-**Workflow:** [`Publish Artifacts`](.github/workflows/docker-publish.yml)
+**Workflow:** [`Publish Artifacts`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docker-publish.yml)
 
 Triggered by the same conditions as Stage 2 (merged release PR):
 
@@ -47,7 +52,7 @@ Triggered by the same conditions as Stage 2 (merged release PR):
 
 ### Stage 4: Push (docs) → Deploy Docs
 
-**Workflow:** [`Documentation`](.github/workflows/docs.yml)
+**Workflow:** [`Documentation`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docs.yml)
 
 Triggered on push to `main` when `docs/**` or `zensical.toml` changes:
 
@@ -70,6 +75,17 @@ Code Commit (services/api/**)
    [Create Release Tag] → pushes api-vX.Y.Z tag
          ↓
   [Publish Artifacts] → builds docker & release
+
+
+Code Commit (services/web/**)
+         ↓
+    [Bump Web] → creates release/web-vX.Y.Z PR
+         ↓
+    PR Merge (with "release" label)
+         ↓
+   [Create Release Tag] → pushes web-vX.Y.Z tag
+         ↓
+  [Publish Artifacts] → builds docker & release
 ```
 
 Docs deployment is independent:
@@ -87,6 +103,7 @@ Each workflow requests minimal permissions required:
 | Workflow | Permissions |
 |----------|------------|
 | Bump API | `contents: write`, `pull-requests: write` |
+| Bump Web | `contents: write`, `pull-requests: write` |
 | Create Release Tag | `contents: write` |
 | Publish Artifacts | `contents: write`, `packages: write` |
 | Documentation | `contents: read`, `pages: write`, `id-token: write` |
@@ -101,6 +118,6 @@ Each workflow requests minimal permissions required:
 
 ## Concurrency Controls
 
-The Bump API workflow uses a concurrency group (`release-api`) with `cancel-in-progress: false` to prevent overlapping release PR creation.
+The Bump API workflow uses concurrency group `release-api` and the Bump Web workflow uses concurrency group `release-web`, both with `cancel-in-progress: false`, to prevent overlapping release PR creation within each service.
 
 The other workflows can run in parallel.
