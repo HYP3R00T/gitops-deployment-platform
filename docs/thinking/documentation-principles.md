@@ -1,93 +1,277 @@
 # Documentation Standards & Principles
 
-To ensure documentation remains accurate, scalable, and maintainable, this project adheres to four strict principles. These guardrails prevent "documentation rot" and ensure the docs remain a trustworthy source of truth alongside the code.
+This project follows six strict principles to prevent "documentation rot" and keep docs a trustworthy source of truth.
 
-## Principle 1: Docs describe _what exists_ (The "No Fiction" Rule)
+## Principle 1: Docs describe what exists (The "No Fiction" Rule)
 
-Documentation must reflect the current state of the `main` branch. It is strictly forbidden to document features, architectures, or workflows that are "planned" or "in progress" within the repository documentation.
+Document only the current state of `main`. Never document planned or in-progress features.
 
 ???+ note "Live documentation"
-    If the code changes, the documentation must change at the same time. Treat docs as code and keep them synchronized with every PR.
+    Code changes and docs ship together in every PR.
 
-- **Why:** If documentation describes a system that doesn't exist yet, it erodes trust. A reader following a guide that fails because the code isn't there yet will stop reading.
-- **The Boundary:**
-- **In-Repo Docs (`docs/`)**: Only facts. The "As-Is" state.
-- **External Notes (Obsidian/Tickets)**: Speculation, roadmaps, drafts, and the "To-Be" state.
+### Core Rules
 
-- **Workflow:** Do not write the documentation for a feature until the feature PR is ready to merge. Code and docs ship together.
+- Keep facts in `docs/`. Speculation, roadmaps, and ideas belong in external notes (Obsidian/tickets).
+- Do not write docs for a feature until the feature PR is ready to merge.
+- Update docs whenever code changes in the same PR.
 
-## Principle 2: One document, one purpose (Single Responsibility Principle)
+## Principle 2: One document, one purpose (Single Responsibility)
 
-Apply the Single Responsibility Principle (SRP) to writing. A document should answer one specific question or address one specific audience.
+Each document answers one question and addresses one audience. If your title needs "and", split it.
 
-- **The Smell Test:** If you have to use "and" in the document title (e.g., "Deployment **and** Monitoring Guide"), it likely needs to be split.
-- **Why:** Large, multi-purpose files are hard to search, hard to link to, and intimidating to read. Small, focused files are easy to maintain and deprecate.
-- **Example:**
-- ❌ `DevOps-Guide.md` (Too broad)
-- ✅ `how-to-deploy.md`, `how-to-rollback.md`, `monitoring-architecture.md` (Focused)
+Small, focused files are easier to search, link, read, maintain, and deprecate.
 
-## Principle 3: Docs scale by _folders_, not file length
+### Signs Your Document Needs Splitting
 
-We resist the urge to create "Mega-Readme" files. When a topic becomes complex, we do not make the file longer; we promote it to a directory.
+- Title contains "and" (example: "Deployment and Monitoring")
+- Document covers multiple audiences or use cases
+- File feels overwhelming to read in one sitting
+- Logical sections could stand alone as separate topics
 
-- **The Rule of Thumb:** If a markdown file exceeds ~3-4 distinct logical sections or requires a Table of Contents to navigate, it should likely become a folder.
-- **The Transformation:**
+### Example
 
-1. `gitops.md` becomes too long.
-2. Create folder `gitops/`.
-3. Break content into `gitops/overview.md`, `gitops/reconciliation.md`, `gitops/secrets.md`.
-4. Create `gitops/index.md` (or `README.md`) as the map for that folder.
+Bad: `DevOps-Guide.md` (too broad, many audience types)
 
-- **Why:** This mirrors code modularity. It allows different parts of a system to evolve at different speeds without causing merge conflicts in a massive monolithic document.
+Good: `how-to-deploy.md`, `how-to-rollback.md`, `monitoring-architecture.md` (each focused, each useful)
+
+## Principle 3: Docs scale by folders, not file length
+
+When a file exceeds 3-4 logical sections, promote it to a folder. This allows independent evolution without merge conflicts.
+
+### When to Promote a File to a Folder
+
+- File has more than 3-4 distinct logical sections
+- File requires a Table of Contents to navigate
+- Multiple parts could evolve at different rates
+
+### Example Transformation
+
+`gitops.md` becomes too long.
+
+Create folder `gitops/` with focused documents:
+
+- `overview.md` - High-level introduction
+- `reconciliation.md` - Reconciliation process
+- `secrets.md` - Secret management
+- `index.md` - Navigation hub
 
 ## Principle 4: Link to code properly (The "Source of Truth" Rule)
 
-Documentation explains the _Why_ and the _Context_. The Code explains the _How_. We do not duplicate code into documentation unless it is a small, immutable snippet for illustration.
+Never duplicate large code blocks. Link to the source instead. Code changes frequently; docs don't. Linking ensures accuracy.
 
-### Referencing Source Code Files
+### Linking to Documentation Files
+
+Use relative paths within the `docs/` folder.
 
 **DO:**
 
-- ✅ Inline code style: "See `services/api/routes.py` for health check implementation"
-- ✅ GitHub permalink: `https://github.com/owner/repo/blob/main/path/to/file.py`
-- ✅ GitHub permalink with commit SHA: `https://github.com/owner/repo/blob/a1b2c3d/path/to/file.py`
+- `[Other Guide](../other-guide.md)` - links to sibling folder
+- `[Authoring Guide](../../dev/authoring-documentation.md)` - links across folders
 
-**DO NOT:**
+**DON'T:**
 
-- ❌ Relative paths from docs: `[file.py](../../services/api/file.py)`
-- ❌ Copy-pasting large code blocks that will go stale
+- Relative paths to code outside docs: `[file.py](../../services/api/file.py)`
+- Broken anchor attempts to non-doc files
 
-**Why relative paths from docs don't work:**
+### Linking to Code and Non-Documentation Files
 
-- Rendered documentation sites don't have access to source code at relative paths
-- GitHub markdown renderer can't properly resolve paths outside the docs tree
-- Not version-specific-can't verify what the code looked like when docs were written
-- Break when documentation is consumed anywhere other than the raw repository view
+Use full GitHub permalinks. Static documentation sites cannot resolve relative paths outside `docs/`.
 
-### Referring to History
+**DO:**
 
-When writing "Thinking" or "Journey" docs (in the `thinking/` folder), link to the **specific commit SHA** that introduced the change or failure:
+- `https://github.com/owner/repo/blob/main/services/api/routes.py` - Current main branch
+- `https://github.com/owner/repo/blob/a1b2c3d/scripts/setup.sh` - Specific commit SHA (preserves context)
 
-- ❌ "We changed the `replicas` count to 3." (Vague)
-- ✅ "In commit `a1b2c3d`, we increased `replicas` to 3 to handle load." (Verifiable)
-- ✅ "In [commit a1b2c3d](https://github.com/owner/repo/commit/a1b2c3d), we increased `replicas` to 3."
+**DON'T:**
 
-**Why:** Code changes frequently. Docs change slowly. By linking to specific versions rather than duplicating code, we ensure the documentation never presents "dead" code as the truth.
+- Relative paths: `[setup.sh](../../scripts/setup.sh)`
+- Links without protocol or host: `blob/main/file.py`
 
-### Implementation Note
+Permalinks work everywhere and preserve version context with commit SHAs.
 
-When writing docs, categorize them mentally into one of our four domains:
+### Referencing Git History and Decisions
 
-1. **Developer Experience** (`docs/dev/`)
-    - _Context:_ Tools, local setup, and branching workflows.
-2. **Platform & Infrastructure** (`docs/platform/`)
-    - _Context:_ Cloud architecture, GitOps machinery, and CI pipelines.
-3. **Service Specifications** (`docs/services/`)
-    - _Context:_ Workload definitions, endpoints, and build contracts.
-4. **Thinking & Journey** (`docs/thinking/`)
-    - _Context:_ Narratives, decisions (ADRs), and post-mortems.
+When writing "Thinking" or "Journey" docs, link to specific commit SHAs.
 
-_If a document tries to bridge multiple domains (e.g., explaining how a Service interacts with the Platform), place it where the **primary ownership** lies, or apply Principle #2 and split it._
+**DON'T:**
+
+- "We changed replicas to 3 to handle load" (no verification, no context)
+
+**DO:**
+
+- "In [commit a1b2c3d](https://github.com/owner/repo/commit/a1b2c3d), we increased replicas to 3 to handle peak traffic"
+
+Commit links let readers see the exact code change and timestamp.
+
+## Principle 5: Format, style, and consistency (Professional Presentation)
+
+Avoid patterns that undermine readability or signal poor authorship. These standards keep documentation clean and professional.
+
+### Em-dashes
+
+Hyphens and parentheses are clearer than em-dashes.
+
+**DON'T:**
+
+- "Configuration—provided in the setup file—is required"
+
+**DO:**
+
+- "Configuration (provided in the setup file) is required"
+- "Configuration - provided in the setup file - is required"
+
+### Directional Arrows and Symbols
+
+Use prose and lists instead of arrows or complex symbols.
+
+**DON'T:**
+
+- "Step 1 → Step 2 → Step 3" (in text)
+- "Update code → test → commit → push → merge" (shows poor readability)
+
+**DO:**
+
+- "Complete Step 1, then Step 2, then Step 3"
+- Use numbered lists for sequences
+- Link to related docs instead of showing flow as ASCII
+
+### ASCII Art and Box Diagrams
+
+Plain prose and numbered lists are clearer and maintainable.
+
+**DON'T:**
+
+- Box drawings or ASCII flow diagrams
+
+**DO:**
+
+- Prose descriptions: "The system starts with configuration, validates it, then deploys."
+- Numbered lists:
+  1. Validate configuration
+  2. Deploy infrastructure
+  3. Run health checks
+
+### Emojis in Code Blocks
+
+Code blocks must be copy-paste safe and readable in terminals.
+
+**DON'T:**
+
+```text
+✅ kubectl get pods
+❌ kubectl delete pods
+```
+
+**DO:**
+
+```shell
+kubectl get pods
+kubectl delete pods
+```
+
+### Unicode Escape Sequences in Prose
+
+Escape sequences appear as literal text in many systems and aren't accessible.
+
+**DON'T:**
+
+- Use "\u274c" or "\u2705" in documentation text
+
+**DO:**
+
+- Use plain text labels: "(DO)", "(DON'T)", "(GOOD)", "(AVOID)"
+- Actual Unicode characters sparingly and only when necessary
+
+### Code Block Language Specifiers
+
+All code blocks require language tags for syntax highlighting and clarity.
+
+**DON'T:**
+
+```text
+kubectl apply -f deployment.yaml
+```
+
+**DO:**
+
+```shell
+kubectl apply -f deployment.yaml
+```
+
+Always specify the language after the triple backticks: `shell`, `yaml`, `python`, `text`, `json`, `markdown`, etc.
+
+## Principle 6: Documentation structure uniformity (Scalable Hierarchy)
+
+Consistency in structure helps readers navigate confidently and maintainers scale without confusion.
+
+### File Naming
+
+Use lowercase with hyphens only (kebab-case).
+
+**DO:**
+
+- `layer-1-docker.md`
+- `bump-api.md`
+- `environment-variables.md`
+
+**DON'T:**
+
+- `Layer1Docker.md`
+- `BumpApi.md`
+- `Environment_Variables.md`
+
+Consistent casing ensures URLs and file systems behave predictably across operating systems.
+
+### Folder Structure
+
+**Every folder with 2+ docs needs an `index.md`** as navigation hub. Single-document folders should flatten to the parent directory.
+
+**index.md should:**
+
+- List all documents in the folder with one-line descriptions
+- Be the entry point for readers discovering the folder
+- Use consistent naming (`index.md`, not `README.md`)
+
+**Single-doc folders:** Place `topic.md` in parent instead of `topic/index.md`.
+
+### Document Structure
+
+**Every document must:**
+
+- Start with `# Title` matching the navigation label in `zensical.toml`
+- Begin with a sentence establishing context and relationship to the system
+- Use standard sections in this order:
+  1. **Purpose / Overview** - What does this do? Why does it exist?
+  2. **How It Works** - Mechanism, flow, or architecture
+  3. **Steps / Configuration** - Walkthrough, setup, or usage
+  4. **Key Concepts** - Definitions, terminology, important notes
+  5. **Examples** (optional) - Code samples or concrete walkthroughs
+  6. **Permissions / Requirements** - What's needed
+  7. **Next Steps / Related Documents** - Where to go next
+
+Link to nearby related documents to prevent orphaned pages.
+
+### Documentation Domains
+
+Categorize new docs into one of these domains:
+
+**Developer Experience** (`docs/dev/`)
+
+- Tools, local setup, branching workflows, development guides
+
+**Platform & Infrastructure** (`docs/platform/`)
+
+- Cloud architecture, CI/CD pipelines, GitOps machinery, deployment workflows
+
+**Service Specifications** (`docs/services/`)
+
+- Service workloads, endpoints, API contracts, deployment specifications
+
+**Thinking & Journey** (`docs/thinking/`)
+
+- Narratives, decision records (ADRs), post-mortems, architectural decisions
+
+If a document spans multiple domains, place it where **primary ownership** lies or split it per Principle 2.
 
 ## See Also
 
