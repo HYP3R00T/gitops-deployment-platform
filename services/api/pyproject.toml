@@ -1,6 +1,6 @@
 [project]
 name = "api"
-version = "0.1.1"
+version = "0.1.2"
 description = "Deployment probe service for GitOps platform demo"
 readme = "README.md"
 authors = [{ name = "Rajesh Das", email = "rajesh@hyperoot.dev" }]
