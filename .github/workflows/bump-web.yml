@@ -1,0 +1,113 @@
+name: Bump Web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/web/**"
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump"
+        required: false
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: release-web
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    # On push: skip if the commit is a release PR merging back to main.
+    # On manual dispatch: always run.
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (
+        github.event_name == 'push' &&
+        !contains(github.event.head_commit.message, 'release/web-v')
+      )
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: services/web/package.json
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Bump version
+        id: version
+        working-directory: services/web
+        run: |
+          BUMP="${{ inputs.bump || 'patch' }}"
+          npm version $BUMP --no-git-tag-version
+          VERSION=$(node -p "require('./package.json').version")
+          echo "new_version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Bumped web → $VERSION ($BUMP)"
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: >
+            --include-path "services/web/**"
+            --tag-pattern "web-v*"
+            --unreleased
+            --tag "web-v${{ steps.version.outputs.new_version }}"
+        env:
+          OUTPUT: services/web/CHANGELOG.md
+
+      - name: Verify changelog
+        run: |
+          if [ ! -s "services/web/CHANGELOG.md" ]; then
+            echo "❌ Changelog missing or empty"
+            exit 1
+          fi
+          echo "✅ Changelog OK"
+
+      - name: Create release PR
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "release/web-v${{ steps.version.outputs.new_version }}"
+          base: main
+          title: "chore(release): web v${{ steps.version.outputs.new_version }}"
+          body-path: services/web/CHANGELOG.md
+          labels: release
+          commit-message: "chore(release): web v${{ steps.version.outputs.new_version }}"
+          add-paths: |
+            services/web/package.json
+            services/web/pnpm-lock.yaml
+            services/web/CHANGELOG.md
+
+      - name: Ensure PR was created
+        if: steps.pr.outputs.pull-request-number == ''
+        run: |
+          echo "❌ PR creation failed — nothing published"
+          exit 1
+
+      - name: Summary
+        run: |
+          echo "✅ PR #${{ steps.pr.outputs.pull-request-number }} ready for review"
+          echo "   ${{ steps.pr.outputs.pull-request-url }}"
+          echo "   Merge this PR to trigger tagging and publish"
