@@ -1,0 +1,97 @@
+name: Release API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/api/**"
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump"
+        required: false
+        default: "patch"
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+concurrency:
+  group: release-api
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Bump version
+        id: version
+        working-directory: services/api
+        run: |
+          BUMP="${{ inputs.bump || 'patch' }}"
+          uv version --bump $BUMP --no-sync
+          VERSION=$(uv version --short)
+          echo "new_version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Bumped api → $VERSION ($BUMP)"
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: >
+            --include-path "services/api/**"
+            --tag-pattern "api-v*"
+            --unreleased
+            --tag "api-v${{ steps.version.outputs.new_version }}"
+        env:
+          OUTPUT: services/api/CHANGELOG.md
+
+      - name: Verify changelog
+        run: |
+          if [ ! -s "services/api/CHANGELOG.md" ]; then
+            echo "❌ Changelog missing or empty"
+            exit 1
+          fi
+          echo "✅ Changelog OK"
+
+      - name: Create release PR
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "release/api-v${{ steps.version.outputs.new_version }}"
+          base: main
+          title: "chore(release): api v${{ steps.version.outputs.new_version }}"
+          body-path: services/api/CHANGELOG.md
+          labels: release
+          commit-message: "chore(release): api v${{ steps.version.outputs.new_version }}"
+          add-paths: |
+            services/api/pyproject.toml
+            services/api/CHANGELOG.md
+            uv.lock
+
+      - name: Ensure PR was created
+        if: steps.pr.outputs.pull-request-number == ''
+        run: |
+          echo "❌ PR creation failed — nothing published"
+          exit 1
+
+      - name: Summary
+        run: |
+          echo "✅ PR #${{ steps.pr.outputs.pull-request-number }} ready for review"
+          echo "   ${{ steps.pr.outputs.pull-request-url }}"
+          echo "   Merge this PR to trigger tagging and publish"
