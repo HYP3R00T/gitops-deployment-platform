@@ -1,0 +1,155 @@
+name: Release API
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "services/api/**"
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: "Version bump"
+        required: false
+        default: "patch"
+        type: choice
+        options:
+          - major
+          - minor
+          - patch
+
+concurrency:
+  group: release-api
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+      packages: write
+
+    steps:
+      # ── 1. Checkout ────────────────────────────────────────────────────────
+
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      # ── 2. Setup runtime + bump version ───────────────────────────────────
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+
+      - name: Bump version
+        id: version
+        working-directory: services/api
+        run: |
+          BUMP="${{ inputs.bump || 'patch' }}"
+          uv version --bump $BUMP --no-sync
+          VERSION=$(uv version --short)
+          echo "new_version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "Bumped api → $VERSION ($BUMP)"
+
+      # ── 3. Generate changelog ──────────────────────────────────────────────
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@v4
+        with:
+          config: cliff.toml
+          args: >
+            --include-path "services/api/**"
+            --tag-pattern "api-v*"
+            --unreleased
+            --tag "api-v${{ steps.version.outputs.new_version }}"
+        env:
+          OUTPUT: services/api/CHANGELOG.md
+
+      - name: Verify changelog
+        run: |
+          if [ ! -s "services/api/CHANGELOG.md" ]; then
+            echo "❌ Changelog missing or empty"
+            exit 1
+          fi
+          echo "✅ Changelog OK"
+
+      # ── 4. Commit changes to release branch ───────────────────────────────
+
+      - name: Commit version bump and changelog
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "release/api-v${{ steps.version.outputs.new_version }}"
+          git add services/api/pyproject.toml
+          git add services/api/CHANGELOG.md
+          git add uv.lock
+          git commit -m "chore(release): api v${{ steps.version.outputs.new_version }}"
+          git push origin "release/api-v${{ steps.version.outputs.new_version }}"
+
+      # ── 5. Create git tag ──────────────────────────────────────────────────
+
+      - name: Create git tag
+        run: |
+          git tag "api-v${{ steps.version.outputs.new_version }}"
+          git push origin "api-v${{ steps.version.outputs.new_version }}"
+
+      # ── 6. Build Docker image ──────────────────────────────────────────────
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository_owner }}/api
+          tags: |
+            type=raw,value=${{ steps.version.outputs.new_version }}
+            type=raw,value=latest
+
+      # ── 7. Push to GHCR ───────────────────────────────────────────────────
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: services/api
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+
+      # ── 8. Create GitHub Release ───────────────────────────────────────────
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "api-v${{ steps.version.outputs.new_version }}"
+          name: "api v${{ steps.version.outputs.new_version }}"
+          body_path: services/api/CHANGELOG.md
+          draft: false
+          prerelease: false
+
+      # ── 9. Create PR ───────────────────────────────────────────────────────
+
+      - name: Create release PR
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: "release/api-v${{ steps.version.outputs.new_version }}"
+          base: main
+          title: "chore(release): api v${{ steps.version.outputs.new_version }}"
+          body-path: services/api/CHANGELOG.md
+          labels: release
+          commit-message: "chore(release): api v${{ steps.version.outputs.new_version }}"
+
+      - name: Summary
+        run: |
+          echo "✅ api v${{ steps.version.outputs.new_version }} released"
+          echo "🐳 ghcr.io/${{ github.repository_owner }}/api:${{ steps.version.outputs.new_version }}"
+          echo "📝 PR #${{ steps.pr.outputs.pull-request-number }}: ${{ steps.pr.outputs.pull-request-url }}"
