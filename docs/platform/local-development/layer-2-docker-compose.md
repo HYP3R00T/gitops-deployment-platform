@@ -37,10 +37,10 @@ For full configuration, see `docker-compose.yml` in the repo root.
 
 ## Testing
 
-1. **API health**: `curl http://localhost:8000/health` → `{"healthy": true}`
-2. **Web loads**: `curl http://localhost:4321` → HTML response
-3. **Services communicate**: Visit `http://localhost:4321/status` → shows "Backend is healthy"
-4. **Health status**: `docker compose ps` → all containers showing `(healthy)`
+1. **API health**: `curl http://localhost:8000/health` returns `{"healthy": true}`
+2. **Web loads**: `curl http://localhost:4321` returns an HTML response
+3. **Services communicate**: Visit `http://localhost:4321/status` and confirm "Backend is healthy"
+4. **Health status**: `docker compose ps` shows all containers as `(healthy)`
 
 ???+ warning "Web Rebuild Required"
     Changes to `PUBLIC_API_URL` or Astro code require rebuild: `docker compose build web && docker compose up -d web`.
@@ -77,7 +77,7 @@ api:
 
 ```yaml
 ports:
-  - "8000:8000"  # Host 8000 → Container 8000
+    - "8000:8000"  # Host 8000 to container 8000
 ```
 
 Between containers, always use container ports (never host ports).

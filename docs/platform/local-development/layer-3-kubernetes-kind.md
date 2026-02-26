@@ -89,8 +89,8 @@ curl http://localhost:8000/health  # Should return {"status": "healthy"}
 
 | Scenario | Command | Result |
 |---|---|---|
-| API code changes | `mise kind-rebuild-api` | Rebuild image → Load → Restart deployment |
-| Web code changes | `mise kind-rebuild-web` | Rebuild image → Load → Restart deployment |
+| API code changes | `mise kind-rebuild-api` | Rebuild image, load, restart deployment |
+| Web code changes | `mise kind-rebuild-web` | Rebuild image, load, restart deployment |
 | Manifest updates | `kubectl apply -k gitops/apps/local/` | Apply updated k8s resources |
 | View API logs | `kubectl logs -n platform-api -l app=api -f` | Stream logs in real-time |
 | View Web logs | `kubectl logs -n platform-web -l app=web -f` | Stream logs in real-time |

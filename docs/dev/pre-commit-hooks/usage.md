@@ -54,7 +54,7 @@ In rare cases where you need to commit without running hooks:
 git commit --no-verify -m "your message"
 ```
 
-**⚠️ Warning**: Only use this for:
+**Warning**: Only use this for:
 
 - Emergency hotfixes
 - Work-in-progress commits on feature branches

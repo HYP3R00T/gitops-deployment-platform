@@ -8,17 +8,20 @@ The `[tools]` section defines all CLI tools and their versions:
 
 ```toml
 [tools]
+github-cli = "latest"
 python = "3.14"
 node = "22.22.0"
 uv = "latest"
 pnpm = "latest"
 pre-commit = "latest"
+git-cliff = "latest"
 markdownlint-cli2 = "latest"
 aws-cli = "latest"
 kubectl = "latest"
-terraform = "latest"
+terraform = "1.14.5"
 terraform-docs = "latest"
 tflint = "latest"
+tfenv = "latest"
 # checkov = "latest"
 ```
 
@@ -26,17 +29,20 @@ tflint = "latest"
 
 | Tool                  | Version | Purpose                                 |
 | --------------------- | ------- | --------------------------------------- |
+| **github-cli**        | latest  | GitHub command-line interface           |
 | **python**            | 3.14    | Python runtime for API service          |
 | **node**              | 22.22.0 | Node.js runtime for web service         |
 | **uv**                | latest  | Fast Python package manager             |
 | **pnpm**              | latest  | Efficient Node.js package manager       |
 | **pre-commit**        | latest  | Automated code quality checks on commit |
+| **git-cliff**         | latest  | Changelog generation from commit history |
 | **markdownlint-cli2** | latest  | Markdown linting for documentation      |
 | **aws-cli**           | latest  | AWS command-line interface              |
 | **kubectl**           | latest  | Kubernetes command-line tool            |
-| **terraform**         | latest  | Infrastructure as Code provisioning     |
+| **terraform**         | 1.14.5  | Infrastructure as Code provisioning     |
 | **terraform-docs**    | latest  | Generate Terraform module documentation |
 | **tflint**            | latest  | Terraform linter                        |
+| **tfenv**             | latest  | Terraform version manager               |
 
 ???+ note "Commented Tools"
     `checkov` is currently commented out in `mise.toml`. Uncomment the line if you want to re-enable the security scanning hook, but ensure all dependencies are satisfied before installing it.
@@ -79,7 +85,7 @@ _.file = '.env'       # for sensitive data
 UV_LINK_MODE = "copy"
 ```
 
-- **`_.file = '.env'`**: Loads environment variables from `.env` file (see [Environment Variables](../environment-variables.md))
+- **`_.file = '.env'`**: Loads environment variables from `.env` file (see [Environment Variables](../environment-variables/index.md))
 - **`UV_LINK_MODE = "copy"`**: Configures uv package manager to copy files instead of symlinking
 
 ## Tasks
@@ -128,6 +134,53 @@ Deletes the local kind Kubernetes cluster.
 - Executes `scripts/delete-kind-cluster.sh`
 - Removes cluster and associated resources
 - Cleans up Docker containers
+
+### `mise run kind-full`
+
+```bash
+mise run kind-full
+```
+
+Complete kind workflow: create cluster, build images, load, and deploy.
+
+**What it does:**
+
+- Executes `scripts/kind-full-workflow.sh`
+- Creates a fresh kind cluster
+- Builds service images
+- Loads images into the cluster
+- Deploys services
+- See [Local Kubernetes](../../platform/local-kubernetes.md) for details
+
+### `mise run kind-rebuild-api`
+
+```bash
+mise run kind-rebuild-api
+```
+
+Rebuild and redeploy API service only.
+
+**What it does:**
+
+- Executes `scripts/kind-rebuild-service.sh -s api`
+- Rebuilds the API service image
+- Reloads image into kind cluster
+- Redeploys API service without affecting web service
+
+### `mise run kind-rebuild-web`
+
+```bash
+mise run kind-rebuild-web
+```
+
+Rebuild and redeploy Web service only.
+
+**What it does:**
+
+- Executes `scripts/kind-rebuild-service.sh -s web`
+- Rebuilds the Web service image
+- Reloads image into kind cluster
+- Redeploys Web service without affecting API service
 
 ### `mise run bootstrap-aws-tf-backend`
 

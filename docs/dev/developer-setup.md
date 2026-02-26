@@ -14,7 +14,7 @@ The goal is not convenience alone, but **environmental consistency**.
 - [Git](https://git-scm.com/)
 - **AWS CLI Configuration** (for infrastructure provisioning)
     - Local `~/.aws` directory with valid credentials
-    - This is mounted into the devcontainer automatically (see `.devcontainer/devcontainer.json`)
+    - This is mounted into the devcontainer automatically (see [.devcontainer/devcontainer.json](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.devcontainer/devcontainer.json))
     - Only required if working with Terraform infrastructure modules
 
 ???+ warning "Credential scope"
@@ -33,7 +33,7 @@ The goal is not convenience alone, but **environmental consistency**.
 
 The project uses environment variables for configuration, managed through a `.env` file. After setting up the devcontainer:
 
-1. Copy the environment template:
+1. Copy the environment template from [.env.example](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.env.example):
 
     ```bash
     cp .env.example .env
@@ -44,7 +44,7 @@ The project uses environment variables for configuration, managed through a `.en
 ???+ danger "Protect `.env`"
     `.env` contains all of your secrets, so keep it gitignored and never paste it into shared contexts. Rotate values immediately if you suspect exposure.
 
-See [Environment Variables](environment-variables.md) for detailed documentation on:
+See [Environment Variables](environment-variables/index.md) for detailed documentation on:
 
 - GitHub token configuration and permissions
 - AWS credentials setup
@@ -93,7 +93,7 @@ mise run kind-up
 # Delete local Kubernetes cluster
 mise run kind-down
 
-# Complete kind workflow (create cluster → build → deploy)
+# Complete kind workflow (create cluster, build, deploy)
 mise run kind-full
 
 # Quick rebuild for iterative development
@@ -136,4 +136,4 @@ See [Docker Compose Documentation](../platform/docker-compose.md) for:
 ## Getting Started with local setup
 
 While using the devcontainer is recommended, you can also set up your local environment manually. However, you must ensure that your local setup matches the configurations defined in the repository (e.g., Node.js version, package versions).
-Refer to the `devcontainer.json` and any related configuration files for the specific versions and tools required.
+Refer to the [.devcontainer/devcontainer.json](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.devcontainer/devcontainer.json) file and any related configuration files for the specific versions and tools required.

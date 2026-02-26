@@ -11,12 +11,12 @@ Containers discover each other by service name on the Docker Compose bridge netw
 
 ```mermaid
 flowchart LR
-    subgraph compose[\"Docker Compose Network\"]
-        Web[\"Web<br/>(:4321)\"]
-        API[\"API<br/>(:8000)\"]
+    subgraph compose["Docker Compose Network"]
+        Web["Web<br/>(:4321)"]
+        API["API<br/>(:8000)"]
         Web -->|http://api:8000| API
     end
-    Host[\"Host Browser\"] -->|localhost:4321| Web
+    Host["Host Browser"] -->|localhost:4321| Web
     Host -->|localhost:8000| API
 ```
 
@@ -49,7 +49,7 @@ Why? Astro/Vite compiles `PUBLIC_*` variables into JavaScript at build time. For
 ### Health Checks & Startup Order
 
 ???+ info "Startup Dependencies"
-    API starts → API health check passes → Web starts → Web health check passes.
+    API starts, the API health check passes, then Web starts and its health check passes.
 
     This prevents the web service from calling the API before it's ready.
 

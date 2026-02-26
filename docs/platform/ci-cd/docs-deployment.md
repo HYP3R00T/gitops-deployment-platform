@@ -1,6 +1,6 @@
 # Documentation Deployment Workflow
 
-**File:** [`.github/workflows/docs.yml`](../../.github/workflows/docs.yml)
+**File:** [`.github/workflows/docs.yml`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docs.yml)
 
 ## Purpose
 
@@ -12,8 +12,8 @@ Automatically builds and deploys documentation to GitHub Pages whenever docs are
 
 Fires on `push` to `main` when any of these paths change:
 
-- `docs/**` — Any documentation file
-- `zensical.toml` — Documentation config file
+- `docs/**` - Any documentation file
+- `zensical.toml` - Documentation config file
 
 ### Manual Trigger
 
@@ -37,9 +37,9 @@ The workflow deploys to GitHub Pages and outputs the deployment URL (available i
 
 ## Permissions Required
 
-- `contents: read` — Read repository content during build
-- `pages: write` — Deploy to GitHub Pages
-- `id-token: write` — Generate OIDC token for Pages deployment
+- `contents: read` - Read repository content during build
+- `pages: write` - Deploy to GitHub Pages
+- `id-token: write` - Generate OIDC token for Pages deployment
 
 ## Documentation Structure
 
@@ -47,27 +47,27 @@ The documentation is built from the `docs/` directory using `zensical` and the c
 
 Key folders:
 
-- `docs/dev/` — Developer experience (tools, setup, branching)
-- `docs/platform/` — Platform and infrastructure architecture
-- `docs/services/` — Service specifications and endpoints
-- `docs/thinking/` — Decisions, narrative, and journey docs
+- `docs/dev/` - Developer experience (tools, setup, branching)
+- `docs/platform/` - Platform and infrastructure architecture
+- `docs/services/` - Service specifications and endpoints
+- `docs/thinking/` - Decisions, narrative, and journey docs
 
 ## Site Output
 
 The built site is output to the `site/` directory with:
 
-- `site/index.html` — Homepage
-- `site/**/*.html` — Rendered documentation pages
-- `site/assets/` — CSS, JavaScript, and images
-- `site/search.json` — Search index
-- `site/sitemap.xml` — Sitemap for crawlers
+- `site/index.html` - Homepage
+- `site/**/*.html` - Rendered documentation pages
+- `site/assets/` - CSS, JavaScript, and images
+- `site/search.json` - Search index
+- `site/sitemap.xml` - Sitemap for crawlers
 
 ## Configuration
 
 Documentation build behavior is configured in:
 
-- `zensical.toml` — Site title, theme, structure, build options
-- `docs/` folder layout — Navigation structure (folders map to navigation)
+- `zensical.toml` - Site title, theme, structure, build options
+- `docs/` folder layout - Navigation structure (folders map to navigation)
 
 ## Automatic Build on Changes
 
@@ -77,7 +77,7 @@ This workflow automatically re-deploys the site whenever:
 2. Configuration changes (e.g., theme updates to `zensical.toml`)
 3. Manually triggered via `workflow_dispatch`
 
-No documentation is "staged" or "pending"—all docs on `main` are live on the public Pages site.
+No documentation is "staged" or "pending" - all docs on `main` are live on the public Pages site.
 
 ## Related Workflows
 

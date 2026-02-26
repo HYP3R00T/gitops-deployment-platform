@@ -4,36 +4,41 @@ The CI/CD pipeline is a **four-stage automated release workflow** that transform
 
 ## Pipeline Stages
 
-### Stage 1: Trigger → Prepare Release PR
+### Stage 1: Trigger and prepare release PR
 
-**Workflow:** [`Bump API`](.github/workflows/bump-api.yml)
+**Workflows:** [`Bump API`](bump-api.md) and [`Bump Web`](bump-web.md)
 
-When code is committed to `services/api/**`, the Bump API workflow automatically:
+When code is committed to `services/api/**` or `services/web/**`, the corresponding bump workflow automatically:
 
-- Bumps the version in `services/api/pyproject.toml` (patch/minor/major)
-- Generates a changelog using `git-cliff` from commits matching `api-v*` tag pattern
-- Creates a release PR with the changelog as the PR body, labeled `release`
-- Awaits manual review and merge
+- **Bump API** (Python service):
+    - Bumps the version in `services/api/pyproject.toml` (patch/minor/major)
+    - Generates a changelog using `git-cliff` from commits matching `api-v*` tag pattern
+    - Creates a release PR with the changelog as the PR body, labeled `release`
 
-The workflow can also be manually triggered via `workflow_dispatch` with a version bump input.
+- **Bump Web** (Node.js service):
+    - Bumps the version in `services/web/package.json` (patch/minor/major)
+    - Generates a changelog using `git-cliff` from commits matching `web-v*` tag pattern
+    - Creates a release PR with the changelog as the PR body, labeled `release`
 
-**Guard:** The workflow skips if the commit is a release PR merge (detected by `release/api-v` in commit message), preventing automatic re-triggering.
+Both workflows can be manually triggered via `workflow_dispatch` with a version bump input.
 
-### Stage 2: Merge → Create Git Tag
+**Guard:** Both workflows skip if the commit is a release PR merge (detected by `release/api-v` or `release/web-v` in commit message), preventing automatic re-triggering.
 
-**Workflow:** [`Create Release Tag`](.github/workflows/create-tag.yml)
+### Stage 2: Merge and create Git tag
+
+**Workflow:** [`Create Release Tag`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/create-tag.yml)
 
 When a PR with the `release` label and a branch matching `release/*` is merged to `main`:
 
-- Parses the tag name from the branch (e.g., `release/api-v1.2.3` → `api-v1.2.3`)
+- Parses the tag name from the branch (for example, `release/api-v1.2.3` becomes `api-v1.2.3`)
 - Configures git user as `github-actions[bot]`
 - Creates and pushes the tag to origin
 
 This tag serves as the version marker and triggers downstream workflows.
 
-### Stage 3: Tag → Build & Publish
+### Stage 3: Tag and build artifacts
 
-**Workflow:** [`Publish Artifacts`](.github/workflows/docker-publish.yml)
+**Workflow:** [`Publish Artifacts`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docker-publish.yml)
 
 Triggered by the same conditions as Stage 2 (merged release PR):
 
@@ -45,9 +50,9 @@ Triggered by the same conditions as Stage 2 (merged release PR):
 
 **Output:** Published Docker image at `ghcr.io/<owner>/<service>:v<version>` and GitHub Release.
 
-### Stage 4: Push (docs) → Deploy Docs
+### Stage 4: Push docs and deploy
 
-**Workflow:** [`Documentation`](.github/workflows/docs.yml)
+**Workflow:** [`Documentation`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docs.yml)
 
 Triggered on push to `main` when `docs/**` or `zensical.toml` changes:
 
@@ -60,25 +65,23 @@ Also supports manual trigger via `workflow_dispatch`.
 
 ## Workflow Dependencies
 
-```sh
-Code Commit (services/api/**)
-         ↓
-    [Bump API] → creates release/api-vX.Y.Z PR
-         ↓
-    PR Merge (with "release" label)
-         ↓
-   [Create Release Tag] → pushes api-vX.Y.Z tag
-         ↓
-  [Publish Artifacts] → builds docker & release
-```
+### Service Releases
 
-Docs deployment is independent:
+**API**
 
-```sh
-Docs Commit (docs/**)
-         ↓
-[Documentation] → builds site, deploys to Pages
-```
+1. Commit in `services/api/**` triggers Bump API to create a release PR.
+2. Merge the release PR with the `release` label triggers Create Release Tag and Publish Artifacts.
+3. Create Release Tag pushes the tag; Publish Artifacts builds and publishes the image and release.
+
+**Web**
+
+1. Commit in `services/web/**` triggers Bump Web to create a release PR.
+2. Merge the release PR with the `release` label triggers Create Release Tag and Publish Artifacts.
+3. Create Release Tag pushes the tag; Publish Artifacts builds and publishes the image and release.
+
+### Documentation Deployment
+
+1. Commit in `docs/**` or a change to `zensical.toml` triggers the Documentation workflow to build and deploy the site.
 
 ## Permissions Model
 
@@ -87,20 +90,21 @@ Each workflow requests minimal permissions required:
 | Workflow | Permissions |
 |----------|------------|
 | Bump API | `contents: write`, `pull-requests: write` |
+| Bump Web | `contents: write`, `pull-requests: write` |
 | Create Release Tag | `contents: write` |
 | Publish Artifacts | `contents: write`, `packages: write` |
 | Documentation | `contents: read`, `pages: write`, `id-token: write` |
 
 ## Key Integrations
 
-- **[orhun/git-cliff-action](https://github.com/orhun/git-cliff-action/)** — Changelog generation from conventional commits
-- **[astral-sh/setup-uv](https://github.com/astral-sh/setup-uv/)** — Python package manager and version tool
-- **[docker/metadata-action](https://github.com/docker/metadata-action/)** — Docker image tagging (version and latest)
-- **[softprops/action-gh-release](https://github.com/softprops/action-gh-release/)** — GitHub Release creation
-- **[zensical](https://github.com/mkdocs/zensical)** — Documentation site builder
+- **[orhun/git-cliff-action](https://github.com/orhun/git-cliff-action/)** - Changelog generation from conventional commits
+- **[astral-sh/setup-uv](https://github.com/astral-sh/setup-uv/)** - Python package manager and version tool
+- **[docker/metadata-action](https://github.com/docker/metadata-action/)** - Docker image tagging (version and latest)
+- **[softprops/action-gh-release](https://github.com/softprops/action-gh-release/)** - GitHub Release creation
+- **[zensical](https://github.com/mkdocs/zensical)** - Documentation site builder
 
 ## Concurrency Controls
 
-The Bump API workflow uses a concurrency group (`release-api`) with `cancel-in-progress: false` to prevent overlapping release PR creation.
+The Bump API workflow uses concurrency group `release-api` and the Bump Web workflow uses concurrency group `release-web`, both with `cancel-in-progress: false`, to prevent overlapping release PR creation within each service.
 
 The other workflows can run in parallel.

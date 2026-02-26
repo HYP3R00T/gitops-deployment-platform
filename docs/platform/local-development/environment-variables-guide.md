@@ -9,10 +9,10 @@ Quick reference for which variables can be edited at each layer and how.
 
 | Variable | Layer 0 | Layer 1 | Layer 2 | Layer 3 | Changeable | How |
 |----------|---------|---------|---------|---------|-----------|-----|
-| `PUBLIC_API_URL` | ✅ Runtime | ❌ Build-time | ❌ Build-time | ✅ Runtime env | Need rebuild (L1-2) | `--build-arg` for layers 1-2; k8s env for layer 3 |
-| `LOG_LEVEL` | ✅ Yes | ✅ Yes | ✅ Yes | ✅ Yes | Change anytime | Environment variable; restart to apply |
-| `HOST` | ✅ Yes | ✅ Yes (env) | ✅ Yes (service name) | ✅ Yes | Change anytime | Override in config; restart |
-| `PORT` | ✅ Yes | ⚠️ Port map | ⚠️ Port map | ✅ Yes (service port) | Rarely | Edit docker-compose.yml or Kubernetes manifest |
+| `PUBLIC_API_URL` | Runtime | Build-time | Build-time | Runtime env | Need rebuild (L1-2) | `--build-arg` for layers 1-2; k8s env for layer 3 |
+| `LOG_LEVEL` | Yes | Yes | Yes | Yes | Change anytime | Environment variable; restart to apply |
+| `HOST` | Yes | Yes (env) | Yes (service name) | Yes | Change anytime | Override in config; restart |
+| `PORT` | Yes | Port map | Port map | Yes (service port) | Rarely | Edit docker-compose.yml or Kubernetes manifest |
 
 ## PUBLIC_API_URL
 
@@ -87,7 +87,7 @@ Service port inside the container (not the host port exposed).
 **Layers 1 & 2**: Port mapping in `docker run` or `docker-compose.yml`. Host port may differ from container port:
 
 ```bash
-docker run -p 9000:8000 api:latest  # Host 9000 → Container 8000
+docker run -p 9000:8000 api:latest  # Host 9000 to container 8000
 ```
 
 **Layer 3**: Service port in Kubernetes manifest.

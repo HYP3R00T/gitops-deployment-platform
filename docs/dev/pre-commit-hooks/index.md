@@ -35,7 +35,7 @@ For information on running, bypassing, updating, and troubleshooting hooks, see 
 ## Related Documentation
 
 - [Developer Setup](../developer-setup.md) - Initial environment configuration
-- [Environment Variables](../environment-variables.md) - Configuration options
+- [Environment Variables](../environment-variables/index.md) - Configuration options
 - Commit Message Guidelines: `.github/instructions/commitMessageGeneration.instructions.md`
 - Ruff Configuration: `ruff.toml`
 

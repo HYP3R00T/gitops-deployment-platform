@@ -65,10 +65,10 @@ Kubernetes cluster running locally using kind (Kubernetes in Docker).
 
 How `PUBLIC_API_URL` and other variables change at each layer.
 
-- **Layer 0**: Set at runtime -> can change immediately
+- **Layer 0**: Set at runtime and can change immediately
 - **Layer 1**: Problem containers isolated, needs build args
-- **Layer 2**: Build args -> baked into image at build time
-- **Decision table**: Which variables are editable, which are locked
+- **Layer 2**: Build args are baked into the image at build time
+- **Decision table**: Which variables are editable and which are locked
 
 ---
 
@@ -90,13 +90,13 @@ How `PUBLIC_API_URL` and other variables change at each layer.
 
 | Problem | Layer 0 | Layer 1 | Layer 2 | Layer 3 |
 |---------|---------|---------|---------|----------|
-| Services communication | ✅ Direct localhost | ✅ Service discovery | ✅ Service discovery | ✅ Cross-namespace FQDN |
-| Production-like test | ❌ No | ⚠️ Partial | ✅ Yes | ✅ Yes (Kubernetes) |
-| Repeatable setup | ❌ No | ✅ Yes (scripts or manual) | ✅ Yes (orchestrated) | ✅ Yes (GitOps) |
-| Environment consistency | ❌ Local only | ⚠️ Image-based | ✅ Container-based | ✅ Kubernetes-native |
-| Scale to multiple machines | ❌ No | ❌ No | ❌ No | ✅ Yes (in theory) |
-| Namespace isolation | ❌ No | ❌ No | ❌ No | ✅ Yes |
-| Health monitoring | ❌ No | ⚠️ Basic | ✅ Health checks | ✅ Probes + restarts |
+| Services communication | Direct localhost | Service discovery | Service discovery | Cross-namespace FQDN |
+| Production-like test | No | Partial | Yes | Yes (Kubernetes) |
+| Repeatable setup | No | Yes (scripts or manual) | Yes (orchestrated) | Yes (GitOps) |
+| Environment consistency | Local only | Image-based | Container-based | Kubernetes-native |
+| Scale to multiple machines | No | No | No | Yes (in theory) |
+| Namespace isolation | No | No | No | Yes |
+| Health monitoring | No | Basic | Health checks | Probes + restarts |
 
 ---
 

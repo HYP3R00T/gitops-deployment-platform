@@ -160,6 +160,6 @@ Destroy the bootstrap when:
 
 ## Related Documentation
 
-- [State Management](state-management.md) - Understanding local vs remote state
+- [State Management](state-management/index.md) - Understanding local vs remote state
 - [Using the Backend](usage.md) - How modules use the backend
 - [Applying the Bootstrap](applying.md) - Re-creating the backend after destruction

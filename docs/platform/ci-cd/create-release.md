@@ -1,6 +1,6 @@
 # Create Release Tag Workflow
 
-**File:** [`.github/workflows/create-tag.yml`](../../.github/workflows/create-tag.yml)
+**File:** [`.github/workflows/create-tag.yml`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/create-tag.yml)
 
 ## Purpose
 
@@ -19,10 +19,10 @@ Triggers on `pull_request` closed event to `main` when **all three** conditions 
 1. **Checkout main at merge commit** with full history (`fetch-depth: 0`)
 2. **Parse tag from branch name**
    - Strips `release/` prefix from branch name
-   - Example: `release/api-v1.2.3` → tag `api-v1.2.3`
+   - Example: `release/api-v1.2.3` becomes tag `api-v1.2.3`
 3. **Configure git user** as `github-actions[bot]`
 4. **Create and push tag** to origin
-   - Command: `git tag <TAG>` → `git push origin <TAG>`
+   - Command: `git tag <TAG>`, then `git push origin <TAG>`
 
 ## Outputs
 
@@ -32,7 +32,7 @@ Triggers on `pull_request` closed event to `main` when **all three** conditions 
 
 ## Permissions Required
 
-- `contents: write` — Create and push Git tags
+- `contents: write` - Create and push Git tags
 
 ## Trigger Conditions
 

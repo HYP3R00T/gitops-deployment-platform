@@ -130,7 +130,7 @@ PUBLIC_API_URL=http://localhost:8000 pnpm dev --host 0.0.0.0
 - **What it does**: Tells the Web where to find the API
 - **Value**: `http://localhost:8000`
 - **Why this value**: API runs on localhost, port 8000
-- **Can change at runtime**: ✅ Yes (Web reloads and picks up the new value)
+- **Can change at runtime**: Yes (Web reloads and picks up the new value)
 - **Example**:
 
   ```bash
@@ -157,17 +157,17 @@ Press `Ctrl+C` in each terminal to stop the services gracefully.
 
 ## What Works in Layer 0
 
-- ✅ **Rapid iteration**: Change code, save, auto-reload
-- ✅ **Easy debugging**: See logs directly in terminal, use Python/Node debuggers
-- ✅ **Full service functionality**: Both services work completely
-- ✅ **Direct configuration**: Environment variables take effect immediately
+- **Rapid iteration**: Change code, save, auto-reload
+- **Easy debugging**: See logs directly in terminal, use Python/Node debuggers
+- **Full service functionality**: Both services work completely
+- **Direct configuration**: Environment variables take effect immediately
 
 ## What Doesn't Work in Layer 0
 
-- ❌ **Not production-like**: No containerization, no isolation
-- ❌ **Not reproducible**: Depends on local environment (Python version, npm packages)
-- ❌ **Manual management**: Have to manage two separate applications manually
-- ❌ **No testing of containers**: Can't verify Dockerfiles or images
+- **Not production-like**: No containerization, no isolation
+- **Not reproducible**: Depends on local environment (Python version, npm packages)
+- **Manual management**: Have to manage two separate applications manually
+- **No testing of containers**: Can't verify Dockerfiles or images
 
 ## Next: Layer 1
 

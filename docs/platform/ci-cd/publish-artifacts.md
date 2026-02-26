@@ -1,6 +1,6 @@
 # Publish Artifacts Workflow
 
-**File:** [`.github/workflows/docker-publish.yml`](../../.github/workflows/docker-publish.yml)
+**File:** [`.github/workflows/docker-publish.yml`](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/.github/workflows/docker-publish.yml)
 
 ## Purpose
 
@@ -22,7 +22,7 @@ This workflow typically runs in parallel with tag creation, not sequentially.
 1. **Checkout main at merge commit** (without shallow clone)
 2. **Extract service and version from branch name**
    - Branch format: `release/<service>-v<version>`
-   - Example: `release/api-v1.2.3` → `service=api`, `version=1.2.3`
+   - Example: `release/api-v1.2.3` becomes `service=api`, `version=1.2.3`
    - Validates that `services/<service>/` directory exists
 3. **Log in to GHCR** using `${{ secrets.GITHUB_TOKEN }}`
 4. **Generate Docker metadata**
@@ -48,8 +48,8 @@ This workflow typically runs in parallel with tag creation, not sequentially.
 
 ## Permissions Required
 
-- `contents: write` — Create GitHub Release
-- `packages: write` — Push to container registry
+- `contents: write` - Create GitHub Release
+- `packages: write` - Push to container registry
 
 ## Docker Image URI
 

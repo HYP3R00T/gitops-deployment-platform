@@ -7,7 +7,7 @@ This project is building the architectural patterns of modern platform engineeri
 ???+ info "Target Vision"
     The system is designed to deploy, fail, and recover deterministically without manual intervention.
 
-## 🗺️ Documentation Map
+## Documentation Map
 
 The documentation is organized by domain, separating _interface_ from _implementation_.
 
@@ -39,7 +39,7 @@ _For Engineering Managers and Interviewers._
 - **What's inside:** The narrative history. Architecture Decision Records (ADRs), project objectives, and development philosophy.
 - **Go here if:** You want to understand the _decisions_ and _trade-offs_ behind the architecture.
 
-## 📖 Key Concepts
+## Key Concepts
 
 - [Core Objectives](thinking/core-objectives.md) - The three foundational pillars of this project
 - [Safe-to-Fail Narrative](thinking/safe-to-fail-narrative.md) - How the system handles failure gracefully

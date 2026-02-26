@@ -1,6 +1,6 @@
 # Authoring Documentation
 
-Write effective documentation using Markdown and Zensical features. Follow [Documentation Principles](../thinking/documentation-principles.md) for consistency.
+Write effective documentation using Markdown and Zensical features. Follow [Documentation Principles](../thinking/documentation-principles/index.md) for consistency.
 
 ## Markdown Essentials
 
@@ -15,7 +15,7 @@ Write effective documentation using Markdown and Zensical features. Follow [Docu
 | Type | Format | Use When |
 |------|--------|----------|
 | Internal docs | `[Link Text](path/file.md)` | Linking to other docs |
-| Source code | `` `services/api/src/routes.py` `` | Referencing code in passing |
+| Source code | [services/api/src/routes.py](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/services/api/src/routes.py) | Referencing code in passing |
 | External | `[Link Text](https://url.com)` | Third-party resources |
 
 For complete Markdown syntax, see [Zensical Reference](https://zensical.org/docs/authoring/markdown/).
@@ -33,8 +33,8 @@ Use `???+` for collapsible blocks (expanded by default):
 
 **When to use:**
 
-- ✅ Prerequisites, warnings, best practices, status labels
-- ❌ Regular content, minor points, replacing structure
+- Use for prerequisites, warnings, best practices, and status labels
+- Avoid for regular content, minor points, and replacing structure
 
 Example:
 
@@ -57,7 +57,7 @@ Use for structured data. Keep simple (3-5 columns ideal):
 
 ## Style Guidelines
 
-| Guideline | ✅ Good | ❌ Avoid |
+| Guideline | Good | Avoid |
 |-----------|---------|---------|
 | **Voice** | Direct, active: "Run this command" | Passive: "Command should be run" |
 | **Clarity** | Define acronyms: "GitOps (Git-based Operations)" | Use undefined abbreviations |
@@ -82,6 +82,6 @@ Verify:
 
 ## See Also
 
-- [Documentation Principles](../thinking/documentation-principles.md) - Core standards
+- [Documentation Principles](../thinking/documentation-principles/index.md) - Core standards
 - [Zensical Markdown](https://zensical.org/docs/authoring/markdown/) - Full syntax reference
 - [Zensical Admonitions](https://zensical.org/docs/authoring/admonitions/) - Advanced callouts
