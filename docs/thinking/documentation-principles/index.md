@@ -18,5 +18,6 @@ These principles keep docs accurate, minimal, and maintainable.
 
 ## See Also
 
+- [Content Mapping Registry](../content-mapping-registry.md) - Where to document code changes
 - [Authoring Documentation](../../dev/authoring-documentation.md) - Practical writing guidance
 - [Developer Setup](../../dev/developer-setup.md) - Working in the repo

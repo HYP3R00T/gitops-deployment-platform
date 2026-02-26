@@ -102,6 +102,7 @@ nav = [
       { "Principle 5: Format and Style" = "thinking/documentation-principles/principle-5-format-style.md" },
       { "Principle 6: Structure Uniformity" = "thinking/documentation-principles/principle-6-structure-uniformity.md" },
     ] },
+    { "Content Mapping Registry" = "thinking/content-mapping-registry.md" },
     { "Branch Protection" = [
       { "Overview" = "thinking/branch-protection/index.md" },
       { "Enforced Rules" = "thinking/branch-protection/enforced-rules.md" },
