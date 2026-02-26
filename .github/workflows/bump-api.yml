@@ -1,4 +1,4 @@
-name: Release API
+name: Bump API
 
 on:
   push:
