@@ -11,7 +11,7 @@ The platform is being built around architectural patterns designed to be swappab
 | ------------------ | ---------------------------------- | ------------------------------------------------------------- | ----------------------- |
 | **Cloud Platform** | AWS (EKS, VPC, IAM, CloudWatch)    | Demonstrate enterprise-grade cloud resource management.       | 🚧 Planned              |
 | **Infrastructure** | Terraform, modular IaC patterns    | Remove manual provisioning in favor of code-driven state.     | ✅ Bootstrap complete   |
-| **Automation**     | GitHub Actions                     | Enable zero-touch deployment with automated reconciliation.   | 🚧 In progress          |
+| **Automation**     | GitHub Actions                     | Enable zero-touch deployment with automated reconciliation.   | ✅ [Workflows documented](ci-cd/index.md) |
 | **Runtime**        | Managed Kubernetes (EKS)           | Leverage standard APIs for portability and stability.         | ✅ Local (kind)         |
 | **Artifacts**      | Docker, Container Registry         | Build immutable, versioned deployment units.                  | 🚧 In progress          |
 | **Tooling**        | `uv`, `mise`, Python 3.14+         | Ensure high-performance, modern toolchains for consistency.   | ✅ Complete             |
@@ -37,7 +37,6 @@ The tools listed above are **implementation choices**, not the core design. The 
 
 - **Cloud Infrastructure**: EKS, VPC, and IAM modules (directories exist at `infra/modules/` but not yet populated)
 - **GitOps Controllers**: Flux or ArgoCD for reconciliation
-- **CI/CD Pipelines**: Automated build and deployment workflows
 - **Environment Configurations**: Dev and prod infrastructure (`infra/environments/`)
 
 ## Infrastructure State Management

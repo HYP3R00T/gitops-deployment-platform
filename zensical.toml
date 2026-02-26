@@ -57,6 +57,14 @@ nav = [
     ] },
     { "Local Kubernetes" = "platform/local-kubernetes.md" },
     { "Kind Troubleshooting" = "platform/kind-troubleshooting.md" },
+    { "CI/CD Workflows" = [
+      { "Overview" = "platform/ci-cd/index.md" },
+      { "Pipeline Overview" = "platform/ci-cd/overview.md" },
+      { "Bump API Workflow" = "platform/ci-cd/bump-api.md" },
+      { "Create Release Tag" = "platform/ci-cd/create-release.md" },
+      { "Publish Artifacts" = "platform/ci-cd/publish-artifacts.md" },
+      { "Documentation Deployment" = "platform/ci-cd/docs-deployment.md" },
+    ] },
   ] },
   { "Service Specifications" = [
     { "API Service" = "services/api.md" },
