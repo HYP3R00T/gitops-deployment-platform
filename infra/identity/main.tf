@@ -18,7 +18,7 @@ locals {
   # If no repositories specified, allow all repos in the organization
   oidc_wildcard_subjects = length(var.github_repositories) > 0 ? [
     for repo in var.github_repositories :
-    "${var.github_org}/${repo}:*"
+    "repo:${var.github_org}/${repo}:*"
   ] : ["${var.github_org}/*"]
 }
 
