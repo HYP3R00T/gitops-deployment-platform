@@ -1,0 +1,25 @@
+module "eks" {
+  source  = "terraform-aws-modules/eks/aws"
+  version = "21.15.1"
+
+  name               = var.name
+  kubernetes_version = var.kubernetes_version
+
+  vpc_id     = var.vpc_id
+  subnet_ids = var.subnet_ids
+
+  enable_irsa = var.enable_irsa
+
+  endpoint_public_access  = var.endpoint_public_access
+  endpoint_private_access = var.endpoint_private_access
+
+  addons = var.addons
+
+  compute_config = var.compute_config != null ? var.compute_config : {
+    enabled = false
+  }
+
+  eks_managed_node_groups = var.eks_managed_node_groups
+
+  tags = var.tags
+}
