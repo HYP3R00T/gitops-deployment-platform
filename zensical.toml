@@ -64,6 +64,13 @@ nav = [
       ] },
       { "Destroying" = "platform/terraform/backend-bootstrap/destroying.md" },
     ] },
+    { "GitHub OIDC Identity" = [
+      { "Overview" = "platform/terraform/github-oidc-identity/index.md" },
+      { "Applying" = "platform/terraform/github-oidc-identity/applying.md" },
+      { "Usage" = "platform/terraform/github-oidc-identity/usage.md" },
+      { "Policy Attachment" = "platform/terraform/github-oidc-identity/policy-attachment.md" },
+      { "Troubleshooting" = "platform/terraform/github-oidc-identity/troubleshooting.md" },
+    ] },
     { "Local Development" = [
       { "Overview" = "platform/local-development/index.md" },
       { "Layer 0: Local Execution" = "platform/local-development/layer-0-local-execution.md" },
