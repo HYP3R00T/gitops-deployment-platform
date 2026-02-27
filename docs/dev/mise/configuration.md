@@ -196,3 +196,34 @@ Bootstraps Terraform backend infrastructure (S3 with native locking support).
 - Creates S3 bucket for Terraform state (versioning enabled for native locking support)
 - Note: Modules using this backend must set `use_lockfile = true` to enable locking
 - See [Terraform Backend Bootstrap](../../platform/terraform/backend-bootstrap/index.md) for details
+
+### `mise run apply-tf-identity`
+
+```bash
+mise run apply-tf-identity
+```
+
+Applies the Terraform GitHub OIDC identity stack.
+
+**What it does:**
+
+- Executes `scripts/apply-terraform-identity.sh`
+- Runs `terraform init`, `validate`, `plan`, and `apply` in `infra/identity`
+- Prompts for confirmation before applying changes
+- Outputs key identity values after apply
+- See [Terraform GitHub OIDC Identity](../../platform/terraform/github-oidc-identity/index.md) for details
+
+### `mise run show-tf-outputs`
+
+```bash
+mise run show-tf-outputs
+```
+
+Shows Terraform outputs for common infrastructure stacks.
+
+**What it does:**
+
+- Executes `scripts/terraform-show-outputs.sh`
+- Supports interactive mode (no args) and direct target selection (args)
+- Shows raw JSON outputs for `bootstrap`, `identity`, `dev`, and `prod`
+- Prints guidance when a stack has no local state file yet
