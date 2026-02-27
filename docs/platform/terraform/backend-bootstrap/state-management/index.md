@@ -13,6 +13,7 @@ This section explains how Terraform state is stored, locked, recovered, and prot
 
 - [Local vs Remote State](local-vs-remote.md) - Where state lives and why
 - [State Locking](locking.md) - S3 native locking setup and behavior
+- [State Lock Errors](state-lock-errors.md) - What to do when lock acquisition fails
 - [Backup and Recovery](backup-recovery.md) - Version history and restore workflow
 - [Security Considerations](security.md) - Protecting state files and access
 
