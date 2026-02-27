@@ -1,0 +1,28 @@
+name: OIDC Trust Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write # REQUIRED for OIDC
+  contents: read
+
+jobs:
+  test-oidc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: arn:aws:iam::813554192815:role/github-oidc-role-20260227203731646700000001
+          aws-region: ap-south-1
+          role-session-name: oidc-test-session
+
+      - name: Verify identity
+        run: |
+          echo "Testing STS identity..."
+          aws sts get-caller-identity
