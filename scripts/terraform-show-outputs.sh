@@ -20,30 +20,64 @@ declare -A TF_DIRS=(
 show_module_output() {
   local module=$1
   local dir=${TF_DIRS[$module]}
+  local output_file
+  local error_file
 
   if [ ! -d "$dir" ]; then
     echo "⚠  Directory not found: $dir"
     return 1
   fi
 
-  # Check if state file exists
-  if [ ! -f "$dir/terraform.tfstate" ]; then
-    echo "⚠  No state file found for $module. Resources may not be initialized."
-    echo "   Run: terraform -chdir=$dir apply"
-    return 1
-  fi
-
   echo -e "${BOLD}${CYAN}=== $module ===${NC}"
+  output_file=$(mktemp)
+  error_file=$(mktemp)
 
-  # Get outputs
-  if terraform -chdir="$dir" output -json >/dev/null 2>&1; then
-    terraform -chdir="$dir" output -json
+  if terraform -chdir="$dir" output -json >"$output_file" 2>"$error_file"; then
+    cat "$output_file"
     echo
-  else
-    echo "⚠  No outputs defined for $module"
+    rm -f "$output_file" "$error_file"
+    return 0
+  fi
+
+  if grep -qiE "backend initialization required|terraform init|initialized" "$error_file"; then
+    echo "→ Initializing Terraform in $module..."
+    if ! terraform -chdir="$dir" init -input=false >/dev/null 2>&1; then
+      echo "⚠  Failed to initialize Terraform for $module"
+      echo "   Run: terraform -chdir=$dir init"
+      echo
+      rm -f "$output_file" "$error_file"
+      return 1
+    fi
+
+    if terraform -chdir="$dir" output -json >"$output_file" 2>"$error_file"; then
+      cat "$output_file"
+      echo
+      rm -f "$output_file" "$error_file"
+      return 0
+    fi
+  fi
+
+  if grep -qi "No outputs found" "$error_file"; then
+    echo "⚠  No outputs found for $module. Resources may not be applied yet."
+    echo "   Run: terraform -chdir=$dir apply"
     echo
+    rm -f "$output_file" "$error_file"
     return 1
   fi
+
+  if grep -qiE "No state file was found|state snapshot was created" "$error_file"; then
+    echo "⚠  No readable Terraform state found for $module."
+    echo "   Run: terraform -chdir=$dir init && terraform -chdir=$dir apply"
+    echo
+    rm -f "$output_file" "$error_file"
+    return 1
+  fi
+
+  echo "⚠  Unable to read outputs for $module"
+  echo "   Run: terraform -chdir=$dir output -json"
+  echo
+  rm -f "$output_file" "$error_file"
+  return 1
 }
 
 # Function to show interactive menu
