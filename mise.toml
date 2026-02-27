@@ -30,6 +30,18 @@ UV_LINK_MODE = "copy"
 run = "uv run zensical serve"
 description = "Serve the documentation locally"
 
+[tasks.bootstrap-aws-tf-backend]
+run = "bash ./scripts/bootstrap-terraform-backend.sh"
+description = "Bootstrap Terraform backend (S3 with native locking) for state management"
+
+[tasks.apply-tf-identity]
+run = "bash ./scripts/apply-terraform-identity.sh"
+description = "Apply Terraform Identity configuration (GitHub OIDC provider & roles)"
+
+[tasks.show-tf-outputs]
+run = "bash ./scripts/terraform-show-outputs.sh"
+description = "Display Terraform outputs (bootstrap, identity, dev, prod) - optional args: bootstrap|identity|dev|prod"
+
 [tasks.kind-up]
 run = "bash ./scripts/create-kind-cluster.sh"
 description = "Create and configure a local kind Kubernetes cluster"
@@ -49,7 +61,3 @@ description = "Rebuild and redeploy API service only"
 [tasks.kind-rebuild-web]
 run = "bash ./scripts/kind-rebuild-service.sh -s web"
 description = "Rebuild and redeploy Web service only"
-
-[tasks.bootstrap-aws-tf-backend]
-run = "bash ./scripts/bootstrap-terraform-backend.sh"
-description = "Bootstrap Terraform backend (S3 with native locking) for state management"
