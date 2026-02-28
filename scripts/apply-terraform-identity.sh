@@ -38,7 +38,7 @@ fi
 # Run Terraform workflow
 echo
 echo "Initializing Terraform..."
-terraform -chdir="$IDENTITY_DIR" init -upgrade
+terraform -chdir="$IDENTITY_DIR" init
 
 echo "Validating configuration..."
 terraform -chdir="$IDENTITY_DIR" validate

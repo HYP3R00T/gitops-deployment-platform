@@ -30,3 +30,4 @@ Inputs are defined in [variables.tf](https://github.com/HYP3R00T/gitops-deployme
 - [Usage in GitHub Actions](usage.md)
 - [Policy Attachment](policy-attachment.md)
 - [Troubleshooting](troubleshooting.md)
+- [Provider Versioning](../provider-versioning/index.md) - Understanding exact version locks

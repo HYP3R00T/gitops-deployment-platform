@@ -60,4 +60,5 @@ Default configuration values in `infra/bootstrap/variable.tf`:
 ## Related Documentation
 
 - [Architecture](../../platform/architecture.md) - Overall infrastructure architecture
+- [Provider Versioning](../provider-versioning/index.md) - Strategy for managing Terraform provider versions
 - [Mise Configuration](../../dev/mise/index.md) - Tool management including Terraform

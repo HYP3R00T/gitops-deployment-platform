@@ -36,6 +36,12 @@ variable "endpoint_private_access" {
   default     = true
 }
 
+variable "enable_cluster_creator_admin_permissions" {
+  description = "Add cluster creator as an administrator via cluster access entry"
+  type        = bool
+  default     = false
+}
+
 variable "addons" {
   description = "EKS add-ons configuration"
   type        = map(any)

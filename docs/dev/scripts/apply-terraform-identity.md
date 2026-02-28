@@ -13,7 +13,7 @@ Runs a guided Terraform workflow for `infra/identity` so you do not need to manu
    - `aws` CLI
    - Valid AWS credentials (`aws sts get-caller-identity`)
 2. Runs Terraform in `infra/identity`:
-   - `terraform init -upgrade`
+   - `terraform init` (with locked provider versions)
    - `terraform validate`
    - `terraform plan`
 3. Prompts for confirmation before apply
@@ -31,8 +31,10 @@ Runs a guided Terraform workflow for `infra/identity` so you do not need to manu
 - Safe to run repeatedly; Terraform handles drift and idempotency.
 - If you answer `n` at the prompt, no changes are applied.
 - This script targets the shared identity stack in `infra/identity`.
+- Provider versions are **pinned** via `.terraform.lock.hcl`. To upgrade providers intentionally, use `terraform init -upgrade` locally and commit lock file changes via PR.
 
 ## Related
 
 - [Terraform GitHub OIDC Identity](../../platform/terraform/github-oidc-identity/index.md)
+- [Provider Version Pinning](../../platform/terraform/provider-versioning/index.md)
 - [Mise Configuration](../mise/index.md)
