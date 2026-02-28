@@ -5,7 +5,6 @@ set -e
 BOLD='\033[1m'
 CYAN='\033[0;36m'
 GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 # Terraform directories
@@ -20,8 +19,7 @@ declare -A TF_DIRS=(
 show_module_output() {
   local module=$1
   local dir=${TF_DIRS[$module]}
-  local output_file
-  local error_file
+  local output
 
   if [ ! -d "$dir" ]; then
     echo "⚠  Directory not found: $dir"
@@ -29,54 +27,46 @@ show_module_output() {
   fi
 
   echo -e "${BOLD}${CYAN}=== $module ===${NC}"
-  output_file=$(mktemp)
-  error_file=$(mktemp)
 
-  if terraform -chdir="$dir" output -json >"$output_file" 2>"$error_file"; then
-    cat "$output_file"
+  if output=$(terraform -chdir="$dir" output -json 2>&1); then
+    echo "$output"
     echo
-    rm -f "$output_file" "$error_file"
     return 0
   fi
 
-  if grep -qiE "backend initialization required|terraform init|initialized" "$error_file"; then
+  if echo "$output" | grep -qiE "backend initialization required|terraform init|initialized|initialization"; then
     echo "→ Initializing Terraform in $module..."
     if ! terraform -chdir="$dir" init -input=false >/dev/null 2>&1; then
       echo "⚠  Failed to initialize Terraform for $module"
       echo "   Run: terraform -chdir=$dir init"
       echo
-      rm -f "$output_file" "$error_file"
       return 1
     fi
 
-    if terraform -chdir="$dir" output -json >"$output_file" 2>"$error_file"; then
-      cat "$output_file"
+    if output=$(terraform -chdir="$dir" output -json 2>&1); then
+      echo "$output"
       echo
-      rm -f "$output_file" "$error_file"
       return 0
     fi
   fi
 
-  if grep -qi "No outputs found" "$error_file"; then
+  if echo "$output" | grep -qi "No outputs found"; then
     echo "⚠  No outputs found for $module. Resources may not be applied yet."
     echo "   Run: terraform -chdir=$dir apply"
     echo
-    rm -f "$output_file" "$error_file"
     return 1
   fi
 
-  if grep -qiE "No state file was found|state snapshot was created" "$error_file"; then
+  if echo "$output" | grep -qiE "No state file was found|state snapshot was created"; then
     echo "⚠  No readable Terraform state found for $module."
     echo "   Run: terraform -chdir=$dir init && terraform -chdir=$dir apply"
     echo
-    rm -f "$output_file" "$error_file"
     return 1
   fi
 
   echo "⚠  Unable to read outputs for $module"
   echo "   Run: terraform -chdir=$dir output -json"
   echo
-  rm -f "$output_file" "$error_file"
   return 1
 }
 
@@ -106,7 +96,7 @@ show_menu() {
       SELECTED_MODULES=()
       IFS=',' read -ra CHOICES <<< "$choice"
       for c in "${CHOICES[@]}"; do
-        c=$(echo "$c" | xargs) # trim whitespace
+        c=${c//[[:space:]]/}
         case $c in
           1) SELECTED_MODULES+=(bootstrap) ;;
           2) SELECTED_MODULES+=(identity) ;;
