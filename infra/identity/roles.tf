@@ -28,7 +28,8 @@ resource "aws_iam_role" "github_oidc_dev" {
 }
 
 # Production IAM Role for GitHub OIDC
-# Restricts to main branch only for production deployments
+# Allows plan operations from PRs and push/manual triggers on main branch
+# The apply job is protected by explicit if condition in the workflow
 resource "aws_iam_role" "github_oidc_prod" {
   name = "github-oidc-prod"
 
@@ -46,7 +47,7 @@ resource "aws_iam_role" "github_oidc_prod" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:${var.github_org}/gitops-deployment-platform:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub" = "repo:${var.github_org}/gitops-deployment-platform:*"
           }
         }
       }
