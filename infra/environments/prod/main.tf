@@ -30,13 +30,15 @@ module "eks" {
   endpoint_public_access  = var.endpoint_public_access
   endpoint_private_access = var.endpoint_private_access
 
-  enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = false
 
   addons = var.addons
 
   compute_config = var.compute_config
 
   eks_managed_node_groups = var.eks_managed_node_groups
+
+  access_entries = var.access_entries
 
   tags = var.tags
 }
