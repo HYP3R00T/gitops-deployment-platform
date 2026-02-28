@@ -28,7 +28,7 @@ show_module_output() {
 
   echo -e "${BOLD}${CYAN}=== $module ===${NC}"
 
-  if output=$(terraform -chdir="$dir" output -json 2>&1); then
+  if output=$(terraform -chdir="$dir" output 2>&1); then
     echo "$output"
     echo
     return 0
@@ -43,7 +43,7 @@ show_module_output() {
       return 1
     fi
 
-    if output=$(terraform -chdir="$dir" output -json 2>&1); then
+    if output=$(terraform -chdir="$dir" output 2>&1); then
       echo "$output"
       echo
       return 0
@@ -65,7 +65,7 @@ show_module_output() {
   fi
 
   echo "⚠  Unable to read outputs for $module"
-  echo "   Run: terraform -chdir=$dir output -json"
+  echo "   Run: terraform -chdir=$dir output"
   echo
   return 1
 }

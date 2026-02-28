@@ -225,5 +225,5 @@ Shows Terraform outputs for common infrastructure stacks.
 
 - Executes `scripts/terraform-show-outputs.sh`
 - Supports interactive mode (no args) and direct target selection (args)
-- Shows raw JSON outputs for `bootstrap`, `identity`, `dev`, and `prod`
+- Shows Terraform outputs for `bootstrap`, `identity`, `dev`, and `prod`
 - Prints guidance when a stack has no local state file yet

@@ -30,7 +30,7 @@ Direct selection by arguments:
 
 ## Output Format
 
-- Uses raw JSON from `terraform output -json`.
+- Uses standard Terraform output format (human-readable).
 - Prints a section header per selected target.
 
 ## Notes
