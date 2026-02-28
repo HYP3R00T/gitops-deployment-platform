@@ -14,6 +14,8 @@ Current Terraform configuration creates:
 
 See [main.tf](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/infra/identity/main.tf) and [outputs.tf](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/infra/identity/outputs.tf).
 
+These roles are granted EKS cluster access via access entries. See [EKS Environments](../eks-environments/access-configuration.md).
+
 ## Dependency
 
 This module uses an S3 backend in [backend.tf](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/infra/identity/backend.tf), so backend bootstrap must be complete first.
