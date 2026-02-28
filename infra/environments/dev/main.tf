@@ -30,6 +30,8 @@ module "eks" {
   endpoint_public_access  = var.endpoint_public_access
   endpoint_private_access = var.endpoint_private_access
 
+  enable_cluster_creator_admin_permissions = true
+
   addons = var.addons
 
   compute_config = var.compute_config
