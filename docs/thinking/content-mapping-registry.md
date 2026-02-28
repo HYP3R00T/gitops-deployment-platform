@@ -15,7 +15,7 @@ Map code locations to documentation locations.
 | [infra/modules/eks/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/modules/eks) | [platform/terraform/eks-environments/](../platform/terraform/eks-environments/index.md) | Strong | EKS wrapper module |
 | [infra/modules/vpc/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/modules/vpc) | [platform/terraform/eks-environments/](../platform/terraform/eks-environments/index.md) | Strong | VPC wrapper module |
 | [gitops/clusters/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/clusters) | [platform/gitops/](../platform/gitops/index.md) | Strong | FluxCD bootstrap manifests |
-| [gitops/apps/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/apps) | [platform/gitops/](../platform/gitops/index.md) | Weak | Application manifests reference |
+| [gitops/apps/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/apps) | [platform/gitops/app-manifests/](../platform/gitops/app-manifests/index.md) | Weak | Application manifests structure and customization |
 | [.github/workflows/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/.github/workflows) | [platform/ci-cd/](../platform/ci-cd/index.md) | Strong | Pipeline behavior |
 | [local/kubernetes/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/local/kubernetes) | [platform/local-kubernetes.md](../platform/local-kubernetes.md) | Weak | Local cluster overview |
 | [gitops/apps/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/apps) | [platform/local-kubernetes.md](../platform/local-kubernetes.md) | Weak | GitOps manifests overview |
@@ -34,7 +34,8 @@ Map code locations to documentation locations.
 | [platform/terraform/backend-bootstrap/](../platform/terraform/backend-bootstrap/index.md) | [infra/bootstrap/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/bootstrap) |
 | [platform/terraform/github-oidc-identity/](../platform/terraform/github-oidc-identity/index.md) | [infra/identity/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/identity) |
 | [platform/terraform/eks-environments/](../platform/terraform/eks-environments/index.md) | [infra/environments/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/environments), [infra/modules/eks/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/modules/eks), [infra/modules/vpc/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/infra/modules/vpc) |
-| [platform/gitops/](../platform/gitops/index.md) | [gitops/clusters/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/clusters), [gitops/apps/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/apps) |
+| [platform/gitops/](../platform/gitops/index.md) | [gitops/clusters/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/clusters) |
+| [platform/gitops/app-manifests/](../platform/gitops/app-manifests/index.md) | [gitops/apps/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/apps) |
 | [platform/ci-cd/](../platform/ci-cd/index.md) | [.github/workflows/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/.github/workflows) |
 | [platform/local-kubernetes.md](../platform/local-kubernetes.md) | [local/kubernetes/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/local/kubernetes), [gitops/apps/](https://github.com/HYP3R00T/gitops-deployment-platform/tree/main/gitops/apps) |
 
