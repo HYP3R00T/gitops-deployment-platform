@@ -54,6 +54,16 @@ spec:
 - **Prune:** Enabled (removes resources deleted from Git)
 - **Interval:** 10 minutes
 
+## App Kustomization Target
+
+The cluster-level [apps.yaml](https://github.com/HYP3R00T/gitops-deployment-platform/blob/main/gitops/clusters/dev/apps.yaml) Kustomization points to:
+
+- **Path:** `./gitops/apps/dev`
+- **Source:** `GitRepository/flux-system`
+- **Prune:** Enabled
+
+This applies service manifests for API and web from the dev overlay, including their dedicated namespaces.
+
 ## Deploy Key
 
 SSH deploy key created by bootstrap:
