@@ -104,8 +104,7 @@ resource "aws_iam_policy" "terraform_prod_policy" {
         Resource = "*"
         Condition = {
           StringEquals = {
-            "aws:RequestedRegion"         = "ap-south-1"
-            "aws:ResourceTag/Environment" = "prod"
+            "aws:RequestedRegion" = "ap-south-1"
           }
         }
       },
