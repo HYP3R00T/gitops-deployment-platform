@@ -74,6 +74,13 @@ nav = [
       { "Policy Attachment" = "platform/terraform/github-oidc-identity/policy-attachment.md" },
       { "Troubleshooting" = "platform/terraform/github-oidc-identity/troubleshooting.md" },
     ] },
+    { "Provider Versioning" = [
+      { "Overview" = "platform/terraform/provider-versioning/index.md" },
+      { "Why Pinning" = "platform/terraform/provider-versioning/strategy.md" },
+      { "How Lock Files Work" = "platform/terraform/provider-versioning/how-it-works.md" },
+      { "Upgrading Providers" = "platform/terraform/provider-versioning/upgrading.md" },
+      { "Troubleshooting" = "platform/terraform/provider-versioning/troubleshooting.md" },
+    ] },
     { "Local Development" = [
       { "Overview" = "platform/local-development/index.md" },
       { "Layer 0: Local Execution" = "platform/local-development/layer-0-local-execution.md" },

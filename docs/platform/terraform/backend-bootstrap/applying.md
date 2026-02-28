@@ -103,3 +103,9 @@ description = "Bootstrap Terraform backend (S3 with native locking) for state ma
 ```
 
 Run with: `mise run bootstrap-aws-tf-backend`
+
+## Provider Version Pinning
+
+This project uses exact version pinning via `.terraform.lock.hcl`. Lock files are committed to Git and stay stable during pipeline runs.
+
+See [Provider Versioning](../provider-versioning/index.md) for details.
