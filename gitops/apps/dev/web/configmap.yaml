@@ -12,4 +12,5 @@ data:
   HOST: "0.0.0.0"
   PORT: "4321"
   NODE_ENV: "production"
+  API_URL: "http://api.platform-api-dev:8000"
   PUBLIC_API_URL: "http://api.platform-api-dev:8000"
