@@ -35,6 +35,11 @@ mise run <task-name>
 
 # Example
 mise run docs
+
+# Terraform helpers
+mise run apply-tf-identity
+mise run show-tf-outputs
+mise run show-tf-outputs identity dev
 ```
 
 See [Configuration](configuration.md#tasks) for details on all available tasks.
