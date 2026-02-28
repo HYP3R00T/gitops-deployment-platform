@@ -36,11 +36,16 @@ addons = {
   coredns = {
     most_recent = true
   }
+  eks-pod-identity-agent = {
+    before_compute = true
+    most_recent    = true
+  }
   kube-proxy = {
     most_recent = true
   }
   vpc-cni = {
-    most_recent = true
+    before_compute = true
+    most_recent    = true
   }
 }
 
