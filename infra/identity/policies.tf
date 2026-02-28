@@ -13,11 +13,11 @@ resource "aws_iam_policy" "terraform_dev_policy" {
           "ec2:*",
           "elasticloadbalancing:*",
           "autoscaling:*",
-          "iam:*",
           "sts:PassRole",
           "logs:*",
           "cloudwatch:*",
-          "kms:*"
+          "kms:*",
+          "ssm:*"
         ]
         Resource = "*"
         Condition = {
@@ -25,6 +25,14 @@ resource "aws_iam_policy" "terraform_dev_policy" {
             "aws:RequestedRegion" = "ap-south-1"
           }
         }
+      },
+      {
+        Sid    = "AllowIAMActions"
+        Effect = "Allow"
+        Action = [
+          "iam:*"
+        ]
+        Resource = "*"
       },
       {
         Sid    = "AllowS3StateReadWrite"
@@ -87,11 +95,11 @@ resource "aws_iam_policy" "terraform_prod_policy" {
           "ec2:*",
           "elasticloadbalancing:*",
           "autoscaling:*",
-          "iam:*",
           "sts:PassRole",
           "logs:*",
           "cloudwatch:*",
-          "kms:*"
+          "kms:*",
+          "ssm:*"
         ]
         Resource = "*"
         Condition = {
@@ -100,6 +108,14 @@ resource "aws_iam_policy" "terraform_prod_policy" {
             "aws:ResourceTag/Environment" = "prod"
           }
         }
+      },
+      {
+        Sid    = "AllowIAMActions"
+        Effect = "Allow"
+        Action = [
+          "iam:*"
+        ]
+        Resource = "*"
       },
       {
         Sid    = "AllowS3StateReadWrite"
