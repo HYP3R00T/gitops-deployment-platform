@@ -37,7 +37,7 @@ fi
 
 # Run Terraform workflow
 echo "Initializing Terraform..."
-terraform -chdir="$BOOTSTRAP_DIR" init -upgrade
+terraform -chdir="$BOOTSTRAP_DIR" init
 
 echo "Validating configuration..."
 terraform -chdir="$BOOTSTRAP_DIR" validate
