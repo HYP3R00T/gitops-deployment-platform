@@ -10,7 +10,7 @@ All Terraform providers use exact version pins (e.g., `= 6.34.0`). This ensures 
 
 **Pinned Terraform Binary:**
 
-- GitHub Actions workflow: `1.9.7`
+- GitHub Actions workflow: `1.14.5`
 
 **Terraform Modules:**
 
