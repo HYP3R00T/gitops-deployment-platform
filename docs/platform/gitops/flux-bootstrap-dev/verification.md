@@ -17,6 +17,32 @@ flux get sources git -n flux-system
 flux get kustomizations -n flux-system
 ```
 
+Reconcile app manifests:
+
+```bash
+flux reconcile source git flux-system -n flux-system
+flux reconcile kustomization apps -n flux-system
+kubectl -n flux-system describe kustomization apps
+```
+
+Validate app deployment status:
+
+```bash
+kubectl get ns platform-api platform-web
+kubectl -n platform-api get deploy,pods,svc
+kubectl -n platform-web get deploy,pods,svc
+```
+
+Functional smoke tests:
+
+```bash
+kubectl port-forward --address 0.0.0.0 -n platform-api svc/api 8000:8000
+curl http://127.0.0.1:8000/health
+
+kubectl port-forward --address 0.0.0.0 -n platform-web svc/web 4321:4321
+curl http://127.0.0.1:4321/
+```
+
 View logs:
 
 ```bash
