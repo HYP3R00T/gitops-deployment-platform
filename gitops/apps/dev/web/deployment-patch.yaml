@@ -1,0 +1,12 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web
+spec:
+  template:
+    spec:
+      containers:
+        - name: web
+          image: ghcr.io/hyp3r00t/web:0.0.2
+          imagePullPolicy: IfNotPresent
