@@ -62,6 +62,31 @@ eks_managed_node_groups = {
   }
 }
 
+access_entries = {
+  hyperoot = {
+    principal_arn = "arn:aws:iam::813554192815:user/hyperoot"
+    policy_associations = {
+      admin = {
+        policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+        access_scope = {
+          type = "cluster"
+        }
+      }
+    }
+  }
+  github_oidc_prod = {
+    principal_arn = "arn:aws:iam::813554192815:role/github-oidc-prod"
+    policy_associations = {
+      admin = {
+        policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+        access_scope = {
+          type = "cluster"
+        }
+      }
+    }
+  }
+}
+
 tags = {
   Environment = "prod"
   Project     = "gitops-deployment-platform"

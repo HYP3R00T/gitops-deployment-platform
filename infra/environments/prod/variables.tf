@@ -89,3 +89,9 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "access_entries" {
+  description = "Map of access entries to add to the cluster"
+  type        = map(any)
+  default     = {}
+}
