@@ -1,16 +1,16 @@
 name: Terraform Prod
 
 on:
-  pull_request:
-    paths:
-      - "infra/environments/prod/**"
-      - "infra/modules/**"
-  push:
-    branches:
-      - main
-    paths:
-      - "infra/environments/prod/**"
-      - "infra/modules/**"
+  # pull_request:
+  #   paths:
+  #     - "infra/environments/prod/**"
+  #     - "infra/modules/**"
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - "infra/environments/prod/**"
+  #     - "infra/modules/**"
   workflow_dispatch:
 
 permissions:
