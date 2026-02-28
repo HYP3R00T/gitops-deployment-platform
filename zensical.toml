@@ -74,6 +74,11 @@ nav = [
       { "Policy Attachment" = "platform/terraform/github-oidc-identity/policy-attachment.md" },
       { "Troubleshooting" = "platform/terraform/github-oidc-identity/troubleshooting.md" },
     ] },
+    { "EKS Environments" = [
+      { "Overview" = "platform/terraform/eks-environments/index.md" },
+      { "Access Configuration" = "platform/terraform/eks-environments/access-configuration.md" },
+      { "kubectl Setup" = "platform/terraform/eks-environments/kubectl-setup.md" },
+    ] },
     { "Provider Versioning" = [
       { "Overview" = "platform/terraform/provider-versioning/index.md" },
       { "Why Pinning" = "platform/terraform/provider-versioning/strategy.md" },
