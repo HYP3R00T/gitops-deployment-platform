@@ -8,5 +8,5 @@ spec:
     spec:
       containers:
         - name: web
-          image: ghcr.io/hyp3r00t/web:0.0.2
+          image: ghcr.io/hyp3r00t/web:0.0.3
           imagePullPolicy: IfNotPresent
