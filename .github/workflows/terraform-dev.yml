@@ -34,7 +34,7 @@ jobs:
         working-directory: infra/environments/dev
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - run: mkdir -p $TF_PLUGIN_CACHE_DIR
 
@@ -75,7 +75,7 @@ jobs:
         working-directory: infra/environments/dev
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - run: mkdir -p $TF_PLUGIN_CACHE_DIR
 
