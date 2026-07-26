@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Configure AWS Credentials via OIDC
-        uses: aws-actions/configure-aws-credentials@v6
+        uses: aws-actions/configure-aws-credentials@v6.2.2
         with:
           role-to-assume: arn:aws:iam::813554192815:role/github-oidc-dev
           aws-region: ap-south-1
